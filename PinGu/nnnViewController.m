@@ -17,8 +17,7 @@
 #import "pgListHeaderView.h"
 #import "DetialJudgeViewController.h"
 #import "goTojudgeViewController.h"
-#define SCREENWIDTH ([[[UIDevice currentDevice] systemVersion] floatValue]>8.0 ?[UIScreen mainScreen].bounds.size.width :[UIScreen mainScreen].bounds.size.height)
-#define SCREENHEIGTH ([[[UIDevice currentDevice] systemVersion] floatValue]>8.0 ?[UIScreen mainScreen].bounds.size.height :[UIScreen mainScreen].bounds.size.width)
+
 @interface nnnViewController ()
 @property(nonatomic,strong)NSMutableArray*alerdyPinguArray;
 @property(nonatomic,strong)NSMutableArray*noPingGuuArray;

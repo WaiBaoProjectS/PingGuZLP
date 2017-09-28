@@ -8,10 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, LiuCButtonSate) {
+    START_STATE,
+    FINISHED_STATE,
+};
+
 @interface LiuCUIbutton : UIButton
 @property(nonatomic,strong)UILabel*Numlable;
 @property(nonatomic,strong)UILabel*titleLable;
 @property(nonatomic,strong)UIImageView*titleImage;
+@property (nonatomic, assign) LiuCButtonSate buttonState;
+
+- (void)setButtonStateType:(LiuCButtonSate) state;
 
 
 @end

@@ -12,7 +12,13 @@
 #import "NetWorkingTool.h"
 #import "LiuCUIbutton.h"
 #import "GotojudgeView.h"
-@interface goTojudgeViewController ()
+@interface goTojudgeViewController (){
+
+    NSMutableArray * _buttonListARR;
+    NSMutableArray * _buttonStateARR;
+    NSInteger _currentLiuNum;
+    
+}
 
 @end
 
@@ -75,56 +81,11 @@
         make.left.right.mas_equalTo(self.view).offset(0.0f);
         make.height.mas_equalTo(@100.0f);
     }];
-    
-    LiuCUIbutton*liucehng=[[LiuCUIbutton alloc]init];
-    liucehng.Numlable.text=@"1";
-    liucehng.titleLable.text=@"组织管理";
-    liucehng.tag=0;
-    [liucehng addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
-    [self.BGheaderView addSubview:liucehng];
-    [liucehng mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.BGheaderView.mas_top).offset(10.0f);
-        make.left.mas_equalTo(self.BGheaderView.mas_left).offset(100.0f);
-        make.size.mas_equalTo(CGSizeMake(200.0f,80.0f));
-    }];
-    
-    LiuCUIbutton*liucehng1=[[LiuCUIbutton alloc]init];
-    liucehng1.Numlable.text=@"2";
-    liucehng1.tag=1;
-    liucehng1.titleLable.text=@"开展工作";
-    [liucehng1 addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
-    [self.BGheaderView addSubview:liucehng1];
-    [liucehng1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.BGheaderView.mas_top).offset(10.0f);
-        make.left.mas_equalTo(liucehng.mas_right).offset(10.0f);
-        make.size.mas_equalTo(CGSizeMake(200.0f,80.0f));
-    }];
-    
-    LiuCUIbutton*liucehng2=[[LiuCUIbutton alloc]init];
-    liucehng2.Numlable.text=@"3";
-    liucehng2.tag=2;
-    liucehng2.titleLable.text=@"供应商体系建立";
-    [liucehng2 addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
-    [self.BGheaderView addSubview:liucehng2];
-    [liucehng2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.BGheaderView.mas_top).offset(10.0f);
-        make.left.mas_equalTo(liucehng1.mas_right).offset(10.0f);
-        make.size.mas_equalTo(CGSizeMake(220.0f,80.0f));
-    }];
-    
-    LiuCUIbutton*liucehng3=[[LiuCUIbutton alloc]init];
-    liucehng3.Numlable.text=@"4";
-    liucehng3.tag=3;
-    liucehng3.titleLable.text=@"上传图片";
-    [liucehng3 addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
-    [self.BGheaderView addSubview:liucehng3];
-    [liucehng3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.BGheaderView.mas_top).offset(10.0f);
-        make.left.mas_equalTo(liucehng2.mas_right).offset(10.0f);
-        make.size.mas_equalTo(CGSizeMake(220.0f,80.0f));
-    }];
-    
-    
+    NSMutableArray * arr = [[NSMutableArray alloc]initWithObjects:@"1",@"2",@"3" ,nil];
+//    _buttonStateARR = [[NSMutableArray alloc]initWithObjects:START_STATE,FINISHED_STATE,START_STATE,FINISHED_STATE, nil];
+    _currentLiuNum = 2;
+    [self createLiuButtonWithArray:arr];
+
     self.viewss=[[GotojudgeView alloc]init];
     self.viewss.userInteractionEnabled=YES;
     self.viewss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
@@ -137,6 +98,58 @@
     }];
     
 }
+/**
+ *==========ZL注释start===========
+ *1.创建顶部 流程按钮
+ *
+ *2.动态创建
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)createLiuButtonWithArray:(NSMutableArray *)buttonArray{
+
+    if (buttonArray.count <1) {
+        return;
+    }
+    else{
+        [buttonArray addObject:@"上传照片"];
+        
+        float spaceWidth = (SCREENWIDTH - buttonArray.count * 200.0) / (buttonArray.count + 1);
+        NSLog(@"屏幕宽度和高度，屏幕宽度高度：%g-------%g-----%g------%g",self.view.frame.size.width,self.view.frame.size.height,SCREENWIDTH,SCREENHEIGTH);
+        
+
+        for (int i = 0; i < buttonArray.count; i++) {
+            
+            
+            
+            LiuCUIbutton*liucehng=[[LiuCUIbutton alloc]init];
+            liucehng.Numlable.text=@"1";
+            liucehng.titleLable.text=@"组织管理";
+            liucehng.tag=0;
+            [liucehng addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.BGheaderView addSubview:liucehng];
+            [liucehng mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.BGheaderView.mas_top).offset(10.0f);
+                make.left.mas_equalTo(self.BGheaderView.mas_left).offset(spaceWidth * (i+1) + 200.0 * (i));
+                make.size.mas_equalTo(CGSizeMake(200.0f,80.0f));
+            }];
+            
+            if (i <= _currentLiuNum ) {
+                [liucehng setButtonStateType:START_STATE];
+            }
+            else{
+                [liucehng setButtonStateType:FINISHED_STATE];
+            }
+            
+            
+            
+        }
+    
+    }
+
+}
+
 -(void)LloadNsdata{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];

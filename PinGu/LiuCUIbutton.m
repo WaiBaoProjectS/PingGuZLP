@@ -21,9 +21,10 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
     if (self) {
+
         self.backgroundColor=[UIColor colorWithHexString:@"F1f1f1"];
         Numlable=[[UILabel alloc]init];
-        Numlable.backgroundColor=[UIColor colorWithHexString:@"5ddcd3"];
+        Numlable.backgroundColor=[UIColor colorWithHexString:GreenColor_ZL_TIJIAO];
         Numlable.textColor=[UIColor whiteColor];
         Numlable.text=@"1";
         Numlable.font=[UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
@@ -41,23 +42,52 @@
         
         
         titleLable=[[UILabel alloc]init];
-        titleLable.textColor=[UIColor colorWithHexString:@"5ddcd3"];
+        titleLable.textColor=[UIColor colorWithHexString:GrayColor_ZL_TIJIAO];
         titleLable.text=@"供应商体系的建立";
-       // titleLable.backgroundColor=[UIColor redColor];
-        titleLable.textAlignment=NSTextAlignmentCenter;
+        // titleLable.backgroundColor=[UIColor redColor];
+        titleLable.textAlignment=NSTextAlignmentLeft;
+        titleLable.adjustsFontSizeToFitWidth = YES;
+        titleLable.minimumScaleFactor = 0.5;
         titleLable.font=[UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
         [self addSubview:titleLable];
         
         [titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.mas_top).offset(25.0f);
-        
+            
             make.left.mas_equalTo(Numlable.mas_right).offset(10.0f);
-            make.size.mas_equalTo(CGSizeMake(140.0f, 30.0f));
+            make.size.mas_equalTo(CGSizeMake(120.0f, 30.0f));
         }];
-        
         
     }
     return self;
 
 }
+
+- (void)setButtonStateType:(LiuCButtonSate)state{
+
+    switch (state) {
+        case START_STATE:
+            [self setStartButtonState];
+            break;
+        case FINISHED_STATE:
+            [self setFinishedButtonState];
+            break;
+        default:
+            break;
+    }
+
+}
+
+- (void)setStartButtonState{
+    
+    Numlable.backgroundColor = [UIColor colorWithHexString:GreenColor_ZL_TIJIAO];
+    titleLable.textColor = [UIColor colorWithHexString:GreenColor_ZL_TIJIAO];
+
+}
+- (void)setFinishedButtonState{
+
+    Numlable.backgroundColor = [UIColor colorWithHexString:GrayColor_ZL_TIJIAO];
+    titleLable.textColor = [UIColor colorWithHexString:GrayColor_ZL_TIJIAO];
+}
+
 @end
