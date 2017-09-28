@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		36BB37656A7C99B68ECFF8C3 /* libPods-PinGuTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E31C2F22EFB8922C1A92F4A9 /* libPods-PinGuTests.a */; };
-		66319BE40F1F421F66F9344F /* libPods-PinGu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0C433E74D599D75D0C6CC1B /* libPods-PinGu.a */; };
+		2A2FD50DF68559824451EB0F /* libPods-PinGuTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC13D5FCF1E1BFDD33EECFBC /* libPods-PinGuTests.a */; };
+		6154B938EE5D1034BF3E1911 /* libPods-PinGu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4622805F4C91FCFB63D12FCF /* libPods-PinGu.a */; };
+		73E4C850891A32A827A6A2F8 /* libPods-PinGuUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40165F96ECC73EAB55B76292 /* libPods-PinGuUITests.a */; };
 		8334E4491F77AA8300706219 /* DetialMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8334E4481F77AA8300706219 /* DetialMainView.m */; };
 		8334E44C1F77BEEF00706219 /* detialtabHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8334E44B1F77BEEF00706219 /* detialtabHeaderView.m */; };
 		8334E44F1F77CC6C00706219 /* detialNeirongTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8334E44E1F77CC6C00706219 /* detialNeirongTableViewCell.m */; };
@@ -16,6 +17,8 @@
 		8334E4551F77E4A200706219 /* TIbgview.m in Sources */ = {isa = PBXBuildFile; fileRef = 8334E4541F77E4A200706219 /* TIbgview.m */; };
 		8334E45A1F77EC8A00706219 /* UILabel+mYK.m in Sources */ = {isa = PBXBuildFile; fileRef = 8334E4591F77EC8A00706219 /* UILabel+mYK.m */; };
 		8334E45D1F77EF6100706219 /* PPNumberButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8334E45C1F77EF6100706219 /* PPNumberButton.m */; };
+		83361E421F7B93FA00F05133 /* DetialButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 83361E411F7B93FA00F05133 /* DetialButton.m */; };
+		83361E451F7BA4A500F05133 /* tabButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 83361E441F7BA4A500F05133 /* tabButton.m */; };
 		836D45F41F75196000DC9E3E /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 836D45F31F75196000DC9E3E /* UserInfo.m */; };
 		836D45F71F751A4200DC9E3E /* UserMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 836D45F61F751A4200DC9E3E /* UserMessageManager.m */; };
 		836D45FA1F769D7F00DC9E3E /* nnlistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 836D45F91F769D7F00DC9E3E /* nnlistModel.m */; };
@@ -115,7 +118,6 @@
 		83FB9DCA1F653CF900791000 /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FB9DC91F653CF900791000 /* HeaderView.m */; };
 		83FB9DE31F6577A100791000 /* ListFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FB9DE21F6577A100791000 /* ListFooterView.m */; };
 		83FB9DE61F657A6E00791000 /* JustListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FB9DE51F657A6E00791000 /* JustListTableViewCell.m */; };
-		C1A839E13ABBD3C1B65682B5 /* libPods-PinGuUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4AFCD20BBD5E53D3F7FA5A /* libPods-PinGuUITests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,9 +138,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		24353DCEFD31C7C50952AAF9 /* Pods-PinGuUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests.release.xcconfig"; sourceTree = "<group>"; };
-		3E4AFCD20BBD5E53D3F7FA5A /* libPods-PinGuUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PinGuUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7751F0BC7DC62522553054B6 /* Pods-PinGuTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuTests/Pods-PinGuTests.debug.xcconfig"; sourceTree = "<group>"; };
+		055A5723B21E46F5D714A183 /* Pods-PinGuUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests.release.xcconfig"; sourceTree = "<group>"; };
+		40165F96ECC73EAB55B76292 /* libPods-PinGuUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PinGuUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44890B7424B1D146C3227E77 /* Pods-PinGuUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		4622805F4C91FCFB63D12FCF /* libPods-PinGu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PinGu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D8A5A1AC3B7EF2EB2D94301 /* Pods-PinGu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGu.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinGu/Pods-PinGu.release.xcconfig"; sourceTree = "<group>"; };
 		8334E4471F77AA8300706219 /* DetialMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetialMainView.h; sourceTree = "<group>"; };
 		8334E4481F77AA8300706219 /* DetialMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetialMainView.m; sourceTree = "<group>"; };
 		8334E44A1F77BEEF00706219 /* detialtabHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detialtabHeaderView.h; sourceTree = "<group>"; };
@@ -153,6 +157,10 @@
 		8334E4591F77EC8A00706219 /* UILabel+mYK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+mYK.m"; sourceTree = "<group>"; };
 		8334E45B1F77EF6100706219 /* PPNumberButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPNumberButton.h; sourceTree = "<group>"; };
 		8334E45C1F77EF6100706219 /* PPNumberButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPNumberButton.m; sourceTree = "<group>"; };
+		83361E401F7B93FA00F05133 /* DetialButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetialButton.h; sourceTree = "<group>"; };
+		83361E411F7B93FA00F05133 /* DetialButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetialButton.m; sourceTree = "<group>"; };
+		83361E431F7BA4A500F05133 /* tabButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabButton.h; sourceTree = "<group>"; };
+		83361E441F7BA4A500F05133 /* tabButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabButton.m; sourceTree = "<group>"; };
 		836D45F21F75196000DC9E3E /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		836D45F31F75196000DC9E3E /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		836D45F51F751A4200DC9E3E /* UserMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMessageManager.h; sourceTree = "<group>"; };
@@ -357,12 +365,10 @@
 		83FB9DE21F6577A100791000 /* ListFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListFooterView.m; sourceTree = "<group>"; };
 		83FB9DE41F657A6E00791000 /* JustListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JustListTableViewCell.h; sourceTree = "<group>"; };
 		83FB9DE51F657A6E00791000 /* JustListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JustListTableViewCell.m; sourceTree = "<group>"; };
-		A39DC60A994F92D70BDAC6AD /* Pods-PinGuUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		C64D28F9EEF2B32A9B2FDF9B /* Pods-PinGu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGu.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinGu/Pods-PinGu.release.xcconfig"; sourceTree = "<group>"; };
-		CE6E09A5252EA196414A8BC9 /* Pods-PinGuTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuTests/Pods-PinGuTests.release.xcconfig"; sourceTree = "<group>"; };
-		E0C433E74D599D75D0C6CC1B /* libPods-PinGu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PinGu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E31C2F22EFB8922C1A92F4A9 /* libPods-PinGuTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PinGuTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA62DA943934CC0F47AD00A3 /* Pods-PinGu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinGu/Pods-PinGu.debug.xcconfig"; sourceTree = "<group>"; };
+		87C73A6E36D8E2591E284907 /* Pods-PinGu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinGu/Pods-PinGu.debug.xcconfig"; sourceTree = "<group>"; };
+		8A36A27A05086A58FFDC5324 /* Pods-PinGuTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuTests/Pods-PinGuTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EC13D5FCF1E1BFDD33EECFBC /* libPods-PinGuTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PinGuTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFDBB3FDD1834577A4E62B73 /* Pods-PinGuTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuTests/Pods-PinGuTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,7 +376,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66319BE40F1F421F66F9344F /* libPods-PinGu.a in Frameworks */,
+				6154B938EE5D1034BF3E1911 /* libPods-PinGu.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,7 +384,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36BB37656A7C99B68ECFF8C3 /* libPods-PinGuTests.a in Frameworks */,
+				2A2FD50DF68559824451EB0F /* libPods-PinGuTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,32 +392,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1A839E13ABBD3C1B65682B5 /* libPods-PinGuUITests.a in Frameworks */,
+				73E4C850891A32A827A6A2F8 /* libPods-PinGuUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		732B74E3C3AF54E4C6BAC181 /* Pods */ = {
+		27F9CEBD4E83331F4D574DD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EA62DA943934CC0F47AD00A3 /* Pods-PinGu.debug.xcconfig */,
-				C64D28F9EEF2B32A9B2FDF9B /* Pods-PinGu.release.xcconfig */,
-				7751F0BC7DC62522553054B6 /* Pods-PinGuTests.debug.xcconfig */,
-				CE6E09A5252EA196414A8BC9 /* Pods-PinGuTests.release.xcconfig */,
-				A39DC60A994F92D70BDAC6AD /* Pods-PinGuUITests.debug.xcconfig */,
-				24353DCEFD31C7C50952AAF9 /* Pods-PinGuUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		75D04996DBC19B38083D4DE7 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E0C433E74D599D75D0C6CC1B /* libPods-PinGu.a */,
-				E31C2F22EFB8922C1A92F4A9 /* libPods-PinGuTests.a */,
-				3E4AFCD20BBD5E53D3F7FA5A /* libPods-PinGuUITests.a */,
+				4622805F4C91FCFB63D12FCF /* libPods-PinGu.a */,
+				EC13D5FCF1E1BFDD33EECFBC /* libPods-PinGuTests.a */,
+				40165F96ECC73EAB55B76292 /* libPods-PinGuUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -485,6 +478,10 @@
 				8334E4481F77AA8300706219 /* DetialMainView.m */,
 				8334E44A1F77BEEF00706219 /* detialtabHeaderView.h */,
 				8334E44B1F77BEEF00706219 /* detialtabHeaderView.m */,
+				83361E401F7B93FA00F05133 /* DetialButton.h */,
+				83361E411F7B93FA00F05133 /* DetialButton.m */,
+				83361E431F7BA4A500F05133 /* tabButton.h */,
+				83361E441F7BA4A500F05133 /* tabButton.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -581,8 +578,8 @@
 				83EC80DF1F5E3BA7000B06EB /* PinGuTests */,
 				83EC80EA1F5E3BA7000B06EB /* PinGuUITests */,
 				83EC80C41F5E3BA7000B06EB /* Products */,
-				732B74E3C3AF54E4C6BAC181 /* Pods */,
-				75D04996DBC19B38083D4DE7 /* Frameworks */,
+				9B8B0A86A2CA81C5FF4A7527 /* Pods */,
+				27F9CEBD4E83331F4D574DD6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -994,6 +991,19 @@
 			name = model;
 			sourceTree = "<group>";
 		};
+		9B8B0A86A2CA81C5FF4A7527 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				87C73A6E36D8E2591E284907 /* Pods-PinGu.debug.xcconfig */,
+				4D8A5A1AC3B7EF2EB2D94301 /* Pods-PinGu.release.xcconfig */,
+				8A36A27A05086A58FFDC5324 /* Pods-PinGuTests.debug.xcconfig */,
+				EFDBB3FDD1834577A4E62B73 /* Pods-PinGuTests.release.xcconfig */,
+				44890B7424B1D146C3227E77 /* Pods-PinGuUITests.debug.xcconfig */,
+				055A5723B21E46F5D714A183 /* Pods-PinGuUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1001,12 +1011,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 83EC80F01F5E3BA7000B06EB /* Build configuration list for PBXNativeTarget "PinGu" */;
 			buildPhases = (
-				A526B4B7957208E57D32CCE2 /* [CP] Check Pods Manifest.lock */,
+				BDEC1A0EF88B72814443110E /* [CP] Check Pods Manifest.lock */,
 				83EC80BF1F5E3BA7000B06EB /* Sources */,
 				83EC80C01F5E3BA7000B06EB /* Frameworks */,
 				83EC80C11F5E3BA7000B06EB /* Resources */,
-				C5B197ED8FE58FDA79085A71 /* [CP] Embed Pods Frameworks */,
-				F1DE37842322B768F0C86F6E /* [CP] Copy Pods Resources */,
+				D6238E456EA70E70BD376151 /* [CP] Embed Pods Frameworks */,
+				FD9E6F2A2AE48B5E69DDDB55 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1021,12 +1031,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 83EC80F31F5E3BA7000B06EB /* Build configuration list for PBXNativeTarget "PinGuTests" */;
 			buildPhases = (
-				098E478D7F6045E8071B44C0 /* [CP] Check Pods Manifest.lock */,
+				54A55860FFBAEF8BAF09130A /* [CP] Check Pods Manifest.lock */,
 				83EC80D81F5E3BA7000B06EB /* Sources */,
 				83EC80D91F5E3BA7000B06EB /* Frameworks */,
 				83EC80DA1F5E3BA7000B06EB /* Resources */,
-				B71B1D7F1932D7F505E953D4 /* [CP] Embed Pods Frameworks */,
-				501B955FF27B9254DB13D4CA /* [CP] Copy Pods Resources */,
+				5BD830ED20C02E960B562BE9 /* [CP] Embed Pods Frameworks */,
+				AB2406EAC2AD6C206D0B50FF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1042,12 +1052,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 83EC80F61F5E3BA7000B06EB /* Build configuration list for PBXNativeTarget "PinGuUITests" */;
 			buildPhases = (
-				379BF56CB44EDA03BE3210FF /* [CP] Check Pods Manifest.lock */,
+				111BBA746371C4D0937C00C7 /* [CP] Check Pods Manifest.lock */,
 				83EC80E31F5E3BA7000B06EB /* Sources */,
 				83EC80E41F5E3BA7000B06EB /* Frameworks */,
 				83EC80E51F5E3BA7000B06EB /* Resources */,
-				17790F845BBD7471327F2E67 /* [CP] Embed Pods Frameworks */,
-				D770A6A5C0E46035B7159DB9 /* [CP] Copy Pods Resources */,
+				1071B8D0CA5B7AF79B028D03 /* [CP] Embed Pods Frameworks */,
+				876170660F373098AA16FF55 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1070,7 +1080,7 @@
 				TargetAttributes = {
 					83EC80C21F5E3BA7000B06EB = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 39QNYYYY23;
+						DevelopmentTeam = 335N5ZC87K;
 						ProvisioningStyle = Automatic;
 					};
 					83EC80DB1F5E3BA7000B06EB = {
@@ -1137,22 +1147,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		098E478D7F6045E8071B44C0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		17790F845BBD7471327F2E67 /* [CP] Embed Pods Frameworks */ = {
+		1071B8D0CA5B7AF79B028D03 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1167,7 +1162,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		379BF56CB44EDA03BE3210FF /* [CP] Check Pods Manifest.lock */ = {
+		111BBA746371C4D0937C00C7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1182,22 +1177,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		501B955FF27B9254DB13D4CA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PinGuTests/Pods-PinGuTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A526B4B7957208E57D32CCE2 /* [CP] Check Pods Manifest.lock */ = {
+		54A55860FFBAEF8BAF09130A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1212,7 +1192,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		B71B1D7F1932D7F505E953D4 /* [CP] Embed Pods Frameworks */ = {
+		5BD830ED20C02E960B562BE9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1227,22 +1207,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PinGuTests/Pods-PinGuTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C5B197ED8FE58FDA79085A71 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PinGu/Pods-PinGu-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D770A6A5C0E46035B7159DB9 /* [CP] Copy Pods Resources */ = {
+		876170660F373098AA16FF55 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1257,7 +1222,52 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F1DE37842322B768F0C86F6E /* [CP] Copy Pods Resources */ = {
+		AB2406EAC2AD6C206D0B50FF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PinGuTests/Pods-PinGuTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BDEC1A0EF88B72814443110E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D6238E456EA70E70BD376151 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PinGu/Pods-PinGu-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD9E6F2A2AE48B5E69DDDB55 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1299,6 +1309,7 @@
 				83EC81F71F5F8E46000B06EB /* FLAnimatedImage.m in Sources */,
 				836D460F1F7759CC00DC9E3E /* DetialJudgeViewController.m in Sources */,
 				83EC81E31F5F8D63000B06EB /* SDImageCache.m in Sources */,
+				83361E451F7BA4A500F05133 /* tabButton.m in Sources */,
 				83EC81901F5E3E82000B06EB /* MJPropertyKey.m in Sources */,
 				83EC81E91F5F8D63000B06EB /* SDWebImageManager.m in Sources */,
 				83EC81F01F5F8D63000B06EB /* UIImageView+WebCache.m in Sources */,
@@ -1331,6 +1342,7 @@
 				83EC816E1F5E3D5C000B06EB /* AFNetworkReachabilityManager.m in Sources */,
 				83EC80C81F5E3BA7000B06EB /* main.m in Sources */,
 				83EC81EE1F5F8D63000B06EB /* UIImage+WebP.m in Sources */,
+				83361E421F7B93FA00F05133 /* DetialButton.m in Sources */,
 				83EC81E71F5F8D63000B06EB /* SDWebImageDownloader.m in Sources */,
 				83D06E681F6BD9D9006374F3 /* IQTitleBarButtonItem.m in Sources */,
 				83EC81721F5E3D5C000B06EB /* AFURLSessionManager.m in Sources */,
@@ -1524,11 +1536,11 @@
 		};
 		83EC80F11F5E3BA7000B06EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA62DA943934CC0F47AD00A3 /* Pods-PinGu.debug.xcconfig */;
+			baseConfigurationReference = 87C73A6E36D8E2591E284907 /* Pods-PinGu.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = 39QNYYYY23;
+				DEVELOPMENT_TEAM = 335N5ZC87K;
 				INFOPLIST_FILE = PinGu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1539,11 +1551,11 @@
 		};
 		83EC80F21F5E3BA7000B06EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C64D28F9EEF2B32A9B2FDF9B /* Pods-PinGu.release.xcconfig */;
+			baseConfigurationReference = 4D8A5A1AC3B7EF2EB2D94301 /* Pods-PinGu.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = 39QNYYYY23;
+				DEVELOPMENT_TEAM = 335N5ZC87K;
 				INFOPLIST_FILE = PinGu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1554,7 +1566,7 @@
 		};
 		83EC80F41F5E3BA7000B06EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7751F0BC7DC62522553054B6 /* Pods-PinGuTests.debug.xcconfig */;
+			baseConfigurationReference = 8A36A27A05086A58FFDC5324 /* Pods-PinGuTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = PinGuTests/Info.plist;
@@ -1567,7 +1579,7 @@
 		};
 		83EC80F51F5E3BA7000B06EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE6E09A5252EA196414A8BC9 /* Pods-PinGuTests.release.xcconfig */;
+			baseConfigurationReference = EFDBB3FDD1834577A4E62B73 /* Pods-PinGuTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = PinGuTests/Info.plist;
@@ -1580,7 +1592,7 @@
 		};
 		83EC80F71F5E3BA7000B06EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A39DC60A994F92D70BDAC6AD /* Pods-PinGuUITests.debug.xcconfig */;
+			baseConfigurationReference = 44890B7424B1D146C3227E77 /* Pods-PinGuUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = PinGuUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1592,7 +1604,7 @@
 		};
 		83EC80F81F5E3BA7000B06EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 24353DCEFD31C7C50952AAF9 /* Pods-PinGuUITests.release.xcconfig */;
+			baseConfigurationReference = 055A5723B21E46F5D714A183 /* Pods-PinGuUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = PinGuUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

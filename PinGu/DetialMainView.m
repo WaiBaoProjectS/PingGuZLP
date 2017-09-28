@@ -11,6 +11,7 @@
 #import "Masonry.h"
 #import "detialtabHeaderView.h"
 #import "detialNeirongTableViewCell.h"
+#import "tabButton.h"
 @implementation DetialMainView
 @synthesize tabMainTableView;
 /*
@@ -21,6 +22,10 @@
 }
 */
 -(void)loadViewWith:(NSMutableArray*)DataArray{
+    if (DataArray.count==0) {
+        return;
+    }
+    
 
     self.backgroundColor=[UIColor colorWithHexString:@"#F1F1F1"];
     UIView*leftvIEW=[[UIView alloc]init];
@@ -33,11 +38,13 @@
         make.width.mas_equalTo(@160.0f);
     }];
     
-    
-    UIButton*zzbut=[UIButton buttonWithType:UIButtonTypeCustom];
+    tabButton*zzbut=[tabButton buttonWithType:UIButtonTypeCustom];
+    zzbut.tabArray=DataArray[0][@"evaluationItemPOList"];
     [zzbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [zzbut setTitle:@"组织建设" forState:UIControlStateNormal];
+    [zzbut setTitle:[NSString stringWithFormat:@"%@",DataArray[0][@"name"]] forState:UIControlStateNormal];
     [zzbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
+
+    [zzbut addTarget:self action:@selector(clickfenlei:) forControlEvents:UIControlEventAllEvents];
     [zzbut.layer setBorderWidth:1.0f];
     [self addSubview:zzbut];
     [zzbut mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -47,51 +54,75 @@
         make.height.mas_equalTo(@55.0f);
         
     }];
-    
-    
-    UIButton*dwbut=[UIButton buttonWithType:UIButtonTypeCustom];
-    [dwbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [dwbut setTitle:@"队伍建设" forState:UIControlStateNormal];
-    [dwbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
-    [dwbut.layer setBorderWidth:1.0f];
-    [self addSubview:dwbut];
-    [dwbut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
-        make.top.mas_equalTo(zzbut.mas_bottom).offset(0.0f);
-        make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
-        make.height.mas_equalTo(@55.0f);
+    if (DataArray.count>1) {
         
-    }];
+        tabButton*dwbut=[tabButton buttonWithType:UIButtonTypeCustom];
+        [dwbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [dwbut setTitle:[NSString stringWithFormat:@"%@",DataArray[1][@"name"]] forState:UIControlStateNormal];
+        [dwbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
+        [dwbut addTarget:self action:@selector(clickfenlei:) forControlEvents:UIControlEventAllEvents];
+        dwbut.tabArray=DataArray[1][@"evaluationItemPOList"];
+        [dwbut.layer setBorderWidth:1.0f];
+        [self addSubview:dwbut];
+        [dwbut mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
+            make.top.mas_equalTo(zzbut.mas_bottom).offset(0.0f);
+            make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
+            make.height.mas_equalTo(@55.0f);
+            
+        }];
+        
+        if (DataArray.count>2) {
+            
+            tabButton*glbut=[tabButton buttonWithType:UIButtonTypeCustom];
+            [glbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [glbut setTitle:[NSString stringWithFormat:@"%@",DataArray[2][@"name"]] forState:UIControlStateNormal];
+            [glbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
+            [glbut addTarget:self action:@selector(clickfenlei:) forControlEvents:UIControlEventAllEvents];
+            glbut.tabArray=DataArray[2][@"evaluationItemPOList"];
+            
+            [glbut.layer setBorderWidth:1.0f];
+            [self addSubview:glbut];
+            
+            [glbut mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
+                make.top.mas_equalTo(dwbut.mas_bottom).offset(0.0f);
+                make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
+                make.height.mas_equalTo(@55.0f);
+            }];
+            
+            
+            if (DataArray.count>3) {
+                
+                tabButton*zdmbut=[tabButton buttonWithType:UIButtonTypeCustom];
+                [zdmbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                [zdmbut setTitle:[NSString stringWithFormat:@"%@",DataArray[3][@"name"]] forState:UIControlStateNormal];
+                [zdmbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
+                [zdmbut.layer setBorderWidth:1.0f];
+                glbut.tabArray=DataArray[3][@"evaluationItemPOList"];
+                [zdmbut addTarget:self action:@selector(clickfenlei:) forControlEvents:UIControlEventAllEvents];
+                [self addSubview:zdmbut];
+                
+                [zdmbut mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
+                    make.top.mas_equalTo(glbut.mas_bottom).offset(0.0f);
+                    make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
+                    make.height.mas_equalTo(@55.0f);
+                }];
+            }
+           
+            
+        }
+        
+        
+        
+        
+        
+    }
     
-    UIButton*glbut=[UIButton buttonWithType:UIButtonTypeCustom];
-    [glbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [glbut setTitle:@"管理制度" forState:UIControlStateNormal];
-    [glbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
-    [glbut.layer setBorderWidth:1.0f];
-    [self addSubview:glbut];
     
-    [glbut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
-        make.top.mas_equalTo(dwbut.mas_bottom).offset(0.0f);
-        make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
-        make.height.mas_equalTo(@55.0f);
-    }];
     
-    UIButton*zdmbut=[UIButton buttonWithType:UIButtonTypeCustom];
-    [zdmbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [zdmbut setTitle:@"管理制度" forState:UIControlStateNormal];
-    [zdmbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
-    [zdmbut.layer setBorderWidth:1.0f];
-    [self addSubview:zdmbut];
-    
-    [zdmbut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
-        make.top.mas_equalTo(glbut.mas_bottom).offset(0.0f);
-        make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
-        make.height.mas_equalTo(@55.0f);
-    }];
-    
-    tabMainTableView=[[UITableView alloc]init];
+    tabMainTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStylePlain];
     tabMainTableView.delegate=self;
     tabMainTableView.dataSource=self;
     [self addSubview:tabMainTableView];
@@ -102,36 +133,42 @@
         make.bottom.mas_equalTo(self.mas_bottom).offset(0.0f);
     }];
     
+    self.detialaArray=DataArray[0][@"evaluationItemPOList"];
+    [tabMainTableView reloadData];
+    
 }
 //返回区的数量
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
     return 1;
 }
 //返回cell的个数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return _detialaArray.count;
 }
 //重用cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     static  NSString *indexpathcell=@"cell";
     detialNeirongTableViewCell*cell=[tableView cellForRowAtIndexPath:indexPath];
     if (!cell) {
         cell=[[detialNeirongTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indexpathcell];
     }
-    return cell;
     
+    //score
+    cell.lablexuhao.text=[NSString stringWithFormat:@"%ld",indexPath.row+1];
+    cell.lablekpnr.text=[NSString stringWithFormat:@"%@\n备注:%@",_detialaArray[indexPath.row][@"content"],_detialaArray[indexPath.row][@"remark"]];
+    cell.lablekfqk.text=[NSString stringWithFormat:@"%@",_detialaArray[indexPath.row][@"score"]];
+    cell.lablekfyy.text=[NSString stringWithFormat:@"%@",_detialaArray[indexPath.row][@"reason"]];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone; 
+    return cell;
 }
-
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 130;
+    return 140.0f;
 }
-
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     detialtabHeaderView*views=[[detialtabHeaderView alloc]init];
+    views.backgroundColor=[UIColor whiteColor];
     UILabel*labtitle=[[UILabel alloc]init];
     labtitle.font=[UIFont systemFontOfSize:17.0];
     labtitle.text=@"考评详情";
@@ -276,5 +313,19 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 110.0f;
+}
+
+-(NSMutableArray*)detialaArray{
+    if (!_detialaArray) {
+        _detialaArray=[[NSMutableArray alloc]init];
+    }
+    return _detialaArray;
+}
+
+-(void)clickfenlei:(tabButton*)sender{
+   self.detialaArray=sender.tabArray;
+    [tabMainTableView reloadData];
+    
+
 }
 @end

@@ -81,7 +81,7 @@
     NSString *tokenid = [ user objectForKey:@"userPassWord"];
     NSDictionary *pardic=@{@"type":@"MAIN",@"method":@"api.pias.find.institution",@"tokenId":tokenid};
     [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:@"1" success:^(id json) {
-        //NSLog(@"%@",json);
+        
         NSMutableArray*dataARRAY=json[@"result"];
         if (dataARRAY.count>0) {
             for (NSDictionary*dic in dataARRAY) {
@@ -91,6 +91,7 @@
                 model.name=dic[@"name"];
                 model.institutionSiteName=dic[@"institutionSiteName"];
                 model.contacts=dic[@"contacts"];
+                model.institutionSiteId=dic[@"institutionSiteId"];
                 NSArray*picArray=dic[@"institutionAttachmentPOList"];
                 NSDictionary*picUrlDic=picArray[0];
                 model.picurl=picUrlDic[@"url"];
@@ -99,6 +100,7 @@
             [self.leftMenuTableView reloadData];
             genListModel*models=[_mainDataArray objectAtIndex:0];
             [self.IMageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",models.picurl]]];
+            self.institutionSiteId=models.institutionSiteId;
             
         }
         
@@ -200,6 +202,7 @@
     if (_mainDataArray.count>0) {
         genListModel*model=[_mainDataArray objectAtIndex:indexPath.row];
         [self.IMageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.picurl]]];
+        self.institutionSiteId=model.institutionSiteId;
         
     }else{
     
@@ -214,6 +217,7 @@
 
 -(void)clickbuttonM{
     nnnViewController*nnVC=[[nnnViewController alloc]init];
+    nnVC.institutionSiteId=self.institutionSiteId;
     [self.navigationController pushViewController:nnVC animated:nil];
 }
 - (void)didReceiveMemoryWarning {

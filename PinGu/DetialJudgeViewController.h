@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DetialMainView.h"
 @interface DetialJudgeViewController : UIViewController
-@property(nonatomic,strong)NSString*detialID;
+@property(nonatomic,strong)NSString*mId;
 @property(nonatomic,strong)UIView*BGheaderView;
 @property(nonatomic,strong)DetialMainView*viewsss;
 

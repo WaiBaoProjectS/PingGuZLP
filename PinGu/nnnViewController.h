@@ -21,4 +21,7 @@
 
 @property(nonatomic,strong)UIView*leftBgView;
 
+
+@property(nonatomic,strong)NSString*institutionSiteId;
+
 @end

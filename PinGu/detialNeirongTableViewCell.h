@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface detialNeirongTableViewCell : UITableViewCell
+@property(nonatomic,strong)UILabel*lablexuhao;
+@property(nonatomic,strong)UILabel*lablekpnr;
+@property(nonatomic,strong)UILabel*lablekfqk;//得分情况
+
+@property(nonatomic,strong)UILabel*lablekfyy;
 
 @end

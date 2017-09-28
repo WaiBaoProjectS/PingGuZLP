@@ -8,8 +8,6 @@ target 'PinGu' do
   # use_frameworks!
 
   # Pods for PinGu
-  
-  
 
   target 'PinGuTests' do
     inherit! :search_paths

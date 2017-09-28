@@ -12,4 +12,6 @@
 @property(nonatomic,strong)UITableView*tabMainTableView;
 
 -(void)loadViewWith:(NSMutableArray*)DataArray;
+
+@property(nonatomic,strong)NSMutableArray*detialaArray;
 @end

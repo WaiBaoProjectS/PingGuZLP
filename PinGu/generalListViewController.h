@@ -11,4 +11,5 @@
 @interface generalListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView*leftMenuTableView;
 @property(nonatomic,strong)UIImageView*IMageView;
+@property(nonatomic,copy)NSString*institutionSiteId;
 @end

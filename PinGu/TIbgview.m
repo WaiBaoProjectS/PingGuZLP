@@ -31,7 +31,7 @@
         make.left.mas_equalTo(self.mas_left).offset(20.0f);
         make.size.mas_equalTo(CGSizeMake(120.0F, 30));
     }];
-    NSString*sring=@"分站至少配备一名不高于45周岁的专职管理人员;服务对象超过500的分站增加管理人员1名";
+   // NSString*sring=@"分站至少配备一名不高于45周岁的专职管理人员;服务对象超过500的分站增加管理人员1名";
     
     
     

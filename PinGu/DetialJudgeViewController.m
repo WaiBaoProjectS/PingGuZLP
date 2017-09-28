@@ -12,6 +12,7 @@
 #import "NetWorkingTool.h"
 #import "LiuCUIbutton.h"
 #import "DetialMainView.h"
+#import "DetialButton.h"
 @interface DetialJudgeViewController ()
 
 @end
@@ -64,21 +65,34 @@
     
     [self loadDetialData];
     
-    [self loadUIView];
+   // [self loadUIView];
    
 }
--(void)loadUIView{
+-(void)loadUIView:(NSMutableArray*)dataArray{
    self.BGheaderView=[[UIView alloc]init];
    self.BGheaderView.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
     [self.view addSubview:self.BGheaderView];
     [self.BGheaderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.view.mas_top).offset(66.0f);
         make.left.right.mas_equalTo(self.view).offset(0.0f);
+        //make.right.mas_equalTo(self.view.mas_right).offset(-200.0f);
+        //make.width.mas_equalTo(dataArray.count*120.0f);
         make.height.mas_equalTo(@100.0f);
     }];
     
+    UIView*datad=[[UIView alloc]init];
     
+    [self.BGheaderView addSubview:datad];
     
+    [datad mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.BGheaderView.mas_top).offset(0.0f);
+        make.left.mas_equalTo(self.BGheaderView.mas_left).offset(0.0f);
+        //make.right.mas_equalTo(self.view.mas_right).offset(-200.0f);
+        make.width.mas_equalTo(dataArray.count*120.0f);
+        make.height.mas_equalTo(@100.0f);
+    }];
+    
+    /*
     LiuCUIbutton*liucehng=[[LiuCUIbutton alloc]init];
     liucehng.Numlable.text=@"1";
     liucehng.titleLable.text=@"组织管理";
@@ -90,7 +104,6 @@
         make.left.mas_equalTo(self.BGheaderView.mas_left).offset(100.0f);
         make.size.mas_equalTo(CGSizeMake(200.0f,80.0f));
     }];
-    
     
     LiuCUIbutton*liucehng1=[[LiuCUIbutton alloc]init];
     liucehng1.Numlable.text=@"2";
@@ -139,27 +152,69 @@
         make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(0.0f);
         make.right.mas_equalTo(self.view.mas_right).offset(0.0f);
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
-    }];
-}
--(void)clickmk:(LiuCUIbutton*)sender{
+    }];*/
     
-    //self.viewsss=[[DetialMainView alloc]init];
-    [self.viewsss loadViewWith:nil];
-    
-    
+    //float width = (SIZE_WIDTH-ScaleX(50))/3;
 
+//    [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        
+//    }];
+    NSMutableArray *array = [NSMutableArray new];
+    for (int i=0; i<dataArray.count; i++) {
+        DetialButton*buttonM=[DetialButton buttonWithType:UIButtonTypeCustom];
+        buttonM.circleNumlable.text=[NSString stringWithFormat:@"%d",i+1];
+       // buttonM.backgroundColor=[UIColor redColor];
+        buttonM.titleLable.text=[NSString stringWithFormat:@"%@",dataArray[i][@"name"]];
+        buttonM.dataArray=dataArray[i][@"evaluationTypePOList"];
+        [buttonM addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
+        [datad addSubview:buttonM];
+        [array addObject:buttonM];
+    }
+    
+    [array mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:15 leadSpacing:10 tailSpacing:10];
+    [array mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(0.0f);
+        make.height.mas_equalTo(70.0f);
+        //make.width.mas_equalTo(@100.0f);
+    }];
+    self.viewsss=[[DetialMainView alloc]init];
+    [self.viewsss loadViewWith:dataArray[0][@"evaluationTypePOList"]];
+    
+    self.viewsss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
+    [self.view addSubview:self.viewsss];
+    
+    [self.viewsss mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(0.0f);
+        make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(10.0f);
+        make.right.mas_equalTo(self.view.mas_right).offset(0.0f);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
+    }];
+    
+    
+   
+    
+    
+}
+-(void)clickmk:(DetialButton*)sender{
+    
+    [self.viewsss loadViewWith:sender.dataArray];
+    
+    
 
 }
 -(void)loadDetialData{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *tokenid = [ user objectForKey:@"userPassWord"];
-    NSDictionary *pardic=@{@"method":@"api.pias.find.institution",@"tokenId":tokenid,@"id":self.detialID};
-    
+    NSDictionary *pardic=@{@"method":@"api.pias.get.evaluation.with.record",@"tokenId":tokenid,@"id":self.mId};
     [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:@"1" success:^(id json) {
-        NSLog(@"%@",json);
+        //NSLog(@"%@",json);
+        NSMutableArray*dataaArray=json[@"evaluationPO"][@"evaluationSubjectPOList"];
+        //NSLog(@"%@",dataaArray);
         
         
+        [self loadUIView:dataaArray];
         
     } failure:^(NSError *error) {
         

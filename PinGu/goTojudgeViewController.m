@@ -21,16 +21,10 @@
     self.view.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    NSDictionary *dict = [NSDictionary dictionaryWithObject:[UIColor colorWithHexString:@"333333"] forKey:NSForegroundColorAttributeName];
+    NSDictionary *dict = [NSDictionary dictionaryWithObject:[UIColor colorWithHexString:@"333333 "] forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"back_top"] style:UIBarButtonItemStylePlain target:self action:@selector(backUpTop)];
-//    SEL zanCunAction = NSSelectorFromString(@"")
-    UIBarButtonItem * zanCunButton = [[UIBarButtonItem alloc]initWithTitle:@"暂存" style:UIBarButtonItemStylePlain target:self action:@selector(starageAction:)];
-    UIBarButtonItem * spaceButton = [[UIBarButtonItem alloc]initWithTitle:@" " style:UIBarButtonItemStylePlain target:self action:nil];
-    UIBarButtonItem * tijiaoButton = [[UIBarButtonItem alloc]initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(submit:)];
-//    self.navigationItem.rightBarButtonItems = @[spaceButton,tijiaoButton,spaceButton,zanCunButton];
-    self.navigationItem.rightBarButtonItem = tijiaoButton;
-//    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(submit)];
+    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(submit)];
     UIView*viewNav=[[UIView alloc]init];
     //viewNav.backgroundColor=[UIColor whiteColor];
     self.navigationItem.titleView=viewNav;
@@ -95,7 +89,7 @@
     }];
     
     LiuCUIbutton*liucehng1=[[LiuCUIbutton alloc]init];
-    liucehng1.Numlable.text=@"1";
+    liucehng1.Numlable.text=@"2";
     liucehng1.tag=1;
     liucehng1.titleLable.text=@"开展工作";
     [liucehng1 addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
@@ -107,7 +101,7 @@
     }];
     
     LiuCUIbutton*liucehng2=[[LiuCUIbutton alloc]init];
-    liucehng2.Numlable.text=@"1";
+    liucehng2.Numlable.text=@"3";
     liucehng2.tag=2;
     liucehng2.titleLable.text=@"供应商体系建立";
     [liucehng2 addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
@@ -119,7 +113,7 @@
     }];
     
     LiuCUIbutton*liucehng3=[[LiuCUIbutton alloc]init];
-    liucehng3.Numlable.text=@"2";
+    liucehng3.Numlable.text=@"4";
     liucehng3.tag=3;
     liucehng3.titleLable.text=@"上传图片";
     [liucehng3 addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
@@ -142,42 +136,30 @@
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
     }];
     
-    
 }
-
-/**
- *==========ZL注释start===========
- *1.方法描述
- *
- *2.tokenid listID
- *3.返回评估项目
- *4.
- ===========ZL注释end==========*/
 -(void)LloadNsdata{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *tokenid = [ user objectForKey:@"userPassWord"];
-    NSDictionary *pardic=@{@"method":@"api.pias.get.evaluation",
-                           @"tokenId":tokenid,
-                           @"id":self.listID};
-    //ajax.pias.get.evaluation    api.pias.get.evaluation  6314363818462023680
-    NSLog(@"用户ID：%@,机构ID：%@",tokenid,self.listID);
-
-    NSString * url = @"http://119.23.203.111/api/api.do";
-    NSString * urlString = [NSString stringWithFormat:@"%@?method=%@&tokenId=%@&id=%@",url,@"ajax.pias.get.evaluation",tokenid,self.listID];
-    NSLog(@"提交评估URL：%@",urlString);
-    [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:nil success:^(id json) {
-         NSLog(@"提交评估页面的JSON:%@",json);
-    } failure:^(NSError *error) {
-        
-    }];
+    NSDictionary *pardic=@{@"method":@"api.pias.get.evaluation",@"tokenId":tokenid,@"id":@"6314363818462023680"};
     
-//    [NetWorkingTool getWithURL:urlString parameters:nil success:^(id json) {
-//         NSLog(@"提交评估页面的JSON:%@",json);
+//    [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:@"1" success:^(id json) {
+//        NSLog(@"%@",json);
+//        
 //    } failure:^(NSError *error) {
 //        
 //    }];
     
+    [NetWorkingTool getWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic success:^(id json) {
+        NSLog(@"%@",json);
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
+    
+
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -187,21 +169,12 @@
 -(void)clickmk:(LiuCUIbutton*)sender{
    
     [self.viewss initwithArrayData:nil];
-}
+    
+    
 
-/**
- *==========ZL注释start===========
- *1.暂存，提交方法的实现
- *
- *2.头部导航右边按钮
- *3.
- *4.
- ===========ZL注释end==========*/
-- (void)starageAction:(id)sender{
-    NSLog(@"暂存按钮");
-}
 
--(void)submit:(id)sender{
+}
+-(void)submit{
 
     NSLog(@"我是提交按钮");
 }

@@ -21,6 +21,7 @@
 
 @property(nonatomic,copy)NSString*picurl;
 
+@property(nonatomic,copy)NSString*institutionSiteId;
 
 //@property(nonatomic,copy)NSString*mID;
 

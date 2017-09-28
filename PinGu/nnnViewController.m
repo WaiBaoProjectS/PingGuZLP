@@ -71,6 +71,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"%@",self.institutionSiteId);
     _alerdyPinguArray=[[NSMutableArray alloc]init];
     _noPingGuuArray=[[NSMutableArray alloc]init];
     _MainNsdataArray=[[NSMutableArray alloc]init];
@@ -85,17 +86,12 @@
     [self loadUItextFiled];
     //右侧评估人list
     [self loadUIlisttableView];
-    
 }
 -(void)loadNsdata{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *tokenid = [ user objectForKey:@"userPassWord"];
-    NSDictionary *pardic=@{@"method":@"api.pias.find.institution.tree",@"tokenId":tokenid};
-    
+    NSDictionary *pardic=@{@"method":@"api.pias.find.institution.tree",@"tokenId":tokenid,@"institutionSiteId":_institutionSiteId,@"pageNumber":@"1",@"pageSize":@"0"};
     [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:@"1" success:^(id json) {
-        //NSLog(@"%@",json);
-        
-        
         NSMutableArray*firstAlerdyArray=json[@"institutionList"];
         NSMutableArray*SecondNoArray=json[@"institutionListNot"];
         if (firstAlerdyArray.count>0||SecondNoArray.count>0) {
@@ -110,9 +106,10 @@
                 model.contactsPhone=dic[@"contactsPhone"];
                 model.name=dic[@"name"];
                 model.contactsPhone=dic[@"institutionSiteName"];
+                model.evaluated=dic[@"evaluated"];
+                model.institutionSiteId=dic[@"institutionSiteId"];
                 [_alerdyPinguArray addObject:model];
             }
-            
             for (NSDictionary *dic in SecondNoArray) {
                 nnlistModel*model=[[nnlistModel alloc]init];
                 model.mID=dic[@"id"];
@@ -123,7 +120,10 @@
                 model.contacts=dic[@"contacts"];
                 model.contactsPhone=dic[@"contactsPhone"];
                 model.name=dic[@"name"];
+                model.evaluated=dic[@"evaluated"];
                 model.contactsPhone=dic[@"institutionSiteName"];
+                model.institutionSiteId=dic[@"institutionSiteId"];
+
                 [_noPingGuuArray addObject:model];
             }
             _MainNsdataArray=_alerdyPinguArray;
@@ -279,27 +279,25 @@
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     pgListHeaderView*views=[[pgListHeaderView alloc]init];
-    
     return views;
-    
-    
-    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 60.0f;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     nnlistModel*model=[_MainNsdataArray objectAtIndex:indexPath.row];
-    /*
-     DetialJudgeViewController*detialVC=[[DetialJudgeViewController alloc]init];
-    detialVC.detialID=model.mID;
-    [self.navigationController pushViewController:detialVC animated:YES];*/
-     
-    
-    goTojudgeViewController*gotoJudgeVC=[[goTojudgeViewController alloc]init];
-    gotoJudgeVC.listID=model.mID;
-    [self.navigationController pushViewController:gotoJudgeVC animated:YES];
-
+    //判断是否评价，以此来跳转不同的页面
+    if ([model.evaluated isEqualToString:@"1"]) {
+        DetialJudgeViewController*detialVC=[[DetialJudgeViewController alloc]init];
+        detialVC.mId=model.mID;
+        [self.navigationController pushViewController:detialVC animated:YES];
+        
+    }else{
+        
+        goTojudgeViewController*gotoJudgeVC=[[goTojudgeViewController alloc]init];
+        gotoJudgeVC.listID=model.mID;
+        [self.navigationController pushViewController:gotoJudgeVC animated:YES];
+    }
 }
 //补全cell分割线
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPat{

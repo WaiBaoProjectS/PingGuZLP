@@ -21,80 +21,43 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
     if (self) {
-
-        [self setStartImage];
+        self.backgroundColor=[UIColor colorWithHexString:@"F1f1f1"];
+        Numlable=[[UILabel alloc]init];
+        Numlable.backgroundColor=[UIColor colorWithHexString:@"5ddcd3"];
+        Numlable.textColor=[UIColor whiteColor];
+        Numlable.text=@"1";
+        Numlable.font=[UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
+        Numlable.layer.cornerRadius=30.0f;
+        Numlable.layer.masksToBounds=YES;
+        Numlable.textAlignment=NSTextAlignmentCenter;
+        [self addSubview:Numlable];
+        
+        
+        [Numlable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mas_top).offset(10.0f);
+            make.left.mas_equalTo(self.mas_left).offset(0.0f);
+            make.size.mas_equalTo(CGSizeMake(60.0f, 60.0f));
+        }];
+        
+        
+        titleLable=[[UILabel alloc]init];
+        titleLable.textColor=[UIColor colorWithHexString:@"5ddcd3"];
+        titleLable.text=@"供应商体系的建立";
+       // titleLable.backgroundColor=[UIColor redColor];
+        titleLable.textAlignment=NSTextAlignmentCenter;
+        titleLable.font=[UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
+        [self addSubview:titleLable];
+        
+        [titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mas_top).offset(25.0f);
+        
+            make.left.mas_equalTo(Numlable.mas_right).offset(10.0f);
+            make.size.mas_equalTo(CGSizeMake(140.0f, 30.0f));
+        }];
+        
         
     }
     return self;
 
 }
-/**
- *==========ZL注释start===========
- *1.设置按钮状态和图片
- *
- *2.LCButtonState
- *3.完成状态的UI
- *4.未完成状态的UI
- ===========ZL注释end==========*/
-- (void)setImageViewWithStateType:(LCButtonState)type{
-    
-    
-    
-    switch (type) {
-        case START_STATE:
-            
-            break;
-        case FINISHED_STATE:
-            
-            break;
-        default:
-            break;
-    }
-
-    
-    
-}
-
-- (void)setStartImage{
-
-    self.backgroundColor=[UIColor colorWithHexString:@"F1f1f1"];
-    Numlable=[[UILabel alloc]init];
-    Numlable.backgroundColor=[UIColor colorWithHexString:@"5ddcd3"];
-    Numlable.textColor=[UIColor whiteColor];
-    Numlable.text=@"1";
-    Numlable.font=[UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
-    Numlable.layer.cornerRadius=30.0f;
-    Numlable.layer.masksToBounds=YES;
-    Numlable.textAlignment=NSTextAlignmentCenter;
-    [self addSubview:Numlable];
-    
-    
-    [Numlable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mas_top).offset(10.0f);
-        make.left.mas_equalTo(self.mas_left).offset(0.0f);
-        make.size.mas_equalTo(CGSizeMake(60.0f, 60.0f));
-    }];
-    
-    
-    titleLable=[[UILabel alloc]init];
-    titleLable.textColor=[UIColor colorWithHexString:@"5ddcd3"];
-    titleLable.text=@"供应商体系的建立";
-    // titleLable.backgroundColor=[UIColor redColor];
-    titleLable.textAlignment=NSTextAlignmentCenter;
-    titleLable.font=[UIFont fontWithName:@"Helvetica-Bold" size:17.0f];
-    [self addSubview:titleLable];
-    
-    [titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mas_top).offset(25.0f);
-        
-        make.left.mas_equalTo(Numlable.mas_right).offset(10.0f);
-        make.size.mas_equalTo(CGSizeMake(140.0f, 30.0f));
-    }];
-
-}
-- (void)setFinishedImage{
-
-}
-
-
 @end
