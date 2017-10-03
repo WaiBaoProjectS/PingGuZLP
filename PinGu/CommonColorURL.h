@@ -14,6 +14,6 @@
 #define GreenColor_ZL_TIJIAO    @"5ddcd3"
 
 #define CommonURL_ZL    @"http://119.23.203.111/api/api.do"
-#define TiJiaoFunction_NAME @"ajax.pias.get.evaluation"
+#define TiJiaoFunction_NAME @"api.pias.get.evaluation"
 
 #endif /* CommonColorURL_h */

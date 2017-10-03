@@ -7,9 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TiJiaoTableViewCell.h"
+#import "SubjectModel.h"
+#import "ItemPOModel.h"
 
-@interface GotojudgeView : UIView
-@property(nonatomic,strong)UIScrollView*TimuScrollview;
+@interface GotojudgeView : UIView<UITableViewDataSource,UITableViewDelegate>
+
+
+@property (nonatomic, strong) NSMutableArray *leftARR;
+@property (nonatomic, strong) NSMutableArray *rightARR;
+
+@property (nonatomic, strong) UIScrollView *TimuScrollview;
+@property (nonatomic, strong) UITableView *leftTableView;
 
 
 -(void)initwithArrayData:(NSMutableArray*)dataArray;

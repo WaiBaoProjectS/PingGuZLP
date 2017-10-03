@@ -81,21 +81,13 @@
         make.left.right.mas_equalTo(self.view).offset(0.0f);
         make.height.mas_equalTo(@100.0f);
     }];
+    
     NSMutableArray * arr = [[NSMutableArray alloc]initWithObjects:@"1",@"2",@"3" ,nil];
 //    _buttonStateARR = [[NSMutableArray alloc]initWithObjects:START_STATE,FINISHED_STATE,START_STATE,FINISHED_STATE, nil];
     _currentLiuNum = 2;
     [self createLiuButtonWithArray:arr];
 
-    self.viewss=[[GotojudgeView alloc]init];
-    self.viewss.userInteractionEnabled=YES;
-    self.viewss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
-    [self.viewss initwithArrayData:nil];
-    [self.view addSubview:self.viewss];
-    [self.viewss mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(20.0f);
-        make.left.right.mas_equalTo(self.view).offset(0.0f);
-        make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
-    }];
+
     
 }
 /**
@@ -147,33 +139,88 @@
         }
     
     }
-
 }
 
 -(void)LloadNsdata{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *tokenid = [ user objectForKey:@"userPassWord"];
-    NSDictionary *pardic=@{@"method":@"api.pias.get.evaluation",@"tokenId":tokenid,@"id":@"6314363818462023680"};
+    NSDictionary *pardic=@{@"method":TiJiaoFunction_NAME,
+                           @"tokenId":tokenid,
+                           @"id":self.listID};
+    //NSLog(@"未评估请求参数：%@",pardic);
     
-//    [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:@"1" success:^(id json) {
-//        NSLog(@"%@",json);
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
-    
-    [NetWorkingTool getWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic success:^(id json) {
-        NSLog(@"%@",json);
+    __weak typeof(self) weakSelf = self;
+    [NetWorkingTool postWithURL:CommonURL_ZL parameters:pardic LX:@"1" success:^(id json) {
+        NSLog(@"未评估评估表：%@",json);
+        /**
+         *==========ZL注释start===========
+         *1.为评估的数据解析
+         *
+         *2.
+         *3.
+         *4.
+         ===========ZL注释end==========*/
+        NSDictionary * evaluationPODic = json[@"evaluationPO"];
+        NSArray * evaSubjectPOListArr = evaluationPODic[@"evaluationSubjectPOList"];
+        if (evaSubjectPOListArr.count > 0) {
+            //NSArray * typePOListArr = evaSubjectPOListArr[0][@"evaluationTypePOList"];
+            
+            for (int i = 0; i < evaSubjectPOListArr.count; i++) {
+              
+                SubjectModel * subModel = [SubjectModel new];
+                NSDictionary * subDic = evaSubjectPOListArr[i];
+                /*
+                 @property (nonatomic, copy) NSString *createBy;
+                 @property (nonatomic, copy) NSString *createTime;
+                 @property (nonatomic, copy) NSString *deleted;
+                 @property (nonatomic, copy) NSString *evaluationId;
+                 @property (nonatomic, copy) NSString *evaluationSubjectId;
+                 @property (nonatomic, strong) NSArray *evaItemPOList;
+                 @property (nonatomic, copy) NSString *id;
+                 @property (nonatomic, copy) NSString *name;
+                 @property (nonatomic, copy) NSString *rowVersion;
+                 
+                 */
+                subModel.evaluationId = subDic[@"evaluationId"];
+                subModel.evaluationSubjectId = subDic[@"evaluationSubjectId"];
+                subModel.evaItemPOList = subDic[@"evaluationItemPOList"];
+                subModel.id = subDic[@"id"];
+                subModel.name = subDic[@"name"];
+                [self.leftSubjectARR addObject:subModel];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf creatLeftView];
+            });
+            
+        }
         
+        
+        NSLog(@"evaSubjectPOListArr的个数为：%ld",evaSubjectPOListArr.count);
+
     } failure:^(NSError *error) {
         
     }];
-    
-    
-
 
 }
+
+#pragma mark ===================创建列表视图==================
+- (void)creatLeftView{
+
+    self.viewss=[[GotojudgeView alloc]init];
+    [self.viewss initwithArrayData:self.leftSubjectARR];
+    self.viewss.userInteractionEnabled=YES;
+    self.viewss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
+    [self.view addSubview:self.viewss];
+    [self.viewss mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(20.0f);
+        make.left.right.mas_equalTo(self.view).offset(0.0f);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
+    }];
+
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -190,6 +237,16 @@
 -(void)submit{
 
     NSLog(@"我是提交按钮");
+}
+
+#pragma mark ===================懒加载==================
+- (NSMutableArray *)leftSubjectARR{
+
+    if (!_leftSubjectARR) {
+        _leftSubjectARR = [[NSMutableArray alloc]init];
+    }
+    return _leftSubjectARR;
+    
 }
 
 @end

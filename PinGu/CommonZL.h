@@ -206,6 +206,12 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
 #define kIOS7DELTA   ((kDeviceVersion>=7.0)? 20 :0 )
 #define kTabBarHeight 49
 
+//内联函数
+UIKIT_STATIC_INLINE id weak_self(id sender){
+    __weak typeof(sender) weakSelf = sender;
+    return weakSelf;
+}
+
 
 
 #endif /* CommonZL_h */

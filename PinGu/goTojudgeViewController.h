@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "GotojudgeView.h"
+#import "SubjectModel.h"
+#import "ItemPOModel.h"
+
 @interface goTojudgeViewController : UIViewController
 @property(nonatomic,copy)NSString*listID;
 @property(nonatomic,strong)UIView*BGheaderView;
 
 @property(nonatomic,strong)GotojudgeView*viewss;
+@property (nonatomic, strong) NSMutableArray *leftSubjectARR;
 
 @end

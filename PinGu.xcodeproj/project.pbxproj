@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18A07F901F83958B0059E21E /* UploadParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F8B1F83958B0059E21E /* UploadParam.m */; };
+		18A07F911F83958B0059E21E /* ZLAFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F8D1F83958B0059E21E /* ZLAFNetworking.m */; };
+		18A07F921F83958B0059E21E /* ZLSecondAFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F8F1F83958B0059E21E /* ZLSecondAFNetworking.m */; };
+		18A07F951F83C9EE0059E21E /* SubjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F941F83C9EE0059E21E /* SubjectModel.m */; };
+		18A07F981F83CB7B0059E21E /* ItemPOModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F971F83CB7B0059E21E /* ItemPOModel.m */; };
+		18A07F9B1F83EC940059E21E /* RollViewZL.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F9A1F83EC940059E21E /* RollViewZL.m */; };
+		18E342671F7E2DB900D33504 /* TiJiaoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E342651F7E2DB900D33504 /* TiJiaoTableViewCell.m */; };
+		18E342681F7E2DB900D33504 /* TiJiaoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18E342661F7E2DB900D33504 /* TiJiaoTableViewCell.xib */; };
 		2A2FD50DF68559824451EB0F /* libPods-PinGuTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC13D5FCF1E1BFDD33EECFBC /* libPods-PinGuTests.a */; };
 		6154B938EE5D1034BF3E1911 /* libPods-PinGu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4622805F4C91FCFB63D12FCF /* libPods-PinGu.a */; };
 		73E4C850891A32A827A6A2F8 /* libPods-PinGuUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40165F96ECC73EAB55B76292 /* libPods-PinGuUITests.a */; };
@@ -139,8 +147,23 @@
 
 /* Begin PBXFileReference section */
 		055A5723B21E46F5D714A183 /* Pods-PinGuUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests.release.xcconfig"; sourceTree = "<group>"; };
+		18A07F8A1F83958B0059E21E /* UploadParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadParam.h; sourceTree = "<group>"; };
+		18A07F8B1F83958B0059E21E /* UploadParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadParam.m; sourceTree = "<group>"; };
+		18A07F8C1F83958B0059E21E /* ZLAFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLAFNetworking.h; sourceTree = "<group>"; };
+		18A07F8D1F83958B0059E21E /* ZLAFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLAFNetworking.m; sourceTree = "<group>"; };
+		18A07F8E1F83958B0059E21E /* ZLSecondAFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLSecondAFNetworking.h; sourceTree = "<group>"; };
+		18A07F8F1F83958B0059E21E /* ZLSecondAFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSecondAFNetworking.m; sourceTree = "<group>"; };
+		18A07F931F83C9EE0059E21E /* SubjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectModel.h; sourceTree = "<group>"; };
+		18A07F941F83C9EE0059E21E /* SubjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectModel.m; sourceTree = "<group>"; };
+		18A07F961F83CB7B0059E21E /* ItemPOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPOModel.h; sourceTree = "<group>"; };
+		18A07F971F83CB7B0059E21E /* ItemPOModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPOModel.m; sourceTree = "<group>"; };
+		18A07F991F83EC940059E21E /* RollViewZL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollViewZL.h; sourceTree = "<group>"; };
+		18A07F9A1F83EC940059E21E /* RollViewZL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollViewZL.m; sourceTree = "<group>"; };
 		18E342621F7CD94E00D33504 /* CommonZL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonZL.h; sourceTree = "<group>"; };
 		18E342631F7CD9A300D33504 /* CommonColorURL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonColorURL.h; sourceTree = "<group>"; };
+		18E342641F7E2DB900D33504 /* TiJiaoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiJiaoTableViewCell.h; sourceTree = "<group>"; };
+		18E342651F7E2DB900D33504 /* TiJiaoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiJiaoTableViewCell.m; sourceTree = "<group>"; };
+		18E342661F7E2DB900D33504 /* TiJiaoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TiJiaoTableViewCell.xib; sourceTree = "<group>"; };
 		40165F96ECC73EAB55B76292 /* libPods-PinGuUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PinGuUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44890B7424B1D146C3227E77 /* Pods-PinGuUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4622805F4C91FCFB63D12FCF /* libPods-PinGu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PinGu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -401,6 +424,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18A07F881F8394D30059E21E /* ZHOUL */ = {
+			isa = PBXGroup;
+			children = (
+				18A07F891F83958B0059E21E /* ZLAFNetworking */,
+			);
+			path = ZHOUL;
+			sourceTree = "<group>";
+		};
+		18A07F891F83958B0059E21E /* ZLAFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				18A07F8A1F83958B0059E21E /* UploadParam.h */,
+				18A07F8B1F83958B0059E21E /* UploadParam.m */,
+				18A07F8C1F83958B0059E21E /* ZLAFNetworking.h */,
+				18A07F8D1F83958B0059E21E /* ZLAFNetworking.m */,
+				18A07F8E1F83958B0059E21E /* ZLSecondAFNetworking.h */,
+				18A07F8F1F83958B0059E21E /* ZLSecondAFNetworking.m */,
+			);
+			path = ZLAFNetworking;
+			sourceTree = "<group>";
+		};
 		27F9CEBD4E83331F4D574DD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,6 +502,11 @@
 				8334E4541F77E4A200706219 /* TIbgview.m */,
 				8334E45B1F77EF6100706219 /* PPNumberButton.h */,
 				8334E45C1F77EF6100706219 /* PPNumberButton.m */,
+				18E342641F7E2DB900D33504 /* TiJiaoTableViewCell.h */,
+				18E342651F7E2DB900D33504 /* TiJiaoTableViewCell.m */,
+				18E342661F7E2DB900D33504 /* TiJiaoTableViewCell.xib */,
+				18A07F991F83EC940059E21E /* RollViewZL.h */,
+				18A07F9A1F83EC940059E21E /* RollViewZL.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -465,6 +514,10 @@
 		836D460A1F7759A600DC9E3E /* model */ = {
 			isa = PBXGroup;
 			children = (
+				18A07F931F83C9EE0059E21E /* SubjectModel.h */,
+				18A07F941F83C9EE0059E21E /* SubjectModel.m */,
+				18A07F961F83CB7B0059E21E /* ItemPOModel.h */,
+				18A07F971F83CB7B0059E21E /* ItemPOModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -638,6 +691,7 @@
 		83EC80F91F5E3C41000B06EB /* 全局配置 */ = {
 			isa = PBXGroup;
 			children = (
+				18A07F881F8394D30059E21E /* ZHOUL */,
 				83D06E381F6BD9D9006374F3 /* IQKeyboardManager */,
 				83EC82161F5FD12D000B06EB /* 网络数据 */,
 				83EC82071F5FB7A8000B06EB /* 用户单例 */,
@@ -1127,6 +1181,7 @@
 				83EC81151F5E3C53000B06EB /* Info.plist in Resources */,
 				83EC80D61F5E3BA7000B06EB /* LaunchScreen.storyboard in Resources */,
 				83EC80D31F5E3BA7000B06EB /* Assets.xcassets in Resources */,
+				18E342681F7E2DB900D33504 /* TiJiaoTableViewCell.xib in Resources */,
 				83EC80D11F5E3BA7000B06EB /* Main.storyboard in Resources */,
 				83D06E6B1F6BD9D9006374F3 /* IQKeyboardManager.bundle in Resources */,
 				83EC818C1F5E3E81000B06EB /* LICENSE in Resources */,
@@ -1295,6 +1350,7 @@
 			files = (
 				83EC81EF1F5F8D63000B06EB /* UIImageView+HighlightedWebCache.m in Sources */,
 				83D06E5F1F6BD9D9006374F3 /* IQUITextFieldView+Additions.m in Sources */,
+				18A07F981F83CB7B0059E21E /* ItemPOModel.m in Sources */,
 				83EC819B1F5E3FD7000B06EB /* UIColor+Hex.m in Sources */,
 				8334E4521F77D55500706219 /* GotojudgeView.m in Sources */,
 				8334E44F1F77CC6C00706219 /* detialNeirongTableViewCell.m in Sources */,
@@ -1304,6 +1360,7 @@
 				83EC81911F5E3E82000B06EB /* MJPropertyType.m in Sources */,
 				83EC811B1F5E3C53000B06EB /* MASViewConstraint.m in Sources */,
 				83EC818E1F5E3E81000B06EB /* MJFoundation.m in Sources */,
+				18A07F921F83958B0059E21E /* ZLSecondAFNetworking.m in Sources */,
 				83EC81161F5E3C53000B06EB /* MASCompositeConstraint.m in Sources */,
 				83EC81961F5E3E82000B06EB /* NSString+MJExtension.m in Sources */,
 				83FB9DC41F652DBC00791000 /* genListTableViewCell.m in Sources */,
@@ -1328,6 +1385,7 @@
 				83EC80CB1F5E3BA7000B06EB /* AppDelegate.m in Sources */,
 				83EC81931F5E3E82000B06EB /* NSObject+MJCoding.m in Sources */,
 				83EC81921F5E3E82000B06EB /* NSObject+MJClass.m in Sources */,
+				18A07F901F83958B0059E21E /* UploadParam.m in Sources */,
 				8334E45A1F77EC8A00706219 /* UILabel+mYK.m in Sources */,
 				83EC81A51F5E4088000B06EB /* NJKWebViewProgressView.m in Sources */,
 				83D06E5D1F6BD9D9006374F3 /* IQNSArray+Sort.m in Sources */,
@@ -1350,6 +1408,7 @@
 				83EC81E71F5F8D63000B06EB /* SDWebImageDownloader.m in Sources */,
 				83D06E681F6BD9D9006374F3 /* IQTitleBarButtonItem.m in Sources */,
 				83EC81721F5E3D5C000B06EB /* AFURLSessionManager.m in Sources */,
+				18A07F911F83958B0059E21E /* ZLAFNetworking.m in Sources */,
 				83EC81F81F5F8E47000B06EB /* FLAnimatedImageView.m in Sources */,
 				83FB9DE61F657A6E00791000 /* JustListTableViewCell.m in Sources */,
 				83EC81951F5E3E82000B06EB /* NSObject+MJProperty.m in Sources */,
@@ -1378,8 +1437,10 @@
 				83EC81171F5E3C53000B06EB /* MASConstraint.m in Sources */,
 				83EC821C1F5FD14B000B06EB /* NetWorkingTool.m in Sources */,
 				83EC818F1F5E3E82000B06EB /* MJProperty.m in Sources */,
+				18A07F9B1F83EC940059E21E /* RollViewZL.m in Sources */,
 				83EC81E41F5F8D63000B06EB /* SDImageCacheConfig.m in Sources */,
 				83EC81EC1F5F8D63000B06EB /* UIImage+GIF.m in Sources */,
+				18A07F951F83C9EE0059E21E /* SubjectModel.m in Sources */,
 				836D46121F7759FC00DC9E3E /* goTojudgeViewController.m in Sources */,
 				836D45FA1F769D7F00DC9E3E /* nnlistModel.m in Sources */,
 				8334E45D1F77EF6100706219 /* PPNumberButton.m in Sources */,
@@ -1392,6 +1453,7 @@
 				83FB9DC71F652DDF00791000 /* genListModel.m in Sources */,
 				83EC81E51F5F8D63000B06EB /* SDWebImageCompat.m in Sources */,
 				83EC81941F5E3E82000B06EB /* NSObject+MJKeyValue.m in Sources */,
+				18E342671F7E2DB900D33504 /* TiJiaoTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

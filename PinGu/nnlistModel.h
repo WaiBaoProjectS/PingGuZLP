@@ -19,6 +19,7 @@
 @property(nonatomic,copy)NSString*name;//
 @property(nonatomic,copy)NSString*institutionSiteName;//
 
+@property (nonatomic, copy) NSString * evaluationId;
 @property(nonatomic,copy)NSString*institutionSiteId;
 
 @property(nonatomic,copy)NSString*evaluated;
