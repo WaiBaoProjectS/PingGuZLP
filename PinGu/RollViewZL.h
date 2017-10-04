@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ItemPOModel.h"
+#import "PPNumberButton.h"
 
 /**
  *==========ZL注释start===========
@@ -16,17 +18,27 @@
  *3.
  *4.
  ===========ZL注释end==========*/
-#define VIEWWIDTH SIZE_WIDTH
-#define VIEWHEIGHT VIEWWIDTH * 0.5
+#define VIEWWIDTH  self.frame.size.width
+#define VIEWHEIGHT self.frame.size.height
+
+typedef NS_ENUM(NSUInteger, ROLL_TYPE) {
+    IMAGEVIEW_ROLL,
+    LABEL_ROLL,
+};
+
+typedef void(^CurrentIndexBlock)(NSInteger currentIndex);
 
 //typedef void(^TapViewBlock)(NSInteger index);
 
 
 @interface RollViewZL : UIView<UIScrollViewDelegate>
 
+@property (nonatomic, copy) CurrentIndexBlock currentBlock;
 
 
+//- (void)setCurrentIndexBlocksWith:(CurrentIndexBlock)block;
+- (instancetype)initRoll;
+- (void)loadTopLunXianViewWithSuperView:(id) sView withImageARR:(NSMutableArray *)imageARR withRollType:(ROLL_TYPE)rollType withTapViewAction:(void (^)(NSInteger index)) tapActionBlcok withCurrentIndex:(CurrentIndexBlock) currentIndexBlock;
 
-- (void)loadTopLunXianViewWithSuperView:(id) sView withImageARR:(NSMutableArray *)imageARR withTapViewAction:(void (^)(NSInteger index)) tapActionBlcok withCurrentIndex:(void (^)(NSInteger currentIndex)) currentIndexBlock;
 
 @end

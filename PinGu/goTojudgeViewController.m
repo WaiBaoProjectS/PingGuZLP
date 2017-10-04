@@ -20,6 +20,9 @@
     
 }
 
+#define TOPBUTTON_WIDTH 130.0
+#define TOPBUTTON_HEIGHT 80.0
+
 @end
 
 @implementation goTojudgeViewController
@@ -64,15 +67,14 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    // Do any additional setup after loading the view.
+    //加载数据
     [self LloadNsdata];
-    [self loadUIView];
+    
+
 }
 
 
--(void)loadUIView{
+-(void)loadUIViewWithTopButtonARR:(NSMutableArray *)buttonARR{
     self.BGheaderView=[[UIView alloc]init];
     self.BGheaderView.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
     [self.view addSubview:self.BGheaderView];
@@ -82,12 +84,25 @@
         make.height.mas_equalTo(@100.0f);
     }];
     
-    NSMutableArray * arr = [[NSMutableArray alloc]initWithObjects:@"1",@"2",@"3" ,nil];
+//    NSMutableArray * arr = [[NSMutableArray alloc]initWithObjects:@"1",@"2",@"3" ,nil];
 //    _buttonStateARR = [[NSMutableArray alloc]initWithObjects:START_STATE,FINISHED_STATE,START_STATE,FINISHED_STATE, nil];
-    _currentLiuNum = 2;
-    [self createLiuButtonWithArray:arr];
+    _currentLiuNum = buttonARR.count;
+    [self createLiuButtonWithArray:buttonARR];
 
-
+    NSMutableArray *arr = [NSMutableArray new];
+    // Do any additional setup after loading the view.
+    
+    //[self loadUIView];
+    self.viewss=[[GotojudgeView alloc]init];
+    [self.viewss initwithArrayData:arr];
+    self.viewss.userInteractionEnabled=YES;
+    self.viewss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
+    [self.view addSubview:self.viewss];
+    [self.viewss mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(0.0f);
+        make.left.right.mas_equalTo(self.view).offset(0.0f);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
+    }];
     
 }
 /**
@@ -104,27 +119,29 @@
         return;
     }
     else{
-        [buttonArray addObject:@"上传照片"];
+        SubjectModel * model = [SubjectModel new];
+        model.name = @"上传照片";
+        [buttonArray addObject:model];
         
-        float spaceWidth = (SCREENWIDTH - buttonArray.count * 200.0) / (buttonArray.count + 1);
+        float spaceWidth = (SCREENWIDTH - buttonArray.count * TOPBUTTON_WIDTH) / (buttonArray.count + 1);
         NSLog(@"屏幕宽度和高度，屏幕宽度高度：%g-------%g-----%g------%g",self.view.frame.size.width,self.view.frame.size.height,SCREENWIDTH,SCREENHEIGTH);
         
 
         for (int i = 0; i < buttonArray.count; i++) {
             
             
-            
-            LiuCUIbutton*liucehng=[[LiuCUIbutton alloc]init];
-            liucehng.Numlable.text=@"1";
-            liucehng.titleLable.text=@"组织管理";
-            liucehng.tag=0;
+            SubjectModel * subModel = buttonArray[i];
+            LiuCUIbutton*liucehng = [[LiuCUIbutton alloc]init];
+            liucehng.Numlable.text = [NSString stringWithFormat:@"%d",i+1];
+            liucehng.titleLable.text = subModel.name;
+            liucehng.tag = i;
             [liucehng addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
             
             [self.BGheaderView addSubview:liucehng];
             [liucehng mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(self.BGheaderView.mas_top).offset(10.0f);
-                make.left.mas_equalTo(self.BGheaderView.mas_left).offset(spaceWidth * (i+1) + 200.0 * (i));
-                make.size.mas_equalTo(CGSizeMake(200.0f,80.0f));
+                make.left.mas_equalTo(self.BGheaderView.mas_left).offset(spaceWidth * (i+1) + TOPBUTTON_WIDTH * (i));
+                make.size.mas_equalTo(CGSizeMake(TOPBUTTON_WIDTH,TOPBUTTON_HEIGHT));
             }];
             
             if (i <= _currentLiuNum ) {
@@ -170,28 +187,20 @@
               
                 SubjectModel * subModel = [SubjectModel new];
                 NSDictionary * subDic = evaSubjectPOListArr[i];
-                /*
-                 @property (nonatomic, copy) NSString *createBy;
-                 @property (nonatomic, copy) NSString *createTime;
-                 @property (nonatomic, copy) NSString *deleted;
-                 @property (nonatomic, copy) NSString *evaluationId;
-                 @property (nonatomic, copy) NSString *evaluationSubjectId;
-                 @property (nonatomic, strong) NSArray *evaItemPOList;
-                 @property (nonatomic, copy) NSString *id;
-                 @property (nonatomic, copy) NSString *name;
-                 @property (nonatomic, copy) NSString *rowVersion;
-                 
-                 */
+
                 subModel.evaluationId = subDic[@"evaluationId"];
                 subModel.evaluationSubjectId = subDic[@"evaluationSubjectId"];
-                subModel.evaItemPOList = subDic[@"evaluationItemPOList"];
+                
+                subModel.evaluationTypePOList = subDic[@"evaluationTypePOList"];
+
                 subModel.id = subDic[@"id"];
                 subModel.name = subDic[@"name"];
                 [self.leftSubjectARR addObject:subModel];
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf creatLeftView];
+                [weakSelf loadUIViewWithTopButtonARR:self.leftSubjectARR];
+                [weakSelf creatLeftViewWithIndex:0];
             });
             
         }
@@ -206,18 +215,37 @@
 }
 
 #pragma mark ===================创建列表视图==================
-- (void)creatLeftView{
+- (void)creatLeftViewWithIndex:(NSInteger)index{
+    
+    
+    SubjectModel * subModel = [self.leftSubjectARR objectAtIndex:index];
+    NSArray * typeARR = subModel.evaluationTypePOList;
+    NSMutableArray * leftARR = [NSMutableArray new];
+    for (int i =0; i<typeARR.count; i++) {
+        NSDictionary * tyDic = typeARR[i];
+        TypePOModel * tyModel = [TypePOModel new];
+        
+        tyModel.name = tyDic[@"name"];
+        tyModel.evaluationItemPOList = tyDic[@"evaluationItemPOList"];
+        [leftARR addObject:tyModel];
+    }
+    
+    
+    self.viewss.leftARR = leftARR;
+    [self.viewss.leftTableView reloadData];
+    if (leftARR.count > 0) {
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        
+        [self.viewss.leftTableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+       
+        [self xw_postNotificationWithName:@"SELECT_FIRST" userInfo:@{@"isHave":@"yes"}];
+    }
+    else{
+        
+        [self xw_postNotificationWithName:@"SELECT_FIRST" userInfo:@{@"isHave":@"no"}];
+    }
+    
 
-    self.viewss=[[GotojudgeView alloc]init];
-    [self.viewss initwithArrayData:self.leftSubjectARR];
-    self.viewss.userInteractionEnabled=YES;
-    self.viewss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
-    [self.view addSubview:self.viewss];
-    [self.viewss mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(20.0f);
-        make.left.right.mas_equalTo(self.view).offset(0.0f);
-        make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
-    }];
 
 }
 
@@ -228,16 +256,18 @@
 
 -(void)clickmk:(LiuCUIbutton*)sender{
    
-    [self.viewss initwithArrayData:nil];
+    [self creatLeftViewWithIndex:sender.tag];
     
-    
-
-
 }
 -(void)submit{
 
     NSLog(@"我是提交按钮");
 }
+
+
+
+
+
 
 #pragma mark ===================懒加载==================
 - (NSMutableArray *)leftSubjectARR{

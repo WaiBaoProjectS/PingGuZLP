@@ -10,6 +10,8 @@
 #import "TiJiaoTableViewCell.h"
 #import "SubjectModel.h"
 #import "ItemPOModel.h"
+#import "RollViewZL.h"
+#import "TypePOModel.h"
 
 @interface GotojudgeView : UIView<UITableViewDataSource,UITableViewDelegate>
 
@@ -19,8 +21,10 @@
 
 @property (nonatomic, strong) UIScrollView *TimuScrollview;
 @property (nonatomic, strong) UITableView *leftTableView;
-
+@property (nonatomic, strong) RollViewZL *rollView;
+@property (nonatomic, strong) NSMutableDictionary * rollViewDIC;
 
 -(void)initwithArrayData:(NSMutableArray*)dataArray;
+- (void)loadRightViewWithItemPOModelARR:(NSMutableArray *)itemModelARR;
 
 @end

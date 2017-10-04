@@ -10,6 +10,8 @@
 #import "GotojudgeView.h"
 #import "SubjectModel.h"
 #import "ItemPOModel.h"
+#import "RollViewZL.h"
+#import "TypePOModel.h"
 
 @interface goTojudgeViewController : UIViewController
 @property(nonatomic,copy)NSString*listID;

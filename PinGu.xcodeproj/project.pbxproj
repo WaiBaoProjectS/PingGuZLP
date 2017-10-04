@@ -13,6 +13,8 @@
 		18A07F951F83C9EE0059E21E /* SubjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F941F83C9EE0059E21E /* SubjectModel.m */; };
 		18A07F981F83CB7B0059E21E /* ItemPOModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F971F83CB7B0059E21E /* ItemPOModel.m */; };
 		18A07F9B1F83EC940059E21E /* RollViewZL.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F9A1F83EC940059E21E /* RollViewZL.m */; };
+		18C3BB411F84878600C84D4E /* TypePOModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3BB401F84878600C84D4E /* TypePOModel.m */; };
+		18C3BB451F8533CB00C84D4E /* NSObject+XWAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3BB441F8533CB00C84D4E /* NSObject+XWAdd.m */; };
 		18E342671F7E2DB900D33504 /* TiJiaoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E342651F7E2DB900D33504 /* TiJiaoTableViewCell.m */; };
 		18E342681F7E2DB900D33504 /* TiJiaoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18E342661F7E2DB900D33504 /* TiJiaoTableViewCell.xib */; };
 		2A2FD50DF68559824451EB0F /* libPods-PinGuTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC13D5FCF1E1BFDD33EECFBC /* libPods-PinGuTests.a */; };
@@ -159,6 +161,10 @@
 		18A07F971F83CB7B0059E21E /* ItemPOModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPOModel.m; sourceTree = "<group>"; };
 		18A07F991F83EC940059E21E /* RollViewZL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollViewZL.h; sourceTree = "<group>"; };
 		18A07F9A1F83EC940059E21E /* RollViewZL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollViewZL.m; sourceTree = "<group>"; };
+		18C3BB3F1F84878600C84D4E /* TypePOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypePOModel.h; sourceTree = "<group>"; };
+		18C3BB401F84878600C84D4E /* TypePOModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TypePOModel.m; sourceTree = "<group>"; };
+		18C3BB431F8533CB00C84D4E /* NSObject+XWAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+XWAdd.h"; sourceTree = "<group>"; };
+		18C3BB441F8533CB00C84D4E /* NSObject+XWAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+XWAdd.m"; sourceTree = "<group>"; };
 		18E342621F7CD94E00D33504 /* CommonZL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonZL.h; sourceTree = "<group>"; };
 		18E342631F7CD9A300D33504 /* CommonColorURL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonColorURL.h; sourceTree = "<group>"; };
 		18E342641F7E2DB900D33504 /* TiJiaoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiJiaoTableViewCell.h; sourceTree = "<group>"; };
@@ -427,6 +433,7 @@
 		18A07F881F8394D30059E21E /* ZHOUL */ = {
 			isa = PBXGroup;
 			children = (
+				18C3BB421F8533CB00C84D4E /* KVO&Notification */,
 				18A07F891F83958B0059E21E /* ZLAFNetworking */,
 			);
 			path = ZHOUL;
@@ -443,6 +450,15 @@
 				18A07F8F1F83958B0059E21E /* ZLSecondAFNetworking.m */,
 			);
 			path = ZLAFNetworking;
+			sourceTree = "<group>";
+		};
+		18C3BB421F8533CB00C84D4E /* KVO&Notification */ = {
+			isa = PBXGroup;
+			children = (
+				18C3BB431F8533CB00C84D4E /* NSObject+XWAdd.h */,
+				18C3BB441F8533CB00C84D4E /* NSObject+XWAdd.m */,
+			);
+			path = "KVO&Notification";
 			sourceTree = "<group>";
 		};
 		27F9CEBD4E83331F4D574DD6 /* Frameworks */ = {
@@ -518,6 +534,8 @@
 				18A07F941F83C9EE0059E21E /* SubjectModel.m */,
 				18A07F961F83CB7B0059E21E /* ItemPOModel.h */,
 				18A07F971F83CB7B0059E21E /* ItemPOModel.m */,
+				18C3BB3F1F84878600C84D4E /* TypePOModel.h */,
+				18C3BB401F84878600C84D4E /* TypePOModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -1388,6 +1406,7 @@
 				18A07F901F83958B0059E21E /* UploadParam.m in Sources */,
 				8334E45A1F77EC8A00706219 /* UILabel+mYK.m in Sources */,
 				83EC81A51F5E4088000B06EB /* NJKWebViewProgressView.m in Sources */,
+				18C3BB411F84878600C84D4E /* TypePOModel.m in Sources */,
 				83D06E5D1F6BD9D9006374F3 /* IQNSArray+Sort.m in Sources */,
 				83D06E631F6BD9D9006374F3 /* IQKeyboardManager.m in Sources */,
 				83EC81E01F5F8D63000B06EB /* MKAnnotationView+WebCache.m in Sources */,
@@ -1417,6 +1436,7 @@
 				83EC81E61F5F8D63000B06EB /* SDWebImageDecoder.m in Sources */,
 				83EC81711F5E3D5C000B06EB /* AFURLResponseSerialization.m in Sources */,
 				8334E4551F77E4A200706219 /* TIbgview.m in Sources */,
+				18C3BB451F8533CB00C84D4E /* NSObject+XWAdd.m in Sources */,
 				83EC820D1F5FBA57000B06EB /* nnnViewController.m in Sources */,
 				83EC81DF1F5F8D63000B06EB /* FLAnimatedImageView+WebCache.m in Sources */,
 				8334E4491F77AA8300706219 /* DetialMainView.m in Sources */,

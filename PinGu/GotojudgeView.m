@@ -24,80 +24,59 @@
     self.userInteractionEnabled=YES;
 
     self.backgroundColor=[UIColor colorWithHexString:@"#F1F1F1"];
-//    UIView*leftvIEW=[[UIView alloc]init];
-//    leftvIEW.backgroundColor=[UIColor whiteColor];
-//    [self addSubview:leftvIEW];
-//    [leftvIEW mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(self.mas_top).offset(0.0f);
-//        make.left.mas_equalTo(self.mas_left).offset(0.0f);
-//        make.bottom.mas_equalTo(self.mas_bottom).offset(0.0f);
-//        make.width.mas_equalTo(@160.0f);
-//    }];
-//    
-//    
-//    UIButton*zzbut=[UIButton buttonWithType:UIButtonTypeCustom];
-//    [zzbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [zzbut setTitle:@"组织建设" forState:UIControlStateNormal];
-//    [zzbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
-//    [zzbut.layer setBorderWidth:1.0f];
-//    [self addSubview:zzbut];
-//    [zzbut mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
-//        make.top.mas_equalTo(leftvIEW.mas_top).offset(0.0f);
-//        make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
-//        make.height.mas_equalTo(@55.0f);
-//        
-//    }];
-//    
-//    
-//    UIButton*dwbut=[UIButton buttonWithType:UIButtonTypeCustom];
-//    [dwbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [dwbut setTitle:@"队伍建设" forState:UIControlStateNormal];
-//    [dwbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
-//    [dwbut.layer setBorderWidth:1.0f];
-//    [self addSubview:dwbut];
-//    [dwbut mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
-//        make.top.mas_equalTo(zzbut.mas_bottom).offset(0.0f);
-//        make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
-//        make.height.mas_equalTo(@55.0f);
-//    }];
-//    
-//    UIButton*glbut=[UIButton buttonWithType:UIButtonTypeCustom];
-//    [glbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [glbut setTitle:@"管理制度" forState:UIControlStateNormal];
-//    [glbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
-//    [glbut.layer setBorderWidth:1.0f];
-//    [self addSubview:glbut];
-//    
-//    [glbut mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
-//        make.top.mas_equalTo(dwbut.mas_bottom).offset(0.0f);
-//        make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
-//        make.height.mas_equalTo(@55.0f);
-//        
-//    }];
-//    
-//    UIButton*zdmbut=[UIButton buttonWithType:UIButtonTypeCustom];
-//    [zdmbut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [zdmbut setTitle:@"管理制度" forState:UIControlStateNormal];
-//    [zdmbut.layer setBorderColor:[UIColor colorWithHexString:@"#f1f1f1"].CGColor];
-//    [zdmbut.layer setBorderWidth:1.0f];
-//    [self addSubview:zdmbut];
-//    
-//    [zdmbut mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(leftvIEW.mas_left).offset(0.0f);
-//        make.top.mas_equalTo(glbut.mas_bottom).offset(0.0f);
-//        make.right.mas_equalTo(leftvIEW.mas_right).offset(0.0f);
-//        make.height.mas_equalTo(@55.0f);
-//    }];
-//    
-//    
-
     self.leftARR = dataArray;
     NSLog(@"左边传入的数组的个数:%ld",self.leftARR.count);
     [self loadLeftTableView];
-    [self loadRightView];
+    
+    
+    [self xw_addNotificationForName:@"SELECT_FIRST" block:^(NSNotification * _Nonnull notification) {
+        NSString * ishave = notification.userInfo[@"isHave"];
+        
+        if ([ishave isEqualToString:@"yes"]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weak_self(self) selectFirstItemPO];
+            });
+        }
+        else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSMutableArray * arr = [NSMutableArray new];
+                [self loadRightViewWithItemPOModelARR:arr];
+            });
+
+        }
+       
+    }];
+}
+/**
+ *==========ZL注释start===========
+ *1.默认选择第一个
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)selectFirstItemPO{
+
+    
+    TypePOModel * model = [self.leftARR objectAtIndex:0];
+    
+    NSArray * itemARR = model.evaluationItemPOList;
+    
+    NSMutableArray * arr = [NSMutableArray new];
+    for (int i = 0; i< itemARR.count; i++) {
+        NSDictionary * dic = itemARR[i];
+        ItemPOModel * model = [ItemPOModel new];
+        
+        model.content = dic[@"content"];
+        model.remark = dic[@"remark"];
+        model.score = dic[@"score"];
+        model.id = dic[@"id"];
+        
+        [arr addObject:model];
+    }
+    
+    [self loadRightViewWithItemPOModelARR:arr];
+    
 }
 
 #pragma mark ===================UITableViewDelegate方法实现   START==================
@@ -119,10 +98,32 @@
         make.width.mas_equalTo(@160.0f);
         
     }];
+    
+    
+    /*
+     *加载右边视图
+     */
+    self.rollView = [[RollViewZL alloc]initRoll];
+    self.rollView.backgroundColor = [UIColor whiteColor];
+
+    //    [rollview setCurrentIndexBlocksWith:^(NSInteger currentIndex) {
+    //        NSLog(@"当前的位置：%ld",currentIndex);
+    //    }];
+    
+    [self addSubview:self.rollView];
+    [self.rollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.mas_top).offset(0.0f);
+        make.left.mas_equalTo(self.leftTableView.mas_right).offset(20.0f);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(-20.0f);
+        make.right.mas_equalTo(self.mas_right).offset(-15.0f);
+    }];
+    
+
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-
+    NSLog(@"在Sections方法中执行刷新方法");
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -133,6 +134,24 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击了cell");
+     TypePOModel * model = [self.leftARR objectAtIndex:indexPath.row];
+
+    NSArray * itemARR = model.evaluationItemPOList;
+    
+    NSMutableArray * arr = [NSMutableArray new];
+    for (int i = 0; i< itemARR.count; i++) {
+        NSDictionary * dic = itemARR[i];
+        ItemPOModel * model = [ItemPOModel new];
+        
+        model.content = dic[@"content"];
+        model.remark = dic[@"remark"];
+        model.score = dic[@"score"];
+        model.id = dic[@"id"];
+        
+        [arr addObject:model];
+    }
+    
+    [self loadRightViewWithItemPOModelARR:arr];
 }
 - (TiJiaoTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
@@ -146,7 +165,7 @@
 //        cell = [UINib nibWithNibName: bundle:<#(nullable NSBundle *)#>];
 //        
 //    }
-    SubjectModel * model = [self.leftARR objectAtIndex:indexPath.row];
+    TypePOModel * model = [self.leftARR objectAtIndex:indexPath.row];
     cell.timuLabel.text = model.name ? model.name:@"团队建设";
     return cell;
 }
@@ -156,41 +175,38 @@
 #pragma mark =================== END ==================
 
 #pragma mark ===================右边详情视图 START==================
+/**
+ *==========ZL注释start===========
+ *1.创建右边视图
+ *
+ *2.传入 itemPOModel数组创建
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)loadRightViewWithItemPOModelARR:(NSMutableArray *)itemModelARR{
+    
+    [self.rollView loadTopLunXianViewWithSuperView:self withImageARR:itemModelARR withRollType:LABEL_ROLL withTapViewAction:^(NSInteger index) {
+        
+        
+    } withCurrentIndex:^(NSInteger currentIndex) {
+        
+        NSLog(@"当前位置：%ld",currentIndex);
+        
+    }];
 
-- (void)loadRightView{
+    /*
+     NSArray*arrayss=[NSArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
+     for (NSUInteger i =0; i<arrayss.count; i++) {
+     TIbgview*Bgview=[[TIbgview alloc]init];
+     Bgview.backgroundColor=[UIColor purpleColor];
+     [TimuScrollview addSubview:Bgview];
+     
+     }*/
+//    [self bringSubviewToFront:rollview];
+    
 
-        TimuScrollview=[[UIScrollView alloc]init];
-        TimuScrollview.userInteractionEnabled=YES;
-        TimuScrollview.backgroundColor=[UIColor whiteColor];
-    
-        [self addSubview:TimuScrollview];
-        [TimuScrollview mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.mas_top).offset(0.0f);
-            make.left.mas_equalTo(self.leftTableView.mas_right).offset(20.0f);
-            make.bottom.mas_equalTo(self.mas_bottom).offset(-20.0f);
-            make.right.mas_equalTo(self.mas_right).offset(-15.0f);
-        }];
-        /*
-        NSArray*arrayss=[NSArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
-        for (NSUInteger i =0; i<arrayss.count; i++) {
-            TIbgview*Bgview=[[TIbgview alloc]init];
-            Bgview.backgroundColor=[UIColor purpleColor];
-            [TimuScrollview addSubview:Bgview];
-    
-        }*/
-    
-        TIbgview*Bgview=[[TIbgview alloc]init];
-    
-        Bgview.userInteractionEnabled=YES;
-        Bgview.backgroundColor=[UIColor whiteColor];
-        [Bgview initwithDAta:nil];
-        [self addSubview:Bgview];
-        [Bgview mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.bottom.mas_equalTo(TimuScrollview).offset(0.0f);
-        }];
     
 }
-
 #pragma mark ===================右边详情视图 END ==================
 
 
@@ -199,6 +215,13 @@
         _leftARR = [NSMutableArray new];
     }
     return _leftARR;
+}
+
+- (NSMutableDictionary *)rollViewDIC{
+    if (!_rollViewDIC) {
+        _rollViewDIC = [[NSMutableDictionary alloc]init];
+    }
+    return _rollViewDIC;
 }
 
 @end

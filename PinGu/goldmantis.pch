@@ -15,6 +15,7 @@
 #import "CommonZL.h"
 #import "CommonColorURL.h"
 #import "ZLSecondAFNetworking.h"
+#import "NSObject+XWAdd.h"
 
 #import "SDWebImage/UIImageView+WebCache.h"
 

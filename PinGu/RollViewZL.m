@@ -10,22 +10,144 @@
 
 
 @implementation RollViewZL{
+    BOOL _Tend;//pageControl
     UIScrollView * _scrollview;
     UIPageControl * _pageControl;
     NSMutableArray * _imageARR;
+    NSInteger  _tapIndex;
+    NSInteger _currentIndex;
+    NSInteger _currentRollIndex;//题目视图的Index
+    NSInteger _oldRollIndex;
+    UIView * _backgroundView;
+    UIView * _scoreView;
+    UITextView * _kouTextView;
+    PPNumberButton * _numButton;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 /*
      [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(handleSchedule) userInfo:nil repeats:YES];
  */
 
+- (instancetype)initRoll{
+
+    self = [super init];
+    if (self) {
+        
+        UILabel * pingLabel = [UILabel new];
+        pingLabel.font = [UIFont systemFontOfSize:20.0f];
+        pingLabel.text = @"评估内容：";
+        pingLabel.backgroundColor = [UIColor whiteColor];
+        [self addSubview:pingLabel];
+        [pingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mas_top).offset(10.0f);
+            make.left.mas_equalTo(self.mas_left).offset(10.0);
+            make.size.mas_equalTo(CGSizeMake(120, 30));
+        }];
+        
+        self.userInteractionEnabled = YES;
+        _backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 315.0/560.0*self.frame.size.width)];
+        _backgroundView.backgroundColor = [UIColor whiteColor];
+        _scrollview = [UIScrollView new];
+        _scrollview.delegate = self;
+        _scrollview.showsVerticalScrollIndicator = YES;
+        _scrollview.showsHorizontalScrollIndicator = YES;
+        //[self.lunXianScrollView setContentSize:CGSizeMake(SIZE_WIDTH*3, 315.0/560.0*SIZE_WIDTH)];
+        _scrollview.backgroundColor  = [UIColor whiteColor];
+        _scrollview.bounces = NO;
+        _scrollview.pagingEnabled = YES;
+        //_scrollview.contentSize = CGSizeMake(1000, 200);
+        [self addSubview:_scrollview];
+        //[self addSubview:_backgroundView];
+        
+        [_scrollview mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.mas_left);
+            make.right.mas_equalTo(self.mas_right);
+            make.top.mas_equalTo(pingLabel.mas_bottom);
+            make.height.mas_equalTo(210.0f);
+//            make.bottom.mas_equalTo(self.mas_bottom);
+        }];
+
+        NSLog(@"初始化_scrollView的frame值为：%g---%g", self.bounds.size.width, _scrollview.bounds.size.height);
+
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(SIZE_WIDTH-100, 315.0/560.0*SIZE_WIDTH-20, 80, 20)];
+        _pageControl.userInteractionEnabled = YES;
+        
+        //    [backgroundView addSubview:_pageControl];
+        
+        _scoreView = [UIView new];
+        _scoreView.backgroundColor = [UIColor colorWithHexString:LightGrayColor_ZL_TIJIAO];
+        [self addSubview:_scoreView];
+        [_scoreView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_scrollview.mas_bottom).offset(10.0f);
+            make.left.mas_equalTo(self.mas_left).offset(10.0f);
+            make.right.mas_equalTo(self.mas_right).offset(-10.0f);
+            make.bottom.mas_equalTo(self.mas_bottom).offset(-10.0f);
+        }];
+        
+        
+        UIImageView * logo1Image = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"评估结果"]];
+        [_scoreView addSubview:logo1Image];
+        
+        [logo1Image mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(_scoreView).offset(-60);
+            make.top.mas_equalTo(_scoreView.mas_top).offset(10);
+            make.size.mas_equalTo(CGSizeMake(24, 24));
+        }];
+        
+        UILabel * titleLabel = [UILabel new];
+        titleLabel.text = @"评估结果";
+        titleLabel.font = [UIFont systemFontOfSize:20.0f];
+        
+        [_scoreView addSubview:titleLabel];
+        
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(logo1Image.mas_right).offset(10.0f);
+            make.top.mas_equalTo(_scoreView.mas_top).offset(10);
+            make.size.mas_equalTo(CGSizeMake(120, 30));
+        }];
+        
+        
+        UILabel * deFenLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 100, 70, 30)];
+        deFenLabel.text = @"得分情况:";
+        deFenLabel.font = [UIFont systemFontOfSize:14.0];
+        UILabel * kouFenLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 150, 70, 30)];
+        kouFenLabel.text = @"扣分原因:";
+        kouFenLabel.font = [UIFont systemFontOfSize:14.0];
+        
+        [_scoreView addSubview:deFenLabel];
+        [_scoreView addSubview:kouFenLabel];
+        
+        _numButton = [PPNumberButton numberButtonWithFrame:CGRectMake(100, 100, 110, 30)];
+        // 开启抖动动画
+        _numButton.shakeAnimation = YES;
+//        // 设置最小值
+//        _numButton.minValue = 0;
+//        // 设置最大值
+//        _numButton.maxValue = 5;
+        // 设置输入框中的字体大小
+        _numButton.inputFieldFont = 23;
+        _numButton.increaseTitle = @"＋";
+        _numButton.decreaseTitle = @"－";
+        
+        _numButton.numberBlock = ^(NSString *num){
+            NSLog(@"%@",num);
+        };
+        [_scoreView addSubview:_numButton];
+        
+        UITextView * textView = [UITextView new];
+        textView.backgroundColor = [UIColor colorWithHexString:LightGrayColor_ZL_TIJIAO];
+        [_scoreView addSubview:textView];
+        
+        [textView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(kouFenLabel.mas_top);
+            make.left.mas_equalTo(kouFenLabel.mas_right).offset(10);
+            make.right.mas_equalTo(_scoreView).offset(-20.0f);
+            make.bottom.mas_equalTo(_scoreView).offset(-20.0f);
+        }];
+        
+    }
+    return self;
+}
 /**
  *==========ZL注释start===========
  *1.加载沦陷视图
@@ -34,176 +156,140 @@
  *3.返回当前视图Index
  *4.
  ===========ZL注释end==========*/
-- (void)loadTopLunXianViewWithSuperView:(id)sView withImageARR:(NSMutableArray *)imageARR withTapViewAction:(void (^)(NSInteger))tapActionBlcok withCurrentIndex:(void (^)(NSInteger))currentIndexBlock{
+- (void)loadTopLunXianViewWithSuperView:(id)sView withImageARR:(NSMutableArray *)imageARR withRollType:(ROLL_TYPE)rollType withTapViewAction:(void (^)(NSInteger))tapActionBlcok withCurrentIndex:(CurrentIndexBlock)currentIndexBlock{
 
-//    self.lunXianBackgroundView
-    UIView * backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SIZE_WIDTH, 315.0/560.0*SIZE_WIDTH)];
-    backgroundView.backgroundColor = [UIColor whiteColor];
-    
-    _scrollview = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SIZE_WIDTH, 315.0/560.0*SIZE_WIDTH)];
-    _scrollview.delegate = self;
-    _scrollview.showsVerticalScrollIndicator = NO;
-    _scrollview.showsHorizontalScrollIndicator = NO;
-    //[self.lunXianScrollView setContentSize:CGSizeMake(SIZE_WIDTH*3, 315.0/560.0*SIZE_WIDTH)];
-    _scrollview.backgroundColor  = [UIColor whiteColor];
-    _scrollview.bounces = NO;
-    _scrollview.pagingEnabled = YES;
-    
-    [backgroundView addSubview:_scrollview];
-    
-    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(SIZE_WIDTH-100, 315.0/560.0*SIZE_WIDTH-20, 80, 20)];
-    _pageControl.userInteractionEnabled = YES;
-    
-    [backgroundView addSubview:_pageControl];
+    _imageARR = imageARR;
+    NSLog(@"右边传入的数组个数：%ld",_imageARR.count);
 
+    switch (rollType) {
+        case IMAGEVIEW_ROLL:
+            [self loadLunXianImage];
+            break;
+        case LABEL_ROLL:
+            [self loadLabelRoll];
+            break;
+        default:
+            break;
+    }
     
-    [self loadLunXianImage];
+    self.currentBlock = currentIndexBlock;
 }
 
-//加载 沦陷图片
-- (void)loadLunXianImage{
+/**
+ *==========ZL注释start===========
+ *1.加载文字轮显
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)loadLabelRoll{
+    
+    for (UIView *view in _scrollview.subviews) {
+        [view removeFromSuperview];
+    }
+    if (_imageARR.count < 1) {
+        return;
+    }
+    
+//    _scrollview.contentOffset = CGPointMake(0, 0);
+    [_scrollview setContentOffset:CGPointMake(0, 0) animated:NO];
+    
     CGFloat imageScrollViewWidth = VIEWWIDTH;
     CGFloat imageScrollViewHeight = _scrollview.bounds.size.height;
     for (int i = 0; i < _imageARR.count; i ++) {
-        UIImageView *imageview =[[UIImageView alloc]initWithFrame:CGRectMake(imageScrollViewWidth*i, 0, imageScrollViewWidth,imageScrollViewHeight)];
-        //NSString * urlStr = self.lunXianImageARR[i][@"imgurl"];
+    
+        ItemPOModel * model = _imageARR[i];
         
-        //        if ([urlStr hasSuffix:@"webp"]) {
-        //            [imageview setZLWebPImageWithURLStr:urlStr withPlaceHolderImage:PLACEHOLDER_IMAGE];
-        //        } else {
-        HOmeBannerMTLModel * bannerModel = self.lunXianImageARR[i];
-        //[imageview sd_setImageWithURL:[NSURL URLWithString:bannerModel.pic] placeholderImage:[UIImage imageNamed:@"icon_default2"]];
+        //
+
+        NSString * contentString = [NSString stringWithFormat:@"%@ (%@分)",model.content,model.score];
         
-        //检测缓存中是否存在图片
-        UIImage *myCachedImage = [[SDImageCache sharedImageCache] imageFromCacheForKey:bannerModel.pic];
-        /*
-         SDWebImageManager *manager = [SDWebImageManager sharedManager];
-         // 取消正在下载的操作
-         //[manager cancelAll];
-         // 清除内存缓存
-         [manager.imageCache clearMemory];
-         //释放磁盘的缓存
-         [manager.imageCache clearDiskOnCompletion:^{
-         
-         }];
-         */
-        if (myCachedImage) {
-            NSLog(@"缓存中有图片");
-            [imageview sd_setImageWithURL:[NSURL URLWithString:bannerModel.pic] placeholderImage:[UIImage imageNamed:@"icon_default2"] options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                
-            } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                
-            }];
-        }
-        else{
-            NSLog(@"缓存中没有图片时执行方法");
-            [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:[NSURL URLWithString:bannerModel.pic] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                NSLog(@"处理下载进度");
-            } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
-                if (error) {
-                    NSLog(@"下载有错误");
-                }
-                if (image) {
-                    NSLog(@"下载图片完成");
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        // switch back to the main thread to update your UI
-                        [imageview setImage:image];
-                        //[cell layoutSubviews];
-                    });
-                    
-                    
-                    [[SDImageCache sharedImageCache] storeImage:image forKey:bannerModel.pic toDisk:NO completion:^{
-                        //NSLog(@"保存到磁盘中。。。。。。");
-                    }];
-                    //图片下载完成  在这里进行相关操作，如加到数组里 或者显示在imageView上
-                }
-            }];
-            
-        }
-        
-        //        }
-        //NSLog(@"imageview == %@",imageview.sd_imageURL);
-        
-        // imageview.contentMode = UIViewContentModeScaleAspectFit;
-        imageview.tag = i;
-        imageview.userInteractionEnabled = YES;
+        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(imageScrollViewWidth * i + 10, 0, imageScrollViewWidth-20.0,120)];
+        label.numberOfLines = 0;
+        label.minimumScaleFactor = 0.5;
+        label.adjustsFontSizeToFitWidth = YES;
+        label.font = [UIFont systemFontOfSize:17.0f];
+        label.text = contentString;
+        label.tag = i;
+        label.userInteractionEnabled = YES;
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped:)];
-        [imageview addGestureRecognizer:singleTap];
-        [self.lunXianScrollView addSubview:imageview];
+        [label addGestureRecognizer:singleTap];
         
-        UIView * backview = [[UIView alloc]initWithFrame:CGRectMake(0, imageScrollViewHeight-40, imageScrollViewWidth, 38)];
-        backview.backgroundColor = [UIColor blackColor];
-        backview.alpha = 0.3;
-        [imageview addSubview:backview];
-        UILabel * nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, imageScrollViewHeight-30, 250, 16)];
-        nameLabel.textColor = [UIColor whiteColor];
-        nameLabel.text = bannerModel.name;
-        nameLabel.font = [UIFont systemFontOfSize:13.0];
-        [imageview addSubview:nameLabel];
-        UILabel * subnameLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, imageScrollViewHeight-19, 250, 14)];
-        subnameLabel.textColor = [UIColor whiteColor];
-        //subnameLabel.text = bannerModel.subname;
-        subnameLabel.text = @"ddddddd林俊杰";
-        subnameLabel.font = [UIFont systemFontOfSize:10.0];
-        //[imageview addSubview:subnameLabel];
+        [_scrollview addSubview:label];
+        
+        
+        NSString * remarkStr = [NSString stringWithFormat:@"*备注说明：%@",model.remark];
+        UILabel * remarkLabel = [[UILabel alloc]initWithFrame:CGRectMake(imageScrollViewWidth * i+10, 120, imageScrollViewWidth-20.0, 80)];
+        remarkLabel.adjustsFontSizeToFitWidth = YES;
+        remarkLabel.minimumScaleFactor = 0.5f;
+        remarkLabel.numberOfLines = 0;
+        remarkLabel.font = [UIFont systemFontOfSize:14.0f];
+        remarkLabel.text = remarkStr;
+        [_scrollview addSubview:remarkLabel];
+        
+//        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(_scrollview.mas_top).offset(20.0f);
+//            make.left.mas_equalTo(_scrollview.mas_left).offset(10.0+i*imageScrollViewWidth);
+//            make.width.mas_equalTo(imageScrollViewWidth-20.0);
+//            make.bottom.mas_equalTo(_scrollview.mas_bottom);
+//        }];
+        
     }
-    self.lunXianScrollView.contentSize = CGSizeMake(imageScrollViewWidth*self.lunXianImageARR.count, 0);
     
-    _pageControl.numberOfPages = self.lunXianImageARR.count;
-    _pageControl.tintColor = [UIColor whiteColor];
-    _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
+    _scrollview.contentSize = CGSizeMake(imageScrollViewWidth * _imageARR.count, imageScrollViewHeight);
+   
+    NSLog(@"_scrollView的frame值为：%g---%g-----%g-------%g", _scrollview.bounds.size.width, _scrollview.bounds.size.height,_scrollview.contentSize.width,_scrollview.contentSize.height);
     
-}
-- (void)photoTapped:(UITapGestureRecognizer *)sender{
-    NSLog(@"点击了第几张:%ld",sender.view.tag);
-    HOmeBannerMTLModel * bannerModel = self.lunXianImageARR[sender.view.tag];
-    NSString * isVIPLevel = [[NSUserDefaults standardUserDefaults] objectForKey:MEMBER_VIP_LEVEL];
-    NSString * bannerVIP = [NSString stringWithFormat:@"%d",[bannerModel.vip intValue]];
+//    _pageControl.numberOfPages = _imageARR.count;
+//    _pageControl.tintColor = [UIColor whiteColor];
+//    _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
+    /**
+     *==========ZL注释start===========
+     *1.设置分数
+     *
+     *2.默认为 Index = 0
+     *3.
+     *4.
+     ===========ZL注释end==========*/
+    ItemPOModel * bannerModel = _imageARR[0];
+    NSString * score = bannerModel.score;
+    int maxInt = [score intValue];
+    float maxFloat = [score floatValue];
     
-    if ([isVIPLevel intValue] < [bannerModel.vip intValue] ) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(firstSubVC:withType:withName:withKey:withIsShiKan:)]) {
-            NSString * keyID = [NSString stringWithFormat:@"%@",bannerModel.id];
-            [self.delegate firstSubVC:self withType:2 withName:bannerModel.name withKey:keyID withIsShiKan:YES];
-        }
+    NSLog(@"maxInt-maxFloat：%d---%g",maxInt,maxFloat);
+    if (maxInt == maxFloat) {
+        NSLog(@"maxInt == maxFloat相同");
+        // 设置最小值
+        _numButton.minValue = 0;
+        // 设置最大值
+        _numButton.maxValue = maxInt;
     }
     else{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(firstSubVC:withType:withName:withKey:withIsShiKan:)]) {
-            NSString * keyID = [NSString stringWithFormat:@"%@",bannerModel.id];
-            [self.delegate firstSubVC:self withType:2 withName:bannerModel.name withKey:keyID withIsShiKan:NO];
-        }
+        NSLog(@"maxInt == maxFloat不同");
+        // 设置最小值
+        _numButton.minValue = 0;
+        // 设置最大值
+        _numButton.maxValue = maxFloat *10;
     }
+}
+
+
+/**
+ *==========ZL注释start===========
+ *1.加载图片轮显
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)loadLunXianImage{
+
     
-    //    if ([bannerVIP isEqualToString:@"1"]) {
-    //        if ([isVIP isEqualToString:@"1"]) {
-    //            if (self.delegate && [self.delegate respondsToSelector:@selector(firstSubVC:withType:withName:withKey:)]) {
-    //                NSString * keyID = [NSString stringWithFormat:@"%@",bannerModel.id];
-    //                [self.delegate firstSubVC:self withType:2 withName:bannerModel.name withKey:keyID];
-    //            }
-    //        }
-    //        else{
-    //            AlertViewCustomZL * alertZL = [[AlertViewCustomZL alloc]init];
-    //            alertZL.titleName = @"需要开通VIP才能观看";
-    //            alertZL.cancelBtnTitle = @"取消";
-    //            alertZL.okBtnTitle = @"开通";
-    //            [alertZL cancelBlockAction:^(BOOL success) {
-    //                [alertZL hideCustomeAlertView];
-    //            }];
-    //            [alertZL okButtonBlockAction:^(BOOL success) {
-    //                NSLog(@"点击了去支付按钮");
-    //            }];
-    //            [alertZL showCustomAlertView];
-    //        }
-    //
-    //    }else{
-    //
-    //        if (self.delegate && [self.delegate respondsToSelector:@selector(firstSubVC:withType:withName:withKey:)]) {
-    //            NSString * keyID = [NSString stringWithFormat:@"%@",bannerModel.id];
-    //            [self.delegate firstSubVC:self withType:2 withName:bannerModel.name withKey:keyID];
-    //        }
-    //    }
-    
-    
-    
+}
+
+- (void)photoTapped:(UITapGestureRecognizer *)sender{
+    NSLog(@"点击了第几张:%ld",sender.view.tag);
 }
 
 
@@ -211,12 +297,64 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 
 //NSLog(@"执行了scrollViewDidScroll方法");
-    if (scrollView == self.lunXianScrollView) {
-    NSInteger i = scrollView.contentOffset.x/scrollView.frame.size.width + 1;
+    if (scrollView == _scrollview) {
+        NSInteger i = scrollView.contentOffset.x/scrollView.frame.size.width + 1;
         _pageControl.currentPage = i - 1;
+        _currentRollIndex = i - 1;
+        //self.currentBlock(i-1);
     }
     
 }
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    NSLog(@"结束动画");
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    NSLog(@"结束结束当前页数：%ld---上一次页面：%ld",_currentRollIndex,_oldRollIndex);
+    if (_currentRollIndex == _oldRollIndex) {
+        
+        
+    }
+    else{
+        self.currentBlock(_currentRollIndex);
+        
+        ItemPOModel * bannerModel = _imageARR[_currentRollIndex];
+        NSString * score = bannerModel.score;
+        int maxInt = [score intValue];
+        float maxFloat = [score floatValue];
+        
+        NSLog(@"maxInt-maxFloat：%d---%g",maxInt,maxFloat);
+        if (maxInt == maxFloat) {
+            NSLog(@"maxInt == maxFloat相同");
+                    // 设置最小值
+                    _numButton.minValue = 0;
+                    // 设置最大值
+                    _numButton.maxValue = maxInt;
+        }
+        else{
+            NSLog(@"maxInt == maxFloat不同");
+                    // 设置最小值
+                    _numButton.minValue = 0;
+                    // 设置最大值
+                    _numButton.maxValue = maxFloat *10;
+        }
+
+        
+        _oldRollIndex = _currentRollIndex;
+        
+        
+    }
+
+    
+}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+
+    NSLog(@"结束拖拽");
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    NSLog(@"开始拖拽");
+}
+
 //定时任务方法调用：（注意计算好最后一页循环滚动）
 
 -(void)handleSchedule{
@@ -224,18 +362,18 @@
     _pageControl.currentPage++;
     if(_Tend){
         
-        [self.lunXianScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [_scrollview setContentOffset:CGPointMake(0, 0) animated:YES];
         
-        _pageControl.currentPage=0;
+        _pageControl.currentPage = 0;
         
         
     }else{
         
-        [self.lunXianScrollView  setContentOffset:CGPointMake(_pageControl.currentPage*SIZE_WIDTH, 0) animated:YES];
+        [_scrollview  setContentOffset:CGPointMake(_pageControl.currentPage * SIZE_WIDTH, 0) animated:YES];
         
     }
     
-    if (_pageControl.currentPage==_pageControl.numberOfPages-1) {
+    if (_pageControl.currentPage == _pageControl.numberOfPages - 1) {
         
         _Tend=YES;
         
@@ -247,5 +385,10 @@
     
 }
 #pragma end mark
+
+#pragma mark ===================设置当前页面的Block==================
+- (void)setCurrentIndexBlocksWith:(CurrentIndexBlock)block{
+    self.currentBlock = block;
+}
 
 @end

@@ -15,7 +15,7 @@
 @property (nonatomic, copy) NSString *deleted;
 @property (nonatomic, copy) NSString *evaluationId;
 @property (nonatomic, copy) NSString *evaluationSubjectId;
-@property (nonatomic, strong) NSArray *evaItemPOList;
+@property (nonatomic, strong) NSArray *evaluationTypePOList;
 @property (nonatomic, copy) NSString *id;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *rowVersion;
