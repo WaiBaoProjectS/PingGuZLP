@@ -89,7 +89,14 @@
 -(void)loadNsdata{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *tokenid = [ user objectForKey:@"userPassWord"];
-    NSDictionary *pardic=@{@"method":@"api.pias.find.institution.tree",@"tokenId":tokenid,@"institutionSiteId":_institutionSiteId,@"pageNumber":@"1",@"pageSize":@"0"};
+    NSDictionary *pardic=@{
+                           @"method":@"api.pias.find.institution.tree",
+                           @"tokenId":tokenid,
+                           @"institutionSiteId":_institutionSiteId,
+                           @"pageNumber":@"1",
+                           @"pageSize":@"0"
+                        };
+    
     [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:@"1" success:^(id json) {
         //NSLog(@"已经评估和未评估的数据：%@",json);
         NSMutableArray*firstAlerdyArray=json[@"institutionList"];

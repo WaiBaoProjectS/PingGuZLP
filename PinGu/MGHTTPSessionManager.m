@@ -14,6 +14,7 @@ static dispatch_once_t onceToken;
 + (instancetype)shareNetWorkingTools{
     dispatch_once(&onceToken, ^{
         _shareInstance = [[MGHTTPSessionManager alloc] init];
+         _shareInstance.requestSerializer.timeoutInterval = 30.0f;//延迟时间
         AFJSONResponseSerializer *serializer = [AFJSONResponseSerializer serializer];
        // AFJSONRequestSerializer*Rserializer=[AFJSONRequestSerializer serializer];
         [serializer setRemovesKeysWithNullValues:NO];

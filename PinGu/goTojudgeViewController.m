@@ -17,6 +17,7 @@
     NSMutableArray * _buttonListARR;
     NSMutableArray * _buttonStateARR;
     NSInteger _currentLiuNum;
+    ADDPhoneView * _addPhoneView;
     
 }
 
@@ -44,6 +45,7 @@
     UIImageView*jiGouImg=[[UIImageView alloc]init];
     jiGouImg.image=[UIImage imageNamed:@"绩效评估-拷贝-2"];
     [viewNav addSubview:jiGouImg];
+    
     [jiGouImg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(viewNav.mas_top).offset(7.0f);
         make.left.mas_equalTo(viewNav.mas_left).offset(10.0f);
@@ -104,6 +106,25 @@
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
     }];
     
+    _addPhoneView = [ADDPhoneView new];
+    _addPhoneView.backgroundColor = [UIColor whiteColor];
+    _addPhoneView.userInteractionEnabled = YES;
+    [self.view addSubview:_addPhoneView];
+    [_addPhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(0.0f);
+        make.left.right.mas_equalTo(self.view).offset(0.0f);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
+    }];
+    _addPhoneView.phoneARR = [NSMutableArray new];
+    [_addPhoneView createCollectionView];
+    [_addPhoneView setClickAddPhoneBlockAction:^(NSInteger index) {
+        //添加图片，打开控制器
+        [weak_self(self) openPhoneCameraAction];
+        
+    }];
+    
+    _addPhoneView.hidden = YES;
+    
 }
 /**
  *==========ZL注释start===========
@@ -161,7 +182,7 @@
 -(void)LloadNsdata{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *tokenid = [ user objectForKey:@"userPassWord"];
+    NSString *tokenid = [user objectForKey:@"userPassWord"];
     NSDictionary *pardic=@{@"method":TiJiaoFunction_NAME,
                            @"tokenId":tokenid,
                            @"id":self.listID};
@@ -255,8 +276,19 @@
 }
 
 -(void)clickmk:(LiuCUIbutton*)sender{
+    NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
+    if (sender.tag == self.leftSubjectARR.count-1) {
+        _addPhoneView.hidden = NO;
+        self.viewss.hidden = YES;
+        
+        
+    }
+    else{
+        _addPhoneView.hidden = YES;
+        self.viewss.hidden = NO;
+         [self creatLeftViewWithIndex:sender.tag];
+    }
    
-    [self creatLeftViewWithIndex:sender.tag];
     
 }
 -(void)submit{
@@ -265,8 +297,103 @@
 }
 
 
+/**
+ *==========ZL注释start===========
+ *1.多图添加
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)openPhoneCameraAction{
 
+    RITLPhotoNavigationViewModel * viewModel = [RITLPhotoNavigationViewModel new];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    //    设置需要图片剪切的大小，不设置为图片的原比例大小
+    //    viewModel.imageSize = _assetSize;
+    
+    viewModel.RITLBridgeGetImageBlock = ^(NSArray <UIImage *> * images){
+        
+        NSLog(@"获取几张图片：%ld",images.count);
+        //获得图片
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        
+        strongSelf.imageARR = images;
+        
+//        strongSelf.assets = images;
+//        
+//        [strongSelf.collectionView reloadData];
+        [_addPhoneView reloadCollectionWith:images];
+    };
+    
+    viewModel.RITLBridgeGetImageDataBlock = ^(NSArray <NSData *> * datas){
+        //可以进行数据上传操作..
+        NSLog(@"获取图片资源：%ld",datas.count);
+        [weak_self(self) upLoadImageWith:datas];
 
+    };
+    
+    RITLPhotoNavigationViewController * viewController = [RITLPhotoNavigationViewController photosViewModelInstance:viewModel];
+    
+    [self presentViewController:viewController animated:true completion:^{}];
+    
+    
+}
+/**
+ *==========ZL注释start===========
+ *1.多图上传到服务器
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)upLoadImageWith:(NSArray<NSData *> *) dataARR{
+
+    NSString * tokenID = [[NSUserDefaults standardUserDefaults] objectForKey:@"userPassWord"];
+    
+    NSMutableString * allDataString = [NSMutableString new];
+    for (int i=0; i<dataARR.count; i++) {
+        
+        NSData * data = dataARR[i];
+        UIImage *image = [UIImage imageWithData:data];
+        NSData * data02 = UIImageJPEGRepresentation(image, 0.1);
+//        NSData * base64Data = [data base64EncodedDataWithOptions:0];
+        
+        NSString * base64String = [data02 base64EncodedStringWithOptions:0];
+        [allDataString appendString:base64String];
+        
+    }
+    //NSLog(@"图片转64字符串：%@",allDataString);
+    NSDictionary * dic = @{
+                           @"tokenId":tokenID,
+                           @"method":@"api.auth.upload.file",
+                           @"extension":@".jpg",
+                           @"fileType":@"IMAGE",
+                           @"data":@"dfasdgadsg"
+                           };
+    
+    /*
+     参数method (必填)	api.auth.upload.file
+     参数tokenId(必填)
+     参数 extension(必填)	.jpg | .png
+     参数 fileType(必填)	IMAGE
+     参数 data(必填)	Base64编码字符串
+     */
+
+    [NetWorkingTool postWithURL:CommonURL_ZL parameters:dic LX:@"1" success:^(id json) {
+        NSLog(@"上传图片返回信息：%@",json);
+    } failure:^(NSError *error) {
+        NSLog(@"上传图片错误：%@",error);
+    }];
+//    [UploadImageZL uploadImageWithPath:CommonURL_ZL_UPLOADIMAGE photos:dataARR params:dic success:^(id Json) {
+//        
+//    } failure:^{
+//        
+//    }];
+    
+}
 
 
 #pragma mark ===================懒加载==================
@@ -277,6 +404,12 @@
     }
     return _leftSubjectARR;
     
+}
+- (NSArray<UIImage *> *)imageARR{
+    if (!_imageARR) {
+        _imageARR = [NSArray new];
+    }
+    return _imageARR;
 }
 
 @end

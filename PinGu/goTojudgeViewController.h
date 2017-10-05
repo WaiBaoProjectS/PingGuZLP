@@ -12,6 +12,9 @@
 #import "ItemPOModel.h"
 #import "RollViewZL.h"
 #import "TypePOModel.h"
+#import "ADDPhoneView.h"
+#import "RITLPhotos.h"
+#import "UploadImageZL.h"
 
 @interface goTojudgeViewController : UIViewController
 @property(nonatomic,copy)NSString*listID;
@@ -19,5 +22,6 @@
 
 @property(nonatomic,strong)GotojudgeView*viewss;
 @property (nonatomic, strong) NSMutableArray *leftSubjectARR;
+@property (nonatomic, strong) NSArray<UIImage *> *imageARR;
 
 @end
