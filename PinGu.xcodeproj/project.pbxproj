@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1812A8BC1F8701E6000517D1 /* PingProgressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1812A8BB1F8701E6000517D1 /* PingProgressModel.m */; };
 		18A07F901F83958B0059E21E /* UploadParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F8B1F83958B0059E21E /* UploadParam.m */; };
 		18A07F911F83958B0059E21E /* ZLAFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F8D1F83958B0059E21E /* ZLAFNetworking.m */; };
 		18A07F921F83958B0059E21E /* ZLSecondAFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F8F1F83958B0059E21E /* ZLSecondAFNetworking.m */; };
@@ -183,6 +184,8 @@
 
 /* Begin PBXFileReference section */
 		055A5723B21E46F5D714A183 /* Pods-PinGuUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinGuUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinGuUITests/Pods-PinGuUITests.release.xcconfig"; sourceTree = "<group>"; };
+		1812A8BA1F8701E6000517D1 /* PingProgressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingProgressModel.h; sourceTree = "<group>"; };
+		1812A8BB1F8701E6000517D1 /* PingProgressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PingProgressModel.m; sourceTree = "<group>"; };
 		18A07F8A1F83958B0059E21E /* UploadParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadParam.h; sourceTree = "<group>"; };
 		18A07F8B1F83958B0059E21E /* UploadParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadParam.m; sourceTree = "<group>"; };
 		18A07F8C1F83958B0059E21E /* ZLAFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLAFNetworking.h; sourceTree = "<group>"; };
@@ -817,6 +820,8 @@
 				18A07F971F83CB7B0059E21E /* ItemPOModel.m */,
 				18C3BB3F1F84878600C84D4E /* TypePOModel.h */,
 				18C3BB401F84878600C84D4E /* TypePOModel.m */,
+				1812A8BA1F8701E6000517D1 /* PingProgressModel.h */,
+				1812A8BB1F8701E6000517D1 /* PingProgressModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -1701,6 +1706,7 @@
 				8334E45A1F77EC8A00706219 /* UILabel+mYK.m in Sources */,
 				83EC81A51F5E4088000B06EB /* NJKWebViewProgressView.m in Sources */,
 				18C3BB9F1F85EE5E00C84D4E /* RITLPhotoBaseViewModel.m in Sources */,
+				1812A8BC1F8701E6000517D1 /* PingProgressModel.m in Sources */,
 				18C3BB411F84878600C84D4E /* TypePOModel.m in Sources */,
 				83D06E5D1F6BD9D9006374F3 /* IQNSArray+Sort.m in Sources */,
 				83D06E631F6BD9D9006374F3 /* IQKeyboardManager.m in Sources */,

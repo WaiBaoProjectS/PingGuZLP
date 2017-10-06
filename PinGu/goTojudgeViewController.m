@@ -13,10 +13,13 @@
 #import "LiuCUIbutton.h"
 #import "GotojudgeView.h"
 @interface goTojudgeViewController (){
-
+    
     NSMutableArray * _buttonListARR;
     NSMutableArray * _buttonStateARR;
     NSInteger _currentLiuNum;
+    NSInteger _currentSubjectIndex;
+    NSInteger _currentTypeIndex;
+    NSInteger _currentItemIndex;
     ADDPhoneView * _addPhoneView;
     
 }
@@ -71,9 +74,81 @@
     [super viewDidLoad];
     //加载数据
     [self LloadNsdata];
+    _currentTypeIndex = 0;
+    _currentItemIndex = 0;
+    _currentSubjectIndex = 0;
     
-
+    self.finishedPingItemsDic = [[NSMutableDictionary alloc]init];
+    
+    [self xw_addNotificationForName:TextViewChangeNotifications block:^(NSNotification * _Nonnull notification) {
+        NSString * textString = notification.userInfo[@"text"];
+        [weak_self(self) addPingGuToArrayWith:textString];
+    }];
 }
+/**
+ *==========ZL注释start===========
+ *1.添加评估记录
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)addPingGuToArrayWith:(NSString *)string{
+    NSLog(@"传入的参数：%@",string);
+    if (_currentSubjectIndex < self.leftSubjectARR.count) {
+        SubjectModel *subjectModel = self.leftSubjectARR[_currentSubjectIndex];
+        if (_currentTypeIndex < subjectModel.evaluationTypePOList.count) {
+            NSDictionary * typeModelDic = subjectModel.evaluationTypePOList[_currentTypeIndex];
+            NSArray * itemARR = typeModelDic[@"evaluationItemPOList"];
+            if (_currentItemIndex < itemARR.count) {
+                NSDictionary * itemDic = itemARR[_currentItemIndex];
+                NSLog(@"当前题目所在Subject：%ld,所在Type：%ld,所在Item：%ld,题目id：%@",_currentSubjectIndex,_currentTypeIndex,_currentItemIndex,itemDic[@"id"]);
+                if ([string isEqualToString:@"delete"]) {
+                    [self.finishedPingItemsDic removeObjectForKey:itemDic[@"id"]];
+                }
+                else{
+//                    [self.finishedPingItemsDic setObject:string forKey:itemDic[@"id"]];
+                    [self.finishedPingItemsDic setValue:string forKey:itemDic[@"id"]];
+                }
+                //检测该 Subject 是否评分完成
+                
+                [self jianCeIsFinished];
+            }
+        }
+    }
+}
+
+/**
+ *==========ZL注释start===========
+ *1.检测该Subject是否 评分完成
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+
+- (void)jianCeIsFinished{
+
+    int singleSubjectAllItem = 0;
+    SubjectModel *subjectModel = self.leftSubjectARR[_currentSubjectIndex];
+    NSArray * typeARR = subjectModel.evaluationTypePOList;
+    for (int i = 0; i< typeARR.count; i++) {
+        
+        NSDictionary * typeModelDic = subjectModel.evaluationTypePOList[i];
+        NSArray * itemARR = typeModelDic[@"evaluationItemPOList"];
+        for (int j=0; j<itemARR.count; j++) {
+            singleSubjectAllItem ++;
+        }
+    }
+    NSLog(@"该Subject的总题目数为：%d,已经完成的题目数：%ld",singleSubjectAllItem,self.finishedPingItemsDic.allKeys.count);
+    if (singleSubjectAllItem == self.finishedPingItemsDic.allKeys.count) {
+        NSLog(@"该项目Subject题目全部完成");
+    }
+    else{
+        NSLog(@"该项目还没有完成");
+    }
+}
+
 
 
 -(void)loadUIViewWithTopButtonARR:(NSMutableArray *)buttonARR{
@@ -86,20 +161,34 @@
         make.height.mas_equalTo(@100.0f);
     }];
     
-//    NSMutableArray * arr = [[NSMutableArray alloc]initWithObjects:@"1",@"2",@"3" ,nil];
-//    _buttonStateARR = [[NSMutableArray alloc]initWithObjects:START_STATE,FINISHED_STATE,START_STATE,FINISHED_STATE, nil];
-    _currentLiuNum = buttonARR.count;
-    [self createLiuButtonWithArray:buttonARR];
-
-    NSMutableArray *arr = [NSMutableArray new];
-    // Do any additional setup after loading the view.
     
-    //[self loadUIView];
+    /**
+     *==========ZL注释start===========
+     *1.创建评估过程单例
+     *
+     *2.
+     *3.
+     *4.
+     ===========ZL注释end==========*/
+    PingProgressModel * pingPModel = [PingProgressModel sharePingProgressModel];
+    pingPModel.allSubjectARR = buttonARR;
+    
+    
+    _currentLiuNum = 0;
+    [self createLiuButtonWithArray:buttonARR];
+    
+    NSMutableArray *arr = [NSMutableArray new];
+    
     self.viewss=[[GotojudgeView alloc]init];
     [self.viewss initwithArrayData:arr];
     self.viewss.userInteractionEnabled=YES;
     self.viewss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
     [self.view addSubview:self.viewss];
+    [self.viewss setLeftTableSelectIndexBlock:^(NSInteger index) {
+        _currentTypeIndex = index;
+    } withRightIndexBlock:^(NSInteger index) {
+        _currentItemIndex = index;
+    }];
     [self.viewss mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(0.0f);
         make.left.right.mas_equalTo(self.view).offset(0.0f);
@@ -135,7 +224,7 @@
  *4.
  ===========ZL注释end==========*/
 - (void)createLiuButtonWithArray:(NSMutableArray *)buttonArray{
-
+    
     if (buttonArray.count <1) {
         return;
     }
@@ -147,7 +236,7 @@
         float spaceWidth = (SCREENWIDTH - buttonArray.count * TOPBUTTON_WIDTH) / (buttonArray.count + 1);
         NSLog(@"屏幕宽度和高度，屏幕宽度高度：%g-------%g-----%g------%g",self.view.frame.size.width,self.view.frame.size.height,SCREENWIDTH,SCREENHEIGTH);
         
-
+        
         for (int i = 0; i < buttonArray.count; i++) {
             
             
@@ -166,16 +255,17 @@
             }];
             
             if (i <= _currentLiuNum ) {
-                [liucehng setButtonStateType:START_STATE];
+                [liucehng setButtonStateType:FINISHED_STATE];
             }
             else{
-                [liucehng setButtonStateType:FINISHED_STATE];
+                
+                [liucehng setButtonStateType:START_STATE];
             }
             
             
             
         }
-    
+        
     }
 }
 
@@ -205,15 +295,15 @@
             //NSArray * typePOListArr = evaSubjectPOListArr[0][@"evaluationTypePOList"];
             
             for (int i = 0; i < evaSubjectPOListArr.count; i++) {
-              
+                
                 SubjectModel * subModel = [SubjectModel new];
                 NSDictionary * subDic = evaSubjectPOListArr[i];
-
+                
                 subModel.evaluationId = subDic[@"evaluationId"];
                 subModel.evaluationSubjectId = subDic[@"evaluationSubjectId"];
                 
                 subModel.evaluationTypePOList = subDic[@"evaluationTypePOList"];
-
+                
                 subModel.id = subDic[@"id"];
                 subModel.name = subDic[@"name"];
                 [self.leftSubjectARR addObject:subModel];
@@ -228,11 +318,11 @@
         
         
         NSLog(@"evaSubjectPOListArr的个数为：%ld",evaSubjectPOListArr.count);
-
+        
     } failure:^(NSError *error) {
         
     }];
-
+    
 }
 
 #pragma mark ===================创建列表视图==================
@@ -258,7 +348,7 @@
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         
         [self.viewss.leftTableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-       
+        
         [self xw_postNotificationWithName:@"SELECT_FIRST" userInfo:@{@"isHave":@"yes"}];
     }
     else{
@@ -266,8 +356,8 @@
         [self xw_postNotificationWithName:@"SELECT_FIRST" userInfo:@{@"isHave":@"no"}];
     }
     
-
-
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -277,6 +367,8 @@
 
 -(void)clickmk:(LiuCUIbutton*)sender{
     NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
+    _currentLiuNum = sender.tag;
+    _currentSubjectIndex = sender.tag;
     if (sender.tag == self.leftSubjectARR.count-1) {
         _addPhoneView.hidden = NO;
         self.viewss.hidden = YES;
@@ -286,13 +378,13 @@
     else{
         _addPhoneView.hidden = YES;
         self.viewss.hidden = NO;
-         [self creatLeftViewWithIndex:sender.tag];
+        [self creatLeftViewWithIndex:sender.tag];
     }
-   
+    
     
 }
 -(void)submit{
-
+    
     NSLog(@"我是提交按钮");
 }
 
@@ -306,7 +398,7 @@
  *4.
  ===========ZL注释end==========*/
 - (void)openPhoneCameraAction{
-
+    
     RITLPhotoNavigationViewModel * viewModel = [RITLPhotoNavigationViewModel new];
     
     __weak typeof(self) weakSelf = self;
@@ -322,9 +414,9 @@
         
         strongSelf.imageARR = images;
         
-//        strongSelf.assets = images;
-//        
-//        [strongSelf.collectionView reloadData];
+        //        strongSelf.assets = images;
+        //
+        //        [strongSelf.collectionView reloadData];
         [_addPhoneView reloadCollectionWith:images];
     };
     
@@ -332,7 +424,7 @@
         //可以进行数据上传操作..
         NSLog(@"获取图片资源：%ld",datas.count);
         [weak_self(self) upLoadImageWith:datas];
-
+        
     };
     
     RITLPhotoNavigationViewController * viewController = [RITLPhotoNavigationViewController photosViewModelInstance:viewModel];
@@ -350,7 +442,7 @@
  *4.
  ===========ZL注释end==========*/
 - (void)upLoadImageWith:(NSArray<NSData *> *) dataARR{
-
+    
     NSString * tokenID = [[NSUserDefaults standardUserDefaults] objectForKey:@"userPassWord"];
     
     NSMutableString * allDataString = [NSMutableString new];
@@ -359,7 +451,7 @@
         NSData * data = dataARR[i];
         UIImage *image = [UIImage imageWithData:data];
         NSData * data02 = UIImageJPEGRepresentation(image, 0.1);
-//        NSData * base64Data = [data base64EncodedDataWithOptions:0];
+        //        NSData * base64Data = [data base64EncodedDataWithOptions:0];
         
         NSString * base64String = [data02 base64EncodedStringWithOptions:0];
         [allDataString appendString:base64String];
@@ -381,24 +473,24 @@
      参数 fileType(必填)	IMAGE
      参数 data(必填)	Base64编码字符串
      */
-
+    
     [NetWorkingTool postWithURL:CommonURL_ZL parameters:dic LX:@"1" success:^(id json) {
         NSLog(@"上传图片返回信息：%@",json);
     } failure:^(NSError *error) {
         NSLog(@"上传图片错误：%@",error);
     }];
-//    [UploadImageZL uploadImageWithPath:CommonURL_ZL_UPLOADIMAGE photos:dataARR params:dic success:^(id Json) {
-//        
-//    } failure:^{
-//        
-//    }];
+    //    [UploadImageZL uploadImageWithPath:CommonURL_ZL_UPLOADIMAGE photos:dataARR params:dic success:^(id Json) {
+    //
+    //    } failure:^{
+    //
+    //    }];
     
 }
 
 
 #pragma mark ===================懒加载==================
 - (NSMutableArray *)leftSubjectARR{
-
+    
     if (!_leftSubjectARR) {
         _leftSubjectARR = [[NSMutableArray alloc]init];
     }
@@ -411,5 +503,14 @@
     }
     return _imageARR;
 }
+
+//- (NSMutableDictionary *)finishedPingItemsARR{
+//
+//    if (!_finishedPingItemsDic) {
+//        _finishedPingItemsDic = [[NSMutableDictionary alloc]init];
+//    }
+//    return _finishedPingItemsDic;
+//    
+//}
 
 @end

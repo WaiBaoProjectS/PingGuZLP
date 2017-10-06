@@ -46,7 +46,7 @@
         
         self.userInteractionEnabled = YES;
         _backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 315.0/560.0*self.frame.size.width)];
-        _backgroundView.backgroundColor = [UIColor whiteColor];
+        _backgroundView.backgroundColor = [UIColor grayColor];
         _scrollview = [UIScrollView new];
         _scrollview.delegate = self;
         _scrollview.showsVerticalScrollIndicator = YES;
@@ -63,88 +63,12 @@
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
             make.top.mas_equalTo(pingLabel.mas_bottom);
-            make.height.mas_equalTo(210.0f);
-//            make.bottom.mas_equalTo(self.mas_bottom);
+//            make.height.mas_equalTo(210.0f);
+            make.bottom.mas_equalTo(self.mas_bottom);
         }];
 
         NSLog(@"初始化_scrollView的frame值为：%g---%g", self.bounds.size.width, _scrollview.bounds.size.height);
 
-        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(SIZE_WIDTH-100, 315.0/560.0*SIZE_WIDTH-20, 80, 20)];
-        _pageControl.userInteractionEnabled = YES;
-        
-        //    [backgroundView addSubview:_pageControl];
-        
-        _scoreView = [UIView new];
-        _scoreView.backgroundColor = [UIColor colorWithHexString:LightGrayColor_ZL_TIJIAO];
-        [self addSubview:_scoreView];
-        [_scoreView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(_scrollview.mas_bottom).offset(10.0f);
-            make.left.mas_equalTo(self.mas_left).offset(10.0f);
-            make.right.mas_equalTo(self.mas_right).offset(-10.0f);
-            make.bottom.mas_equalTo(self.mas_bottom).offset(-10.0f);
-        }];
-        
-        
-        UIImageView * logo1Image = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"评估结果"]];
-        [_scoreView addSubview:logo1Image];
-        
-        [logo1Image mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(_scoreView).offset(-60);
-            make.top.mas_equalTo(_scoreView.mas_top).offset(10);
-            make.size.mas_equalTo(CGSizeMake(24, 24));
-        }];
-        
-        UILabel * titleLabel = [UILabel new];
-        titleLabel.text = @"评估结果";
-        titleLabel.font = [UIFont systemFontOfSize:20.0f];
-        
-        [_scoreView addSubview:titleLabel];
-        
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(logo1Image.mas_right).offset(10.0f);
-            make.top.mas_equalTo(_scoreView.mas_top).offset(10);
-            make.size.mas_equalTo(CGSizeMake(120, 30));
-        }];
-        
-        
-        UILabel * deFenLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 100, 70, 30)];
-        deFenLabel.text = @"得分情况:";
-        deFenLabel.font = [UIFont systemFontOfSize:14.0];
-        UILabel * kouFenLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 150, 70, 30)];
-        kouFenLabel.text = @"扣分原因:";
-        kouFenLabel.font = [UIFont systemFontOfSize:14.0];
-        
-        [_scoreView addSubview:deFenLabel];
-        [_scoreView addSubview:kouFenLabel];
-        
-        _numButton = [PPNumberButton numberButtonWithFrame:CGRectMake(100, 100, 110, 30)];
-        // 开启抖动动画
-        _numButton.shakeAnimation = YES;
-//        // 设置最小值
-//        _numButton.minValue = 0;
-//        // 设置最大值
-//        _numButton.maxValue = 5;
-        // 设置输入框中的字体大小
-        _numButton.inputFieldFont = 23;
-        _numButton.increaseTitle = @"＋";
-        _numButton.decreaseTitle = @"－";
-        
-        _numButton.numberBlock = ^(NSString *num){
-            NSLog(@"%@",num);
-        };
-        [_scoreView addSubview:_numButton];
-        
-        UITextView * textView = [UITextView new];
-        textView.backgroundColor = [UIColor colorWithHexString:LightGrayColor_ZL_TIJIAO];
-        [_scoreView addSubview:textView];
-        
-        [textView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(kouFenLabel.mas_top);
-            make.left.mas_equalTo(kouFenLabel.mas_right).offset(10);
-            make.right.mas_equalTo(_scoreView).offset(-20.0f);
-            make.bottom.mas_equalTo(_scoreView).offset(-20.0f);
-        }];
-        
     }
     return self;
 }
@@ -160,7 +84,7 @@
 
     _imageARR = imageARR;
     NSLog(@"右边传入的数组个数：%ld",_imageARR.count);
-
+    self.currentBlock = currentIndexBlock;
     switch (rollType) {
         case IMAGEVIEW_ROLL:
             [self loadLunXianImage];
@@ -171,8 +95,6 @@
         default:
             break;
     }
-    
-    self.currentBlock = currentIndexBlock;
 }
 
 /**
@@ -194,7 +116,8 @@
     
 //    _scrollview.contentOffset = CGPointMake(0, 0);
     [_scrollview setContentOffset:CGPointMake(0, 0) animated:NO];
-    
+    _currentIndex = 0;
+    self.currentBlock(_currentIndex);
     CGFloat imageScrollViewWidth = VIEWWIDTH;
     CGFloat imageScrollViewHeight = _scrollview.bounds.size.height;
     for (int i = 0; i < _imageARR.count; i ++) {
@@ -235,43 +158,106 @@
 //            make.bottom.mas_equalTo(_scrollview.mas_bottom);
 //        }];
         
+        UIView * backView = [UIView new];
+        backView.backgroundColor = [UIColor colorWithHexString:LightGrayColor_ZL_TIJIAO];
+        [_scrollview addSubview:backView];
+        [backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_scrollview.mas_top).offset(210.0f);
+            make.left.mas_equalTo(_scrollview.mas_left).offset(imageScrollViewWidth * i + 10.0f);
+            make.width.mas_equalTo(imageScrollViewWidth-20.0);
+//            make.height.mas_equalTo(@300);
+            //make.right.mas_equalTo(_scrollview.mas_right).offset(imageScrollViewWidth * i - 10.0f);
+            make.bottom.mas_equalTo(self.mas_bottom).offset(-10.0f);
+        }];
+        
+        
+        UIImageView * logo1Image = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"评估结果"]];
+        [backView addSubview:logo1Image];
+        
+        [logo1Image mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(backView).offset(-60);
+            make.top.mas_equalTo(backView.mas_top).offset(10);
+            make.size.mas_equalTo(CGSizeMake(24, 24));
+        }];
+        
+        UILabel * titleLabel = [UILabel new];
+        titleLabel.text = @"评估结果";
+        titleLabel.font = [UIFont systemFontOfSize:20.0f];
+        
+        [backView addSubview:titleLabel];
+        
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(logo1Image.mas_right).offset(10.0f);
+            make.top.mas_equalTo(backView.mas_top).offset(10);
+            make.size.mas_equalTo(CGSizeMake(120, 30));
+        }];
+        
+        
+        UILabel * deFenLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 100, 70, 30)];
+        deFenLabel.text = @"得分情况:";
+        deFenLabel.font = [UIFont systemFontOfSize:14.0];
+        UILabel * kouFenLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 150, 100, 30)];
+        kouFenLabel.text = @"扣分原因(必填):";
+        kouFenLabel.font = [UIFont systemFontOfSize:14.0];
+        
+        [backView addSubview:deFenLabel];
+        [backView addSubview:kouFenLabel];
+        
+        PPNumberButton *numButtons = [PPNumberButton numberButtonWithFrame:CGRectMake(100, 100, 110, 30)];
+        // 开启抖动动画
+        numButtons.shakeAnimation = YES;
+        //        // 设置最小值
+        //        _numButton.minValue = 0;
+        //        // 设置最大值
+        //        _numButton.maxValue = 5;
+        // 设置输入框中的字体大小
+        numButtons.inputFieldFont = 23;
+        numButtons.increaseTitle = @"＋";
+        numButtons.decreaseTitle = @"－";
+        
+        NSString * score = model.score;
+        int maxInt = [score intValue];
+        float maxFloat = [score floatValue];
+        
+        NSLog(@"maxInt-maxFloat：%d---%g",maxInt,maxFloat);
+        if (maxInt == maxFloat) {
+            NSLog(@"maxInt == maxFloat相同");
+            // 设置最小值
+            numButtons.minValue = 0;
+            // 设置最大值
+            numButtons.maxValue = maxInt;
+        }
+        else{
+            NSLog(@"maxInt == maxFloat不同");
+            // 设置最小值
+            numButtons.minValue = 0;
+            // 设置最大值
+            numButtons.maxValue = maxFloat *10;
+        }
+        
+        numButtons.numberBlock = ^(NSString *num){
+            NSLog(@"%@",num);
+        };
+        [backView addSubview:numButtons];
+        
+        UITextView * textViews = [UITextView new];
+        textViews.delegate = self;
+        textViews.backgroundColor = [UIColor whiteColor];
+        [backView addSubview:textViews];
+        
+        [textViews mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(kouFenLabel.mas_top);
+            make.left.mas_equalTo(kouFenLabel.mas_right).offset(10);
+            make.right.mas_equalTo(backView).offset(-20.0f);
+            make.bottom.mas_equalTo(backView).offset(-20.0f);
+        }];
+        
     }
     
     _scrollview.contentSize = CGSizeMake(imageScrollViewWidth * _imageARR.count, imageScrollViewHeight);
    
     NSLog(@"_scrollView的frame值为：%g---%g-----%g-------%g", _scrollview.bounds.size.width, _scrollview.bounds.size.height,_scrollview.contentSize.width,_scrollview.contentSize.height);
     
-//    _pageControl.numberOfPages = _imageARR.count;
-//    _pageControl.tintColor = [UIColor whiteColor];
-//    _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
-    /**
-     *==========ZL注释start===========
-     *1.设置分数
-     *
-     *2.默认为 Index = 0
-     *3.
-     *4.
-     ===========ZL注释end==========*/
-    ItemPOModel * bannerModel = _imageARR[0];
-    NSString * score = bannerModel.score;
-    int maxInt = [score intValue];
-    float maxFloat = [score floatValue];
-    
-    NSLog(@"maxInt-maxFloat：%d---%g",maxInt,maxFloat);
-    if (maxInt == maxFloat) {
-        NSLog(@"maxInt == maxFloat相同");
-        // 设置最小值
-        _numButton.minValue = 0;
-        // 设置最大值
-        _numButton.maxValue = maxInt;
-    }
-    else{
-        NSLog(@"maxInt == maxFloat不同");
-        // 设置最小值
-        _numButton.minValue = 0;
-        // 设置最大值
-        _numButton.maxValue = maxFloat *10;
-    }
 }
 
 
@@ -318,26 +304,26 @@
     else{
         self.currentBlock(_currentRollIndex);
         
-        ItemPOModel * bannerModel = _imageARR[_currentRollIndex];
-        NSString * score = bannerModel.score;
-        int maxInt = [score intValue];
-        float maxFloat = [score floatValue];
-        
-        NSLog(@"maxInt-maxFloat：%d---%g",maxInt,maxFloat);
-        if (maxInt == maxFloat) {
-            NSLog(@"maxInt == maxFloat相同");
-                    // 设置最小值
-                    _numButton.minValue = 0;
-                    // 设置最大值
-                    _numButton.maxValue = maxInt;
-        }
-        else{
-            NSLog(@"maxInt == maxFloat不同");
-                    // 设置最小值
-                    _numButton.minValue = 0;
-                    // 设置最大值
-                    _numButton.maxValue = maxFloat *10;
-        }
+//        ItemPOModel * bannerModel = _imageARR[_currentRollIndex];
+//        NSString * score = bannerModel.score;
+//        int maxInt = [score intValue];
+//        float maxFloat = [score floatValue];
+//        
+//        NSLog(@"maxInt-maxFloat：%d---%g",maxInt,maxFloat);
+//        if (maxInt == maxFloat) {
+//            NSLog(@"maxInt == maxFloat相同");
+//                    // 设置最小值
+//                    _numButton.minValue = 0;
+//                    // 设置最大值
+//                    _numButton.maxValue = maxInt;
+//        }
+//        else{
+//            NSLog(@"maxInt == maxFloat不同");
+//                    // 设置最小值
+//                    _numButton.minValue = 0;
+//                    // 设置最大值
+//                    _numButton.maxValue = maxFloat *10;
+//        }
 
         
         _oldRollIndex = _currentRollIndex;
@@ -385,6 +371,35 @@
     
 }
 #pragma end mark
+
+#pragma mark ===================textViewDelegate方法==================
+- (void)textViewDidChange:(UITextView *)textView{
+
+    NSLog(@"textView改变内容");
+    
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+
+    if (textView.text.length > 0 && ![textView.text isEqualToString:@""] && textView.text != nil) {
+
+        NSLog(@"textView的内容为：%@",textView.text);
+        [self xw_postNotificationWithName:TextViewChangeNotifications userInfo:@{@"text":textView.text}];
+    }
+    else{
+        NSLog(@"textView为空");
+        [self xw_postNotificationWithName:TextViewChangeNotifications userInfo:@{@"text":@"delete"}];
+        
+    }
+
+    NSLog(@"textView编辑结束");
+}
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView{
+    NSLog(@"结束编辑，返回YES");
+    return YES;
+}
+
+
 
 #pragma mark ===================设置当前页面的Block==================
 - (void)setCurrentIndexBlocksWith:(CurrentIndexBlock)block{

@@ -18,4 +18,6 @@
 #define CommonURL_ZL_UPLOADIMAGE @"http://119.23.203.111/api/upload.do"
 #define TiJiaoFunction_NAME @"api.pias.get.evaluation"
 
+#define TextViewChangeNotifications @"textviewChangeNotifications"
+
 #endif /* CommonColorURL_h */

@@ -81,14 +81,15 @@
 
 - (void)setStartButtonState{
     
-    Numlable.backgroundColor = [UIColor colorWithHexString:GreenColor_ZL_TIJIAO];
-    titleLable.textColor = [UIColor colorWithHexString:GreenColor_ZL_TIJIAO];
+    self.enabled = NO;
+    Numlable.backgroundColor = [UIColor colorWithHexString:GrayColor_ZL_TIJIAO];
+    titleLable.textColor = [UIColor colorWithHexString:GrayColor_ZL_TIJIAO];
 
 }
 - (void)setFinishedButtonState{
-
-    Numlable.backgroundColor = [UIColor colorWithHexString:GrayColor_ZL_TIJIAO];
-    titleLable.textColor = [UIColor colorWithHexString:GrayColor_ZL_TIJIAO];
+    self.enabled = YES;
+    Numlable.backgroundColor = [UIColor colorWithHexString:GreenColor_ZL_TIJIAO];
+    titleLable.textColor = [UIColor colorWithHexString:GreenColor_ZL_TIJIAO];
 }
 
 @end

@@ -15,6 +15,7 @@
 #import "ADDPhoneView.h"
 #import "RITLPhotos.h"
 #import "UploadImageZL.h"
+#import "PingProgressModel.h"
 
 @interface goTojudgeViewController : UIViewController
 @property(nonatomic,copy)NSString*listID;
@@ -23,5 +24,6 @@
 @property(nonatomic,strong)GotojudgeView*viewss;
 @property (nonatomic, strong) NSMutableArray *leftSubjectARR;
 @property (nonatomic, strong) NSArray<UIImage *> *imageARR;
+@property (nonatomic, strong) NSMutableDictionary  *finishedPingItemsDic;
 
 @end

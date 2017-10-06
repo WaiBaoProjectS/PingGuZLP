@@ -134,6 +134,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击了cell");
+    self.leftIndexBlock(indexPath.row);
      TypePOModel * model = [self.leftARR objectAtIndex:indexPath.row];
 
     NSArray * itemARR = model.evaluationItemPOList;
@@ -191,7 +192,7 @@
     } withCurrentIndex:^(NSInteger currentIndex) {
         
         NSLog(@"当前位置：%ld",currentIndex);
-        
+        self.rigntIndexBlock(currentIndex);
     }];
 
     /*
@@ -223,5 +224,11 @@
     }
     return _rollViewDIC;
 }
+
+- (void)setLeftTableSelectIndexBlock:(LeftTableSelctIndexBlock)block withRightIndexBlock:(RightItemSelctIndexBlock)block2{
+    self.leftIndexBlock = block;
+    self.rigntIndexBlock = block2;
+}
+
 
 @end

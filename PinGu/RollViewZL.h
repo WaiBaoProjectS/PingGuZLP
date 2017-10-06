@@ -31,10 +31,10 @@ typedef void(^CurrentIndexBlock)(NSInteger currentIndex);
 //typedef void(^TapViewBlock)(NSInteger index);
 
 
-@interface RollViewZL : UIView<UIScrollViewDelegate>
+@interface RollViewZL : UIView<UIScrollViewDelegate,UITextViewDelegate>
 
 @property (nonatomic, copy) CurrentIndexBlock currentBlock;
-
+@property (nonatomic, strong) UITextView *textView;
 
 //- (void)setCurrentIndexBlocksWith:(CurrentIndexBlock)block;
 - (instancetype)initRoll;
