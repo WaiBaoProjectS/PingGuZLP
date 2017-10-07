@@ -20,4 +20,10 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *rowVersion;
 
+//已完成的统计
+@property (nonatomic, strong) NSMutableArray *finishedTypePOList;
+@property (nonatomic, assign) BOOL isFinished;
+
+
+
 @end

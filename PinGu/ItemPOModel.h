@@ -17,4 +17,18 @@
 @property (nonatomic, copy) NSString *remark;
 @property (nonatomic, copy) NSString *score;
 
+
+//已完成的统计
+@property (nonatomic, copy) NSString *kouReason;
+@property (nonatomic, copy) NSString *pingFen;
+@property (nonatomic, assign) BOOL isItemFinished;
+
+@end
+
+@interface ImageURLModelUP : NSObject
+
+@property (nonatomic, copy) NSString *downUrl;
+@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *url;
+
 @end

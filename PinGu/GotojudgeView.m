@@ -55,27 +55,23 @@
  *3.
  *4.
  ===========ZL注释end==========*/
+
+- (void)convertModelBeforeSelect{
+
+    
+
+    
+};
+
 - (void)selectFirstItemPO{
 
     
     TypePOModel * model = [self.leftARR objectAtIndex:0];
     
-    NSArray * itemARR = model.evaluationItemPOList;
+
     
-    NSMutableArray * arr = [NSMutableArray new];
-    for (int i = 0; i< itemARR.count; i++) {
-        NSDictionary * dic = itemARR[i];
-        ItemPOModel * model = [ItemPOModel new];
-        
-        model.content = dic[@"content"];
-        model.remark = dic[@"remark"];
-        model.score = dic[@"score"];
-        model.id = dic[@"id"];
-        
-        [arr addObject:model];
-    }
     
-    [self loadRightViewWithItemPOModelARR:arr];
+    [self loadRightViewWithItemPOModelARR:model.evaluationItemPOList];
     
 }
 
@@ -137,22 +133,8 @@
     self.leftIndexBlock(indexPath.row);
      TypePOModel * model = [self.leftARR objectAtIndex:indexPath.row];
 
-    NSArray * itemARR = model.evaluationItemPOList;
     
-    NSMutableArray * arr = [NSMutableArray new];
-    for (int i = 0; i< itemARR.count; i++) {
-        NSDictionary * dic = itemARR[i];
-        ItemPOModel * model = [ItemPOModel new];
-        
-        model.content = dic[@"content"];
-        model.remark = dic[@"remark"];
-        model.score = dic[@"score"];
-        model.id = dic[@"id"];
-        
-        [arr addObject:model];
-    }
-    
-    [self loadRightViewWithItemPOModelARR:arr];
+    [self loadRightViewWithItemPOModelARR:model.evaluationItemPOList];
 }
 - (TiJiaoTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 

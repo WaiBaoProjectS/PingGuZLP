@@ -11,3 +11,9 @@
 @implementation ItemPOModel
 
 @end
+
+@implementation ImageURLModelUP
+
+
+
+@end

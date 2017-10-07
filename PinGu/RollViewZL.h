@@ -35,6 +35,7 @@ typedef void(^CurrentIndexBlock)(NSInteger currentIndex);
 
 @property (nonatomic, copy) CurrentIndexBlock currentBlock;
 @property (nonatomic, strong) UITextView *textView;
+@property (nonatomic, strong) ItemPOModel *currentIemModel;
 
 //- (void)setCurrentIndexBlocksWith:(CurrentIndexBlock)block;
 - (instancetype)initRoll;

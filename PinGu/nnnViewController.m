@@ -304,6 +304,7 @@
         
         goTojudgeViewController*gotoJudgeVC=[[goTojudgeViewController alloc]init];
         gotoJudgeVC.listID=model.evaluationId;
+        gotoJudgeVC.jiGouModelB = model;
         [self.navigationController pushViewController:gotoJudgeVC animated:YES];
     }
 }

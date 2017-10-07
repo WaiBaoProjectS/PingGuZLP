@@ -52,6 +52,7 @@
            
             [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:@"1" success:^(id json) {
                // NSArray*errorarray=json[@"errors"];
+                NSLog(@"登录返回：%@",json);
                     NSString*userDic=json[@"tokenId"];
                 if (userDic.length>0) {
                     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];

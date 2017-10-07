@@ -17,10 +17,17 @@
     NSMutableArray * _buttonListARR;
     NSMutableArray * _buttonStateARR;
     NSInteger _currentLiuNum;
+    NSInteger _maxLiuNum;
     NSInteger _currentSubjectIndex;
     NSInteger _currentTypeIndex;
     NSInteger _currentItemIndex;
     ADDPhoneView * _addPhoneView;
+    BOOL _singleSubIsFinished;
+    NSMutableArray * _imageURLArr;
+    
+
+    NSString * _evaID;
+    NSString * _evaName;
     
 }
 
@@ -79,6 +86,8 @@
     _currentSubjectIndex = 0;
     
     self.finishedPingItemsDic = [[NSMutableDictionary alloc]init];
+    self.allFinishedItemARR = [[NSMutableArray alloc]init];
+    _imageURLArr = [NSMutableArray new];
     
     [self xw_addNotificationForName:TextViewChangeNotifications block:^(NSNotification * _Nonnull notification) {
         NSString * textString = notification.userInfo[@"text"];
@@ -95,20 +104,37 @@
  ===========ZL注释end==========*/
 - (void)addPingGuToArrayWith:(NSString *)string{
     NSLog(@"传入的参数：%@",string);
-    if (_currentSubjectIndex < self.leftSubjectARR.count) {
+    for (int i = 0 ; i<self.leftSubjectARR.count-1; i++) {
+        SubjectModel * s = self.leftSubjectARR[i];
+        for (int j = 0; j< s.evaluationTypePOList.count; j++) {
+            TypePOModel * m = s.evaluationTypePOList[j];
+            NSLog(@"====S = %d,T = %d,itemArr.count = %ld",i,j,m.evaluationItemPOList.count);
+        }
+        
+    }
+    if (_currentSubjectIndex < self.leftSubjectARR.count-1) {
         SubjectModel *subjectModel = self.leftSubjectARR[_currentSubjectIndex];
         if (_currentTypeIndex < subjectModel.evaluationTypePOList.count) {
-            NSDictionary * typeModelDic = subjectModel.evaluationTypePOList[_currentTypeIndex];
-            NSArray * itemARR = typeModelDic[@"evaluationItemPOList"];
-            if (_currentItemIndex < itemARR.count) {
-                NSDictionary * itemDic = itemARR[_currentItemIndex];
-                NSLog(@"当前题目所在Subject：%ld,所在Type：%ld,所在Item：%ld,题目id：%@",_currentSubjectIndex,_currentTypeIndex,_currentItemIndex,itemDic[@"id"]);
+            TypePOModel * typeModelDic = subjectModel.evaluationTypePOList[_currentTypeIndex];
+//            NSArray * itemARR = typeModelDic.evaluationItemPOList;
+             NSLog(@"当前题目所在Subject：%ld,所在Type：%ld,该Type的题目数为：%ld,所在Item：%ld",_currentSubjectIndex,_currentTypeIndex,typeModelDic.evaluationItemPOList.count,_currentItemIndex);
+            if (_currentItemIndex < typeModelDic.evaluationItemPOList.count) {
+                ItemPOModel * itemModel = typeModelDic.evaluationItemPOList[_currentItemIndex];
+//                NSLog(@"当前题目所在Subject：%ld,所在Type：%ld,所在Item：%ld,题目id：%@",_currentSubjectIndex,_currentTypeIndex,_currentItemIndex,itemModel.id);
                 if ([string isEqualToString:@"delete"]) {
-                    [self.finishedPingItemsDic removeObjectForKey:itemDic[@"id"]];
+                    [self.finishedPingItemsDic removeObjectForKey:itemModel.id];
+                    
+                    itemModel.isItemFinished = NO;
+                    [UIView addMJNotifierWithText:@"扣分原因不可以为空！" dismissAutomatically:YES];
                 }
                 else{
 //                    [self.finishedPingItemsDic setObject:string forKey:itemDic[@"id"]];
-                    [self.finishedPingItemsDic setValue:string forKey:itemDic[@"id"]];
+                    [self.finishedPingItemsDic setValue:string forKey:itemModel.id];
+                    
+                    itemModel.isItemFinished = YES;
+//                    [UIView addMJNotifierWithText:@"保存成功" dismissAutomatically:NO];
+                    
+                    
                 }
                 //检测该 Subject 是否评分完成
                 
@@ -130,21 +156,34 @@
 - (void)jianCeIsFinished{
 
     int singleSubjectAllItem = 0;
+    int finishedItemNum = 0;
     SubjectModel *subjectModel = self.leftSubjectARR[_currentSubjectIndex];
     NSArray * typeARR = subjectModel.evaluationTypePOList;
     for (int i = 0; i< typeARR.count; i++) {
         
-        NSDictionary * typeModelDic = subjectModel.evaluationTypePOList[i];
-        NSArray * itemARR = typeModelDic[@"evaluationItemPOList"];
+        TypePOModel * typeModelDic = subjectModel.evaluationTypePOList[i];
+        NSArray * itemARR = typeModelDic.evaluationItemPOList;
         for (int j=0; j<itemARR.count; j++) {
             singleSubjectAllItem ++;
+            
+            ItemPOModel * itemModel = itemARR[j];
+            if (itemModel.isItemFinished == YES) {
+                finishedItemNum++;
+            }
+            
+            
         }
     }
-    NSLog(@"该Subject的总题目数为：%d,已经完成的题目数：%ld",singleSubjectAllItem,self.finishedPingItemsDic.allKeys.count);
-    if (singleSubjectAllItem == self.finishedPingItemsDic.allKeys.count) {
+    NSLog(@"该Subject的总题目数为：%d,已经完成的题目数：%d",singleSubjectAllItem,finishedItemNum);
+    if (singleSubjectAllItem == finishedItemNum) {
         NSLog(@"该项目Subject题目全部完成");
+        [UIView addMJNotifierWithText:@"该项目评估已完成，可以进行下一项" dismissAutomatically:YES];
+        _singleSubIsFinished = YES;
+        subjectModel.isFinished = YES;
     }
     else{
+        subjectModel.isFinished = NO;
+        _singleSubIsFinished = NO;
         NSLog(@"该项目还没有完成");
     }
 }
@@ -152,6 +191,7 @@
 
 
 -(void)loadUIViewWithTopButtonARR:(NSMutableArray *)buttonARR{
+    __weak typeof(self) weakSelf = self;
     self.BGheaderView=[[UIView alloc]init];
     self.BGheaderView.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
     [self.view addSubview:self.BGheaderView];
@@ -185,8 +225,10 @@
     self.viewss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
     [self.view addSubview:self.viewss];
     [self.viewss setLeftTableSelectIndexBlock:^(NSInteger index) {
+        
         _currentTypeIndex = index;
     } withRightIndexBlock:^(NSInteger index) {
+        [weakSelf.view endEditing:YES];
         _currentItemIndex = index;
     }];
     [self.viewss mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -208,7 +250,7 @@
     [_addPhoneView createCollectionView];
     [_addPhoneView setClickAddPhoneBlockAction:^(NSInteger index) {
         //添加图片，打开控制器
-        [weak_self(self) openPhoneCameraAction];
+        [weakSelf openPhoneCameraAction];
         
     }];
     
@@ -280,7 +322,7 @@
     
     __weak typeof(self) weakSelf = self;
     [NetWorkingTool postWithURL:CommonURL_ZL parameters:pardic LX:@"1" success:^(id json) {
-        NSLog(@"未评估评估表：%@",json);
+//        NSLog(@"未评估评估表：%@",json);
         /**
          *==========ZL注释start===========
          *1.为评估的数据解析
@@ -290,7 +332,11 @@
          *4.
          ===========ZL注释end==========*/
         NSDictionary * evaluationPODic = json[@"evaluationPO"];
+        _evaID = evaluationPODic[@"id"];
+        _evaName = evaluationPODic[@"name"];
+        
         NSArray * evaSubjectPOListArr = evaluationPODic[@"evaluationSubjectPOList"];
+        
         if (evaSubjectPOListArr.count > 0) {
             //NSArray * typePOListArr = evaSubjectPOListArr[0][@"evaluationTypePOList"];
             
@@ -302,8 +348,41 @@
                 subModel.evaluationId = subDic[@"evaluationId"];
                 subModel.evaluationSubjectId = subDic[@"evaluationSubjectId"];
                 
-                subModel.evaluationTypePOList = subDic[@"evaluationTypePOList"];
+//                subModel.evaluationTypePOList = subDic[@"evaluationTypePOList"];
                 
+                NSArray * typeARR = subDic[@"evaluationTypePOList"];
+                NSMutableArray * marr = [[NSMutableArray alloc]init];
+                for (int j = 0; j < typeARR.count; j++) {
+                    
+                        NSDictionary * tyDic = typeARR[j];
+                        TypePOModel * tyModel = [TypePOModel new];
+                        tyModel.id = tyDic[@"id"];
+                        tyModel.name = tyDic[@"name"];
+                        
+                        NSArray * itemARR = tyDic[@"evaluationItemPOList"];
+                        
+                        NSMutableArray * arr = [NSMutableArray new];
+                        for (int k = 0; k< itemARR.count; k++) {
+                            NSDictionary * dic = itemARR[k];
+                            ItemPOModel * model = [ItemPOModel new];
+                            
+                            model.content = dic[@"content"];
+                            model.remark = dic[@"remark"];
+                            model.score = dic[@"score"];
+                            model.id = dic[@"id"];
+                            
+                            [arr addObject:model];
+                        }
+
+                        tyModel.evaluationItemPOList = arr;
+                        NSLog(@"SubjectIndex=:%d,TypeIndex=%d,ItemARR.count=%ld",i,j,tyModel.evaluationItemPOList.count);
+                        [marr addObject:tyModel];
+                    
+                    
+                    
+                }
+                
+                subModel.evaluationTypePOList = marr;
                 subModel.id = subDic[@"id"];
                 subModel.name = subDic[@"name"];
                 [self.leftSubjectARR addObject:subModel];
@@ -330,21 +409,9 @@
     
     
     SubjectModel * subModel = [self.leftSubjectARR objectAtIndex:index];
-    NSArray * typeARR = subModel.evaluationTypePOList;
-    NSMutableArray * leftARR = [NSMutableArray new];
-    for (int i =0; i<typeARR.count; i++) {
-        NSDictionary * tyDic = typeARR[i];
-        TypePOModel * tyModel = [TypePOModel new];
-        
-        tyModel.name = tyDic[@"name"];
-        tyModel.evaluationItemPOList = tyDic[@"evaluationItemPOList"];
-        [leftARR addObject:tyModel];
-    }
-    
-    
-    self.viewss.leftARR = leftARR;
+    self.viewss.leftARR = subModel.evaluationTypePOList;
     [self.viewss.leftTableView reloadData];
-    if (leftARR.count > 0) {
+    if (self.viewss.leftARR.count > 0) {
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         
         [self.viewss.leftTableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -366,26 +433,162 @@
 }
 
 -(void)clickmk:(LiuCUIbutton*)sender{
+    
+    if (sender.tag == _currentLiuNum) {
+        return;
+    }
+    [sender setButtonStateType:FINISHED_STATE];
     NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
     _currentLiuNum = sender.tag;
     _currentSubjectIndex = sender.tag;
     if (sender.tag == self.leftSubjectARR.count-1) {
         _addPhoneView.hidden = NO;
         self.viewss.hidden = YES;
-        
-        
     }
     else{
         _addPhoneView.hidden = YES;
         self.viewss.hidden = NO;
+        _currentTypeIndex = 0;
         [self creatLeftViewWithIndex:sender.tag];
+        _singleSubIsFinished = NO;
     }
     
-    
+    /*
+    SubjectModel * subModel = self.leftSubjectARR[sender.tag];
+    if (subModel.isFinished == YES) {
+        _currentLiuNum = sender.tag;
+        _currentSubjectIndex = sender.tag;
+        _currentTypeIndex = 0;
+        [self creatLeftViewWithIndex:sender.tag];
+        _singleSubIsFinished = YES;
+        
+    }
+    else{
+        BOOL isCanOpen = YES;
+        for (int i = 0; i < sender.tag ; i++) {
+            SubjectModel * model = self.leftSubjectARR[i];
+            
+            if (model.isFinished == NO) {
+                isCanOpen = NO;
+            }
+            
+        }
+        if (isCanOpen == YES) {
+            if (_singleSubIsFinished == YES) {
+                
+                [sender setButtonStateType:FINISHED_STATE];
+                NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
+                _currentLiuNum = sender.tag;
+                _currentSubjectIndex = sender.tag;
+                if (sender.tag == self.leftSubjectARR.count-1) {
+                    _addPhoneView.hidden = NO;
+                    self.viewss.hidden = YES;
+                }
+                else{
+                    _addPhoneView.hidden = YES;
+                    self.viewss.hidden = NO;
+                    _currentTypeIndex = 0;
+                    [self creatLeftViewWithIndex:sender.tag];
+                    _singleSubIsFinished = NO;
+                }
+            }
+            else{
+                
+                [UIView addMJNotifierWithText:@"该项目未完成评估，不能进行下一项" dismissAutomatically:YES];
+            }
+        }
+        else{
+                [UIView addMJNotifierWithText:@"有未完成评估的项目，还不能进行此项评估" dismissAutomatically:YES];
+        }
+
+    }
+   */
 }
 -(void)submit{
-    
     NSLog(@"我是提交按钮");
+    
+    BOOL isCanSubmit = YES;
+    
+    for (int i = 0; i < self.leftSubjectARR.count ; i++) {
+        SubjectModel * model = self.leftSubjectARR[i];
+        for (int j = 0; j < model.evaluationTypePOList.count; j++) {
+            TypePOModel * tModel = model.evaluationTypePOList[j];
+            
+            for (int k = 0; k < tModel.evaluationItemPOList.count ; k++) {
+                
+                ItemPOModel * iModel = tModel.evaluationItemPOList[k];
+                
+                if (iModel.isItemFinished == NO) {
+                    isCanSubmit = NO;
+                }
+                
+            }
+            
+        }
+        
+    }
+
+    
+    
+    if (isCanSubmit == YES) {
+        
+        float allScore = 0.0;
+        
+        NSMutableArray * itemARRs = [NSMutableArray new];
+        
+        for (int i = 0; i < self.leftSubjectARR.count ; i++) {
+            SubjectModel * model = self.leftSubjectARR[i];
+            for (int j = 0; j < model.evaluationTypePOList.count; j++) {
+                TypePOModel * tModel = model.evaluationTypePOList[j];
+                
+                
+                for (int k = 0; k < tModel.evaluationItemPOList.count ; k++) {
+                    
+                    ItemPOModel * iModel = tModel.evaluationItemPOList[k];
+                    
+                    if (iModel.isItemFinished == NO) {
+                        isCanSubmit = NO;
+                    }
+                    float score = [iModel.pingFen floatValue];
+                    allScore = allScore + score;
+                    
+                    NSDictionary * iDic = @{
+                                            @"evaluationItemContent":iModel.content,
+                                            @"evaluationItemId":iModel.id,
+                                            @"reason":iModel.kouReason,
+                                            @"evaluationItemScore":iModel.pingFen
+                                            };
+                    [itemARRs addObject:iDic];
+                    
+                }
+                
+            }
+            
+        }
+        //recordAttachmentCreateRequestList
+        NSMutableArray * imageArrs = [NSMutableArray new];
+        for (int i = 0; i < _imageURLArr.count; i++) {
+            ImageURLModelUP * imageModel = _imageURLArr[i];
+            NSDictionary *imDic = @{
+                                    @"extension":@".jpg",
+                                    @"fileId":imageModel.id,
+                                    @"type":@"IMAGE"
+                                    };
+            [imageArrs addObject:imDic];
+        }
+        
+        
+        
+        //可以提交
+        NSString *allScrString = [NSString stringWithFormat:@"%.1f",allScore];
+        [self submitALLScoreWith:allScrString withAttachmentCreat:imageArrs withLineCreatArr:itemARRs];
+    }
+    else{
+    
+        [UIView addMJNotifierWithText:@"评估未完成，不能提交" dismissAutomatically:YES];
+    
+    }
+
 }
 
 
@@ -402,7 +605,7 @@
     RITLPhotoNavigationViewModel * viewModel = [RITLPhotoNavigationViewModel new];
     
     __weak typeof(self) weakSelf = self;
-    
+    viewModel.maxNumberOfSelectedPhoto = 1;
     //    设置需要图片剪切的大小，不设置为图片的原比例大小
     //    viewModel.imageSize = _assetSize;
     
@@ -451,6 +654,7 @@
         NSData * data = dataARR[i];
         UIImage *image = [UIImage imageWithData:data];
         NSData * data02 = UIImageJPEGRepresentation(image, 0.1);
+        NSLog(@"图片的大小原始：%ld,压缩后：%ld",data.length/1000,data02.length/1000);
         //        NSData * base64Data = [data base64EncodedDataWithOptions:0];
         
         NSString * base64String = [data02 base64EncodedStringWithOptions:0];
@@ -463,7 +667,7 @@
                            @"method":@"api.auth.upload.file",
                            @"extension":@".jpg",
                            @"fileType":@"IMAGE",
-                           @"data":@"dfasdgadsg"
+                           @"data":allDataString
                            };
     
     /*
@@ -476,8 +680,21 @@
     
     [NetWorkingTool postWithURL:CommonURL_ZL parameters:dic LX:@"1" success:^(id json) {
         NSLog(@"上传图片返回信息：%@",json);
+        ImageURLModelUP * model = [ImageURLModelUP new];
+        if (json[@"downUrl"] != nil) {
+            model.downUrl = json[@"downUrl"];
+        }
+        if (json[@"id"] != nil) {
+            model.id = json[@"id"];
+        }
+        if (json[@"url"] != nil) {
+            model.url = json[@"url"];
+        }
+        [_imageURLArr addObject:model];
+        
     } failure:^(NSError *error) {
         NSLog(@"上传图片错误：%@",error);
+        [UIView addMJNotifierWithText:@"图片上传失败" dismissAutomatically:YES];
     }];
     //    [UploadImageZL uploadImageWithPath:CommonURL_ZL_UPLOADIMAGE photos:dataARR params:dic success:^(id Json) {
     //
@@ -485,6 +702,49 @@
     //
     //    }];
     
+
+    
+}
+
+/**
+ *==========ZL注释start===========
+ *1.提交评估结果
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)submitALLScoreWith:(NSString *)allScores withAttachmentCreat:(NSMutableArray *)imagesARRs withLineCreatArr:(NSMutableArray *)itemsARRs{
+
+    __weak typeof(self) weakSelf = self;
+    
+    
+    NSDictionary * deDic = @{
+                             @"score":allScores,
+                             @"evaluationId":_evaID,
+                             @"evaluationName":_evaName,
+                             @"institutionId":self.jiGouModelB.mID,
+                             @"institutionName":self.jiGouModelB.name,
+                             @"recordAttachmentCreateRequestList":imagesARRs,
+                             @"recordLineCreateRequestList":itemsARRs
+                             };
+    
+    NSData * data = [NSJSONSerialization dataWithJSONObject:deDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString * string = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    
+    NSString *tokenID = [kUserDefaults objectForKey:@"userPassWord"];
+    NSMutableDictionary * paraDic = @{@"method":@"api.pias.create.record",
+                                      @"tokenId":tokenID,
+                                      @"target":string
+                               };
+    [NetWorkingTool postWithURL:CommonURL_ZL parameters:nil LX:@"1" success:^(id json) {
+        
+        NSLog(@"提交评估信息：%@",json);
+        
+    } failure:^(NSError *error) {
+       
+        [UIView addMJNotifierWithText:@"提交失败" dismissAutomatically:YES];
+    }];
 }
 
 

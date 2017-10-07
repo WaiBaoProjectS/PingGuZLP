@@ -16,6 +16,7 @@
 #import "RITLPhotos.h"
 #import "UploadImageZL.h"
 #import "PingProgressModel.h"
+#import "nnlistModel.h"
 
 @interface goTojudgeViewController : UIViewController
 @property(nonatomic,copy)NSString*listID;
@@ -25,5 +26,8 @@
 @property (nonatomic, strong) NSMutableArray *leftSubjectARR;
 @property (nonatomic, strong) NSArray<UIImage *> *imageARR;
 @property (nonatomic, strong) NSMutableDictionary  *finishedPingItemsDic;
+@property (nonatomic, strong) NSMutableArray * allFinishedItemARR;
+@property (nonatomic, strong) nnlistModel *jiGouModelB;
+
 
 @end

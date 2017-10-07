@@ -237,14 +237,28 @@
         
         numButtons.numberBlock = ^(NSString *num){
             NSLog(@"%@",num);
+            
+            [model setPingFen:num];
+            
+            
         };
+        
+        if (model.pingFen != nil) {
+            [numButtons setCurrentNumber:model.pingFen];
+        }
+        
+
+        
         [backView addSubview:numButtons];
         
         UITextView * textViews = [UITextView new];
         textViews.delegate = self;
+        textViews.tag = i;
         textViews.backgroundColor = [UIColor whiteColor];
         [backView addSubview:textViews];
-        
+        if (model.kouReason != nil) {
+            textViews.text = model.kouReason;
+        }
         [textViews mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(kouFenLabel.mas_top);
             make.left.mas_equalTo(kouFenLabel.mas_right).offset(10);
@@ -335,10 +349,10 @@
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 
-    NSLog(@"结束拖拽");
+    //NSLog(@"结束拖拽");
 }
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    NSLog(@"开始拖拽");
+    //NSLog(@"开始拖拽");
 }
 
 //定时任务方法调用：（注意计算好最后一页循环滚动）
@@ -375,12 +389,14 @@
 #pragma mark ===================textViewDelegate方法==================
 - (void)textViewDidChange:(UITextView *)textView{
 
-    NSLog(@"textView改变内容");
+    //NSLog(@"textView改变内容");
     
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
 
+    ItemPOModel * model = _imageARR[textView.tag];
+    [model setKouReason:textView.text];
     if (textView.text.length > 0 && ![textView.text isEqualToString:@""] && textView.text != nil) {
 
         NSLog(@"textView的内容为：%@",textView.text);
@@ -392,10 +408,10 @@
         
     }
 
-    NSLog(@"textView编辑结束");
+    //NSLog(@"textView编辑结束");
 }
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView{
-    NSLog(@"结束编辑，返回YES");
+    //NSLog(@"结束编辑，返回YES");
     return YES;
 }
 
