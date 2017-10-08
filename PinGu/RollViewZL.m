@@ -22,6 +22,7 @@
     UIView * _scoreView;
     UITextView * _kouTextView;
     PPNumberButton * _numButton;
+    UILabel * _jinLabel;
 }
 
 /*
@@ -43,6 +44,22 @@
             make.left.mas_equalTo(self.mas_left).offset(10.0);
             make.size.mas_equalTo(CGSizeMake(120, 30));
         }];
+        
+        _jinLabel = [UILabel new];
+        _jinLabel.font = [UIFont systemFontOfSize:16.0];
+        _jinLabel.text = @"0/0";
+        _jinLabel.backgroundColor = [UIColor whiteColor];
+        [self addSubview:_jinLabel];
+        [_jinLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.centerX.mas_equalTo(self);
+            make.top.mas_equalTo(self.mas_top).offset(10.0f);
+            make.size.mas_equalTo(CGSizeMake(80, 30));
+            
+            
+        }];
+        
+        
         
         self.userInteractionEnabled = YES;
         _backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 315.0/560.0*self.frame.size.width)];
@@ -117,7 +134,13 @@
 //    _scrollview.contentOffset = CGPointMake(0, 0);
     [_scrollview setContentOffset:CGPointMake(0, 0) animated:NO];
     _currentIndex = 0;
-    self.currentBlock(_currentIndex);
+    _currentRollIndex = 0;
+    _oldRollIndex = 0;
+    NSString * jinString = [NSString stringWithFormat:@"%ld / %ld",_currentRollIndex+1,_imageARR.count];
+    _jinLabel.text = jinString;
+    self.currentBlock(_currentRollIndex);
+    
+    
     CGFloat imageScrollViewWidth = VIEWWIDTH;
     CGFloat imageScrollViewHeight = _scrollview.bounds.size.height;
     for (int i = 0; i < _imageARR.count; i ++) {
@@ -301,6 +324,7 @@
         NSInteger i = scrollView.contentOffset.x/scrollView.frame.size.width + 1;
         _pageControl.currentPage = i - 1;
         _currentRollIndex = i - 1;
+        _currentIndex = i-1;
         //self.currentBlock(i-1);
     }
     
@@ -341,6 +365,13 @@
 
         
         _oldRollIndex = _currentRollIndex;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString * jinString = [NSString stringWithFormat:@"%ld / %ld",_currentRollIndex+1,_imageARR.count];
+            NSLog(@"jinString=:%@",jinString);
+            _jinLabel.text = jinString;
+        });
+
         
         
     }

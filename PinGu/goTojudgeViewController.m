@@ -105,14 +105,14 @@
  ===========ZL注释end==========*/
 - (void)addPingGuToArrayWith:(NSString *)string{
     NSLog(@"传入的参数：%@",string);
-    for (int i = 0 ; i<self.leftSubjectARR.count-1; i++) {
-        SubjectModel * s = self.leftSubjectARR[i];
-        for (int j = 0; j< s.evaluationTypePOList.count; j++) {
-            TypePOModel * m = s.evaluationTypePOList[j];
-            //NSLog(@"====S = %d,T = %d,itemArr.count = %ld",i,j,m.evaluationItemPOList.count);
-        }
-        
-    }
+//    for (int i = 0 ; i<self.leftSubjectARR.count-1; i++) {
+//        SubjectModel * s = self.leftSubjectARR[i];
+//        for (int j = 0; j< s.evaluationTypePOList.count; j++) {
+//            TypePOModel * m = s.evaluationTypePOList[j];
+//            //NSLog(@"====S = %d,T = %d,itemArr.count = %ld",i,j,m.evaluationItemPOList.count);
+//        }
+//        
+//    }
     if (_currentSubjectIndex < self.leftSubjectARR.count-1) {
         SubjectModel *subjectModel = self.leftSubjectARR[_currentSubjectIndex];
         if (_currentTypeIndex < subjectModel.evaluationTypePOList.count) {
@@ -133,7 +133,7 @@
                     [self.finishedPingItemsDic setValue:string forKey:itemModel.id];
                     
                     itemModel.isItemFinished = YES;
-                    [UIView addMJNotifierWithText:@"保存成功" dismissAutomatically:YES];
+//                    [UIView addMJNotifierWithText:@"保存成功" dismissAutomatically:YES];
                     
                     
                 }
@@ -595,8 +595,30 @@
         
         //可以提交
         NSString *allScrString = [NSString stringWithFormat:@"%.1f",allScore];
+        NSString * levelString = nil;
+        if (allScore >= 85.0) {
+            levelString = @"优秀";
+        }else if(allScore >= 75.0){
+        
+            levelString = @"好";
+        }else if (allScore >= 65.0){
+            levelString = @"良好";
+        }else {
+            levelString = @"差";
+        }
+        
+        __weak typeof(self) weakSelf = self;
+        NSString * alertString = [NSString stringWithFormat:@"总分：%@,级别：%@",allScrString,levelString];
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:alertString message:nil preferredStyle:UIAlertControllerStyleAlert];
+        
+        [controller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [controller addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+             [weakSelf submitALLScoreWith:allScrString withAttachmentCreat:imageArrs withLineCreatArr:itemARRs];
+        }]];
+        [self presentViewController:controller animated:true completion:nil];
+        
         NSLog(@"总分数：%@",allScrString);
-        [self submitALLScoreWith:allScrString withAttachmentCreat:imageArrs withLineCreatArr:itemARRs];
+       
     }
     else{
     
