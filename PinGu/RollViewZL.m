@@ -67,7 +67,7 @@
             make.bottom.mas_equalTo(self.mas_bottom);
         }];
 
-        NSLog(@"初始化_scrollView的frame值为：%g---%g", self.bounds.size.width, _scrollview.bounds.size.height);
+//        NSLog(@"初始化_scrollView的frame值为：%g---%g", self.bounds.size.width, _scrollview.bounds.size.height);
 
     }
     return self;
@@ -219,9 +219,9 @@
         int maxInt = [score intValue];
         float maxFloat = [score floatValue];
         
-        NSLog(@"maxInt-maxFloat：%d---%g",maxInt,maxFloat);
+//        NSLog(@"maxInt-maxFloat：%d---%g",maxInt,maxFloat);
         if (maxInt == maxFloat) {
-            NSLog(@"maxInt == maxFloat相同");
+//            NSLog(@"maxInt == maxFloat相同");
             // 设置最小值
             numButtons.minValue = 0;
             // 设置最大值
@@ -236,7 +236,7 @@
         }
         
         numButtons.numberBlock = ^(NSString *num){
-            NSLog(@"%@",num);
+//            NSLog(@"当前题目评分为：%@",num);
             
             [model setPingFen:num];
             
@@ -270,7 +270,7 @@
     
     _scrollview.contentSize = CGSizeMake(imageScrollViewWidth * _imageARR.count, imageScrollViewHeight);
    
-    NSLog(@"_scrollView的frame值为：%g---%g-----%g-------%g", _scrollview.bounds.size.width, _scrollview.bounds.size.height,_scrollview.contentSize.width,_scrollview.contentSize.height);
+//    NSLog(@"_scrollView的frame值为：%g---%g-----%g-------%g", _scrollview.bounds.size.width, _scrollview.bounds.size.height,_scrollview.contentSize.width,_scrollview.contentSize.height);
     
 }
 
@@ -307,10 +307,10 @@
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-    NSLog(@"结束动画");
+//    NSLog(@"结束动画");
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    NSLog(@"结束结束当前页数：%ld---上一次页面：%ld",_currentRollIndex,_oldRollIndex);
+//    NSLog(@"结束结束当前页数：%ld---上一次页面：%ld",_currentRollIndex,_oldRollIndex);
     if (_currentRollIndex == _oldRollIndex) {
         
         

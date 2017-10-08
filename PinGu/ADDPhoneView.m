@@ -37,7 +37,7 @@
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.mas_equalTo(self);
     }];
-    NSLog(@"Collection的frame:%g-------%g----%g-----%g------%g-------%g",self.collectionView.frame.size.width,self.collectionView.frame.size.height,Collection_item_Width,Collection_item_Height,self.bounds.size.width,self.bounds.size.height);
+//    NSLog(@"Collection的frame:%g-------%g----%g-----%g------%g-------%g",self.collectionView.frame.size.width,self.collectionView.frame.size.height,Collection_item_Width,Collection_item_Height,self.bounds.size.width,self.bounds.size.height);
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.backgroundColor = [UIColor whiteColor];
@@ -62,7 +62,7 @@
 #pragma mark CollectionViewCellDelegate 代理方法
 #pragma mark CollectionView  的  dataSource方法
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    NSLog(@"Collection数组为：%ld",self.phoneARR.count);
+//    NSLog(@"Collection数组为：%ld",self.phoneARR.count);
     return self.phoneARR.count+1;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{

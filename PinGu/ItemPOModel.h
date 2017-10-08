@@ -13,9 +13,13 @@
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, copy) NSString *evaId;
 @property (nonatomic, copy) NSString *evaSubjectId;
+@property (nonatomic, copy) NSString *evaluationTypeId;
 @property (nonatomic, copy) NSString *id;
 @property (nonatomic, copy) NSString *remark;
 @property (nonatomic, copy) NSString *score;
+
+@property (nonatomic, copy) NSString *evaSubjectName;
+@property (nonatomic, copy) NSString *evaTypeName;
 
 
 //已完成的统计

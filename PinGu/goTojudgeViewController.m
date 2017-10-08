@@ -28,6 +28,7 @@
 
     NSString * _evaID;
     NSString * _evaName;
+    BOOL _isUpPhoneFinished;
     
 }
 
@@ -108,7 +109,7 @@
         SubjectModel * s = self.leftSubjectARR[i];
         for (int j = 0; j< s.evaluationTypePOList.count; j++) {
             TypePOModel * m = s.evaluationTypePOList[j];
-            NSLog(@"====S = %d,T = %d,itemArr.count = %ld",i,j,m.evaluationItemPOList.count);
+            //NSLog(@"====S = %d,T = %d,itemArr.count = %ld",i,j,m.evaluationItemPOList.count);
         }
         
     }
@@ -117,7 +118,7 @@
         if (_currentTypeIndex < subjectModel.evaluationTypePOList.count) {
             TypePOModel * typeModelDic = subjectModel.evaluationTypePOList[_currentTypeIndex];
 //            NSArray * itemARR = typeModelDic.evaluationItemPOList;
-             NSLog(@"当前题目所在Subject：%ld,所在Type：%ld,该Type的题目数为：%ld,所在Item：%ld",_currentSubjectIndex,_currentTypeIndex,typeModelDic.evaluationItemPOList.count,_currentItemIndex);
+            // NSLog(@"当前题目所在Subject：%ld,所在Type：%ld,该Type的题目数为：%ld,所在Item：%ld",_currentSubjectIndex,_currentTypeIndex,typeModelDic.evaluationItemPOList.count,_currentItemIndex);
             if (_currentItemIndex < typeModelDic.evaluationItemPOList.count) {
                 ItemPOModel * itemModel = typeModelDic.evaluationItemPOList[_currentItemIndex];
 //                NSLog(@"当前题目所在Subject：%ld,所在Type：%ld,所在Item：%ld,题目id：%@",_currentSubjectIndex,_currentTypeIndex,_currentItemIndex,itemModel.id);
@@ -132,7 +133,7 @@
                     [self.finishedPingItemsDic setValue:string forKey:itemModel.id];
                     
                     itemModel.isItemFinished = YES;
-//                    [UIView addMJNotifierWithText:@"保存成功" dismissAutomatically:NO];
+                    [UIView addMJNotifierWithText:@"保存成功" dismissAutomatically:YES];
                     
                     
                 }
@@ -276,7 +277,7 @@
         [buttonArray addObject:model];
         
         float spaceWidth = (SCREENWIDTH - buttonArray.count * TOPBUTTON_WIDTH) / (buttonArray.count + 1);
-        NSLog(@"屏幕宽度和高度，屏幕宽度高度：%g-------%g-----%g------%g",self.view.frame.size.width,self.view.frame.size.height,SCREENWIDTH,SCREENHEIGTH);
+//        NSLog(@"屏幕宽度和高度，屏幕宽度高度：%g-------%g-----%g------%g",self.view.frame.size.width,self.view.frame.size.height,SCREENWIDTH,SCREENHEIGTH);
         
         
         for (int i = 0; i < buttonArray.count; i++) {
@@ -347,7 +348,8 @@
                 
                 subModel.evaluationId = subDic[@"evaluationId"];
                 subModel.evaluationSubjectId = subDic[@"evaluationSubjectId"];
-                
+                subModel.id = subDic[@"id"];
+                subModel.name = subDic[@"name"];
 //                subModel.evaluationTypePOList = subDic[@"evaluationTypePOList"];
                 
                 NSArray * typeARR = subDic[@"evaluationTypePOList"];
@@ -371,11 +373,18 @@
                             model.score = dic[@"score"];
                             model.id = dic[@"id"];
                             
+                            model.evaId = dic[@"evaluationId"];
+                            model.evaSubjectId = dic[@"evaluationSubjectId"];
+                            model.evaluationTypeId = dic[@"evaluationTypeId"];
+                            model.evaSubjectName = subModel.name;
+                            model.evaTypeName = tyModel.name;
+                            
+                            
                             [arr addObject:model];
                         }
 
                         tyModel.evaluationItemPOList = arr;
-                        NSLog(@"SubjectIndex=:%d,TypeIndex=%d,ItemARR.count=%ld",i,j,tyModel.evaluationItemPOList.count);
+                        //NSLog(@"SubjectIndex=:%d,TypeIndex=%d,ItemARR.count=%ld",i,j,tyModel.evaluationItemPOList.count);
                         [marr addObject:tyModel];
                     
                     
@@ -383,8 +392,7 @@
                 }
                 
                 subModel.evaluationTypePOList = marr;
-                subModel.id = subDic[@"id"];
-                subModel.name = subDic[@"name"];
+
                 [self.leftSubjectARR addObject:subModel];
             }
             
@@ -437,23 +445,22 @@
     if (sender.tag == _currentLiuNum) {
         return;
     }
-    [sender setButtonStateType:FINISHED_STATE];
-    NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
-    _currentLiuNum = sender.tag;
-    _currentSubjectIndex = sender.tag;
-    if (sender.tag == self.leftSubjectARR.count-1) {
-        _addPhoneView.hidden = NO;
-        self.viewss.hidden = YES;
-    }
-    else{
-        _addPhoneView.hidden = YES;
-        self.viewss.hidden = NO;
-        _currentTypeIndex = 0;
-        [self creatLeftViewWithIndex:sender.tag];
-        _singleSubIsFinished = NO;
-    }
+//    [sender setButtonStateType:FINISHED_STATE];
+//    NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
+//    _currentLiuNum = sender.tag;
+//    _currentSubjectIndex = sender.tag;
+//    if (sender.tag == self.leftSubjectARR.count-1) {
+//        _addPhoneView.hidden = NO;
+//        self.viewss.hidden = YES;
+//    }
+//    else{
+//        _addPhoneView.hidden = YES;
+//        self.viewss.hidden = NO;
+//        _currentTypeIndex = 0;
+//        [self creatLeftViewWithIndex:sender.tag];
+//        _singleSubIsFinished = NO;
+//    }
     
-    /*
     SubjectModel * subModel = self.leftSubjectARR[sender.tag];
     if (subModel.isFinished == YES) {
         _currentLiuNum = sender.tag;
@@ -477,7 +484,7 @@
             if (_singleSubIsFinished == YES) {
                 
                 [sender setButtonStateType:FINISHED_STATE];
-                NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
+                //NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
                 _currentLiuNum = sender.tag;
                 _currentSubjectIndex = sender.tag;
                 if (sender.tag == self.leftSubjectARR.count-1) {
@@ -502,14 +509,14 @@
         }
 
     }
-   */
+   
 }
 -(void)submit{
     NSLog(@"我是提交按钮");
     
     BOOL isCanSubmit = YES;
-    
-    for (int i = 0; i < self.leftSubjectARR.count ; i++) {
+  //  NSLog(@"self.leftSubjectARR.count个数为：%ld",self.leftSubjectARR.count);
+    for (int i = 0; i < self.leftSubjectARR.count-1 ; i++) {
         SubjectModel * model = self.leftSubjectARR[i];
         for (int j = 0; j < model.evaluationTypePOList.count; j++) {
             TypePOModel * tModel = model.evaluationTypePOList[j];
@@ -530,13 +537,13 @@
 
     
     
-    if (isCanSubmit == YES) {
+    if (isCanSubmit == YES && _isUpPhoneFinished == YES) {
         
         float allScore = 0.0;
         
         NSMutableArray * itemARRs = [NSMutableArray new];
         
-        for (int i = 0; i < self.leftSubjectARR.count ; i++) {
+        for (int i = 0; i < self.leftSubjectARR.count-1 ; i++) {
             SubjectModel * model = self.leftSubjectARR[i];
             for (int j = 0; j < model.evaluationTypePOList.count; j++) {
                 TypePOModel * tModel = model.evaluationTypePOList[j];
@@ -553,11 +560,17 @@
                     allScore = allScore + score;
                     
                     NSDictionary * iDic = @{
-                                            @"evaluationItemContent":iModel.content,
-                                            @"evaluationItemId":iModel.id,
-                                            @"reason":iModel.kouReason,
-                                            @"evaluationItemScore":iModel.pingFen
+                                            @"evaluationItemContent":iModel.content?:@"内容",
+                                            @"evaluationItemId":iModel.id?:@"9876543210",
+                                            @"reason":iModel.kouReason?:@"扣分原因",
+                                            @"evaluationItemScore":iModel.score?:@"0",
+                                            @"score":iModel.pingFen?:@"0",
+                                            @"evaluationSubjectId":iModel.evaluationTypeId?:@"33333333",
+                                            @"evaluationSubjectName":iModel.evaSubjectName?:@"团队建设",
+                                            @"evaluationTypeId":iModel.evaluationTypeId?:@"44444444",
+                                            @"evaluationTypeName":iModel.evaTypeName?:@"卫生环境"
                                             };
+                    //NSLog(@"题目提交字典：%@",iDic);
                     [itemARRs addObject:iDic];
                     
                 }
@@ -571,9 +584,10 @@
             ImageURLModelUP * imageModel = _imageURLArr[i];
             NSDictionary *imDic = @{
                                     @"extension":@".jpg",
-                                    @"fileId":imageModel.id,
+                                    @"fileId":imageModel.id?:@"123456789",
                                     @"type":@"IMAGE"
                                     };
+            //NSLog(@"图片字典：%@",imDic);
             [imageArrs addObject:imDic];
         }
         
@@ -581,6 +595,7 @@
         
         //可以提交
         NSString *allScrString = [NSString stringWithFormat:@"%.1f",allScore];
+        NSLog(@"总分数：%@",allScrString);
         [self submitALLScoreWith:allScrString withAttachmentCreat:imageArrs withLineCreatArr:itemARRs];
     }
     else{
@@ -589,6 +604,54 @@
     
     }
 
+}
+/**
+ *==========ZL注释start===========
+ *1.提交评估结果
+ *
+ *2.
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+- (void)submitALLScoreWith:(NSString *)allScores withAttachmentCreat:(NSMutableArray *)imagesARRs withLineCreatArr:(NSMutableArray *)itemsARRs{
+    
+    __weak typeof(self) weakSelf = self;
+    
+    
+    NSDictionary * deDic = @{
+                             @"score":allScores?:@"0",
+                             @"evaluationId":_evaID?:@"00000000",
+                             @"evaluationName":_evaName?:@"园区",
+                             @"institutionId":self.jiGouModelB.mID?:@"11111111",
+                             @"institutionName":self.jiGouModelB.name?:@"新区",
+                             @"recordAttachmentCreateRequestList":imagesARRs,
+                             @"recordLineCreateRequestList":itemsARRs
+                             };
+    
+    NSData * data = [NSJSONSerialization dataWithJSONObject:deDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString * string = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    
+    NSString *tokenID = [kUserDefaults objectForKey:@"userPassWord"];
+    NSDictionary * paraDic = @{@"method":@"api.pias.create.record",
+                                      @"tokenId":tokenID,
+                                      @"target":string
+                                      };
+    
+    NSLog(@"TokenID为：%@",tokenID);
+    //NSLog(@"提交的评估信息：%@",paraDic);
+    [NetWorkingTool postWithURL:CommonURL_ZL parameters:paraDic LX:@"1" success:^(id json) {
+        
+        NSLog(@"提交评估信息：%@",json);
+        NSString * id = json[@"id"];
+        if (id != nil) {
+            [UIView addMJNotifierWithText:@"提交成功！" dismissAutomatically:YES];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
+        
+    } failure:^(NSError *error) {
+        
+        [UIView addMJNotifierWithText:@"提交失败" dismissAutomatically:YES];
+    }];
 }
 
 
@@ -680,20 +743,33 @@
     
     [NetWorkingTool postWithURL:CommonURL_ZL parameters:dic LX:@"1" success:^(id json) {
         NSLog(@"上传图片返回信息：%@",json);
-        ImageURLModelUP * model = [ImageURLModelUP new];
-        if (json[@"downUrl"] != nil) {
-            model.downUrl = json[@"downUrl"];
+        if (json[@"id"] != nil){
+            ImageURLModelUP * model = [ImageURLModelUP new];
+            if (json[@"downUrl"] != nil) {
+                model.downUrl = json[@"downUrl"];
+            }
+            if (json[@"id"] != nil) {
+                model.id = json[@"id"];
+                [UIView addMJNotifierWithText:@"图片上传完成" dismissAutomatically:YES];
+                _isUpPhoneFinished = YES;
+            }
+            else{
+                [UIView addMJNotifierWithText:@"图片上传失败" dismissAutomatically:YES];
+            }
+            if (json[@"url"] != nil) {
+                model.url = json[@"url"];
+            }
+            [_imageURLArr addObject:model];
         }
-        if (json[@"id"] != nil) {
-            model.id = json[@"id"];
+        else{
+            _isUpPhoneFinished = NO;
         }
-        if (json[@"url"] != nil) {
-            model.url = json[@"url"];
-        }
-        [_imageURLArr addObject:model];
+
+       
         
     } failure:^(NSError *error) {
         NSLog(@"上传图片错误：%@",error);
+        _isUpPhoneFinished = NO;
         [UIView addMJNotifierWithText:@"图片上传失败" dismissAutomatically:YES];
     }];
     //    [UploadImageZL uploadImageWithPath:CommonURL_ZL_UPLOADIMAGE photos:dataARR params:dic success:^(id Json) {
@@ -706,46 +782,6 @@
     
 }
 
-/**
- *==========ZL注释start===========
- *1.提交评估结果
- *
- *2.
- *3.
- *4.
- ===========ZL注释end==========*/
-- (void)submitALLScoreWith:(NSString *)allScores withAttachmentCreat:(NSMutableArray *)imagesARRs withLineCreatArr:(NSMutableArray *)itemsARRs{
-
-    __weak typeof(self) weakSelf = self;
-    
-    
-    NSDictionary * deDic = @{
-                             @"score":allScores,
-                             @"evaluationId":_evaID,
-                             @"evaluationName":_evaName,
-                             @"institutionId":self.jiGouModelB.mID,
-                             @"institutionName":self.jiGouModelB.name,
-                             @"recordAttachmentCreateRequestList":imagesARRs,
-                             @"recordLineCreateRequestList":itemsARRs
-                             };
-    
-    NSData * data = [NSJSONSerialization dataWithJSONObject:deDic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString * string = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    
-    NSString *tokenID = [kUserDefaults objectForKey:@"userPassWord"];
-    NSMutableDictionary * paraDic = @{@"method":@"api.pias.create.record",
-                                      @"tokenId":tokenID,
-                                      @"target":string
-                               };
-    [NetWorkingTool postWithURL:CommonURL_ZL parameters:nil LX:@"1" success:^(id json) {
-        
-        NSLog(@"提交评估信息：%@",json);
-        
-    } failure:^(NSError *error) {
-       
-        [UIView addMJNotifierWithText:@"提交失败" dismissAutomatically:YES];
-    }];
-}
 
 
 #pragma mark ===================懒加载==================

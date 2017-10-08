@@ -119,7 +119,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    NSLog(@"在Sections方法中执行刷新方法");
+//    NSLog(@"在Sections方法中执行刷新方法");
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
