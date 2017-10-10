@@ -445,21 +445,25 @@
     if (sender.tag == _currentLiuNum) {
         return;
     }
-//    [sender setButtonStateType:FINISHED_STATE];
-//    NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
-//    _currentLiuNum = sender.tag;
-//    _currentSubjectIndex = sender.tag;
-//    if (sender.tag == self.leftSubjectARR.count-1) {
-//        _addPhoneView.hidden = NO;
-//        self.viewss.hidden = YES;
-//    }
-//    else{
-//        _addPhoneView.hidden = YES;
-//        self.viewss.hidden = NO;
-//        _currentTypeIndex = 0;
-//        [self creatLeftViewWithIndex:sender.tag];
-//        _singleSubIsFinished = NO;
-//    }
+    [sender setButtonStateType:FINISHED_STATE];
+    
+    /*
+    NSLog(@"点击了：第几个：%ld,----顶部标题个数为：%ld",sender.tag,self.leftSubjectARR.count);
+    _currentLiuNum = sender.tag;
+    _currentSubjectIndex = sender.tag;
+    if (sender.tag == self.leftSubjectARR.count-1) {
+        _addPhoneView.hidden = NO;
+        self.viewss.hidden = YES;
+    }
+    else{
+        _addPhoneView.hidden = YES;
+        self.viewss.hidden = NO;
+        _currentTypeIndex = 0;
+        [self creatLeftViewWithIndex:sender.tag];
+        _singleSubIsFinished = NO;
+    }
+    */
+    
     
     SubjectModel * subModel = self.leftSubjectARR[sender.tag];
     if (subModel.isFinished == YES) {
@@ -509,6 +513,7 @@
         }
 
     }
+     
    
 }
 -(void)submit{
@@ -627,6 +632,8 @@
     }
 
 }
+
+
 /**
  *==========ZL注释start===========
  *1.提交评估结果
@@ -687,6 +694,66 @@
  ===========ZL注释end==========*/
 - (void)openPhoneCameraAction{
     
+
+    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"添加照片" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    // Create the actions.
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    
+    //构建图像选择器
+    
+    UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            
+            UIImagePickerController * imageVC = [UIImagePickerController new];
+            imageVC.delegate = self;
+            imageVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:imageVC animated:YES completion:nil];
+        }
+    }];
+    UIAlertAction *otherAction1 = [UIAlertAction actionWithTitle:@"从相册选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+
+        [weak_self(self) xiangCeAddPhoto];
+    }];
+    
+    // Add the actions.
+    [alertVc addAction:cancelAction];
+    [alertVc addAction:otherAction];
+    [alertVc addAction:otherAction1];
+    [self presentViewController:alertVc animated:true completion:nil];
+    
+}
+/**
+ *==========ZL注释start===========
+ *1.拍照添加图片
+ *
+ *2.KZPhotoManager
+ *3.
+ *4.
+ ===========ZL注释end==========*/
+#pragma mark 图片选择回调
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+    
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    NSArray *images = @[image];
+    [_addPhoneView reloadCollectionWith:images];
+    NSData * data = UIImageJPEGRepresentation(image, 0.8);
+    NSArray <NSData *> * dataARR = @[data];
+    [self upLoadImageWith:dataARR];
+}
+
+/**
+ *==========ZL注释start===========
+ *1.相册添加图片
+ *
+ *2.多图
+ *3.RITLPhotoNavigationViewModel
+ *4.
+ ===========ZL注释end==========*/
+- (void)xiangCeAddPhoto{
+
     RITLPhotoNavigationViewModel * viewModel = [RITLPhotoNavigationViewModel new];
     
     __weak typeof(self) weakSelf = self;
@@ -721,6 +788,7 @@
     
     
 }
+
 /**
  *==========ZL注释start===========
  *1.多图上传到服务器

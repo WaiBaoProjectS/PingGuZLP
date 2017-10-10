@@ -13,7 +13,13 @@
 #import "LiuCUIbutton.h"
 #import "DetialMainView.h"
 #import "DetialButton.h"
-@interface DetialJudgeViewController ()
+@interface DetialJudgeViewController (){
+
+
+    NSMutableArray * _imageDataArray;
+    YiPhotoView * _yiPhotoView;
+    
+}
 
 @end
 
@@ -62,7 +68,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    _imageDataArray  = [NSMutableArray new];
     [self loadDetialData];
     
    // [self loadUIView];
@@ -161,15 +167,27 @@
 //        
 //    }];
     NSMutableArray *array = [NSMutableArray new];
-    for (int i=0; i<dataArray.count; i++) {
+    for (int i=0; i<dataArray.count+1; i++) {
         DetialButton*buttonM=[DetialButton buttonWithType:UIButtonTypeCustom];
         buttonM.circleNumlable.text=[NSString stringWithFormat:@"%d",i+1];
-       // buttonM.backgroundColor=[UIColor redColor];
-        buttonM.titleLable.text=[NSString stringWithFormat:@"%@",dataArray[i][@"name"]];
-        buttonM.dataArray=dataArray[i][@"evaluationTypePOList"];
-        [buttonM addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
-        [datad addSubview:buttonM];
-        [array addObject:buttonM];
+        if (i == dataArray.count) {
+            
+            buttonM.titleLable.text=[NSString stringWithFormat:@"上传照片"];
+//            buttonM.dataArray=dataArray[i][@"evaluationTypePOList"];
+            [buttonM addTarget:self action:@selector(clickmk02:) forControlEvents:UIControlEventTouchUpInside];
+            [datad addSubview:buttonM];
+            [array addObject:buttonM];
+        }
+        else{
+            // buttonM.backgroundColor=[UIColor redColor];
+            buttonM.titleLable.text=[NSString stringWithFormat:@"%@",dataArray[i][@"name"]];
+            buttonM.dataArray=dataArray[i][@"evaluationTypePOList"];
+            [buttonM addTarget:self action:@selector(clickmk:) forControlEvents:UIControlEventTouchUpInside];
+            [datad addSubview:buttonM];
+            [array addObject:buttonM];
+        }
+        
+
     }
     
     [array mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:15 leadSpacing:10 tailSpacing:10];
@@ -180,10 +198,8 @@
     }];
     self.viewsss=[[DetialMainView alloc]init];
     [self.viewsss loadViewWith:dataArray[0][@"evaluationTypePOList"]];
-    
     self.viewsss.backgroundColor=[UIColor colorWithHexString:@"#f1f1f1"];
     [self.view addSubview:self.viewsss];
-    
     [self.viewsss mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(0.0f);
         make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(10.0f);
@@ -191,35 +207,51 @@
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
     }];
     
-    
-   
-    
-    
+    _yiPhotoView = [YiPhotoView new];
+    [self.view addSubview:_yiPhotoView];
+    _yiPhotoView.hidden = YES;
+    [_yiPhotoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(0.0f);
+        make.top.mas_equalTo(self.BGheaderView.mas_bottom).offset(10.0f);
+        make.right.mas_equalTo(self.view.mas_right).offset(0.0f);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(0.0f);
+    }];
 }
 -(void)clickmk:(DetialButton*)sender{
-    
+    _yiPhotoView.hidden = YES;
     [self.viewsss loadViewWith:sender.dataArray];
-    
-    
-
 }
+
+- (void)clickmk02:(DetialButton *)sender{
+    _yiPhotoView.hidden = NO;
+
+    NSMutableArray * imageARR = [NSMutableArray new];
+    for (int i=0; i<_imageDataArray.count; i++) {
+        NSString *fileURL = _imageDataArray[i][@"fileUrl"];
+        NSString * de = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1507658203430&di=5dbe3a0dae67be29291f0f91db7d3136&imgtype=0&src=http%3A%2F%2Fwww.radiotj.com%2Fpic%2F0%2F00%2F03%2F90%2F39069_988202.jpg";
+        [imageARR addObject:fileURL?:de];
+    }    
+    if (imageARR.count > 0) {
+        [_yiPhotoView loadViewWithArray:imageARR];
+    }
+}
+
 -(void)loadDetialData{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *tokenid = [ user objectForKey:@"userPassWord"];
     NSDictionary *pardic=@{@"method":@"api.pias.get.evaluation.with.record",@"tokenId":tokenid,@"id":self.mId};
     [NetWorkingTool postWithURL:@"http://119.23.203.111/api/api.do" parameters:pardic LX:@"1" success:^(id json) {
-        //NSLog(@"%@",json);
+        NSLog(@"已经评估：%@",json);
         NSMutableArray*dataaArray=json[@"evaluationPO"][@"evaluationSubjectPOList"];
+        _imageDataArray = json[@"evaluationPO"][@"recordAttachmentPOList"];
         //NSLog(@"%@",dataaArray);
-        
-        
-        [self loadUIView:dataaArray];
-        
-    } failure:^(NSError *error) {
-        
-    }];
+        if (dataaArray.count > 0) {
+            [self loadUIView:dataaArray];
+        }
 
+    } failure:^(NSError *error) {
+    }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

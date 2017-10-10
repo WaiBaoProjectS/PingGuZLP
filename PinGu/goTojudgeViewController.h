@@ -18,7 +18,7 @@
 #import "PingProgressModel.h"
 #import "nnlistModel.h"
 
-@interface goTojudgeViewController : UIViewController
+@interface goTojudgeViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 @property(nonatomic,copy)NSString*listID;
 @property(nonatomic,strong)UIView*BGheaderView;
 

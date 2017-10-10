@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DetialMainView.h"
+#import "YiPhotoView.h"
+
 @interface DetialJudgeViewController : UIViewController
 @property(nonatomic,strong)NSString*mId;
 @property(nonatomic,strong)UIView*BGheaderView;

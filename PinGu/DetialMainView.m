@@ -12,7 +12,11 @@
 #import "detialtabHeaderView.h"
 #import "detialNeirongTableViewCell.h"
 #import "tabButton.h"
-@implementation DetialMainView
+@implementation DetialMainView{
+
+    
+    
+}
 @synthesize tabMainTableView;
 /*
 // Only override drawRect: if you perform custom drawing.

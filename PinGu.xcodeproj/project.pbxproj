@@ -15,6 +15,9 @@
 		18A07F951F83C9EE0059E21E /* SubjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F941F83C9EE0059E21E /* SubjectModel.m */; };
 		18A07F981F83CB7B0059E21E /* ItemPOModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F971F83CB7B0059E21E /* ItemPOModel.m */; };
 		18A07F9B1F83EC940059E21E /* RollViewZL.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07F9A1F83EC940059E21E /* RollViewZL.m */; };
+		18AD435B1F8CFEFF00428ABF /* YiPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD435A1F8CFEFF00428ABF /* YiPhotoView.m */; };
+		18AD435F1F8D086900428ABF /* YiPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD435D1F8D086900428ABF /* YiPhotoCollectionViewCell.m */; };
+		18AD43601F8D086900428ABF /* YiPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AD435E1F8D086900428ABF /* YiPhotoCollectionViewCell.xib */; };
 		18C3BB411F84878600C84D4E /* TypePOModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3BB401F84878600C84D4E /* TypePOModel.m */; };
 		18C3BB451F8533CB00C84D4E /* NSObject+XWAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3BB441F8533CB00C84D4E /* NSObject+XWAdd.m */; };
 		18C3BB481F85B29D00C84D4E /* ADDPhoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3BB471F85B29D00C84D4E /* ADDPhoneView.m */; };
@@ -201,6 +204,11 @@
 		18A07F971F83CB7B0059E21E /* ItemPOModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPOModel.m; sourceTree = "<group>"; };
 		18A07F991F83EC940059E21E /* RollViewZL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollViewZL.h; sourceTree = "<group>"; };
 		18A07F9A1F83EC940059E21E /* RollViewZL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollViewZL.m; sourceTree = "<group>"; };
+		18AD43591F8CFEFF00428ABF /* YiPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiPhotoView.h; sourceTree = "<group>"; };
+		18AD435A1F8CFEFF00428ABF /* YiPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiPhotoView.m; sourceTree = "<group>"; };
+		18AD435C1F8D086900428ABF /* YiPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiPhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		18AD435D1F8D086900428ABF /* YiPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiPhotoCollectionViewCell.m; sourceTree = "<group>"; };
+		18AD435E1F8D086900428ABF /* YiPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YiPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		18C3BB3F1F84878600C84D4E /* TypePOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypePOModel.h; sourceTree = "<group>"; };
 		18C3BB401F84878600C84D4E /* TypePOModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TypePOModel.m; sourceTree = "<group>"; };
 		18C3BB431F8533CB00C84D4E /* NSObject+XWAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+XWAdd.h"; sourceTree = "<group>"; };
@@ -854,6 +862,11 @@
 				83361E411F7B93FA00F05133 /* DetialButton.m */,
 				83361E431F7BA4A500F05133 /* tabButton.h */,
 				83361E441F7BA4A500F05133 /* tabButton.m */,
+				18AD43591F8CFEFF00428ABF /* YiPhotoView.h */,
+				18AD435A1F8CFEFF00428ABF /* YiPhotoView.m */,
+				18AD435C1F8D086900428ABF /* YiPhotoCollectionViewCell.h */,
+				18AD435D1F8D086900428ABF /* YiPhotoCollectionViewCell.m */,
+				18AD435E1F8D086900428ABF /* YiPhotoCollectionViewCell.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -1505,6 +1518,7 @@
 				18C3BBB01F85EE5E00C84D4E /* Localizable.strings in Resources */,
 				83D06E6B1F6BD9D9006374F3 /* IQKeyboardManager.bundle in Resources */,
 				83EC818C1F5E3E81000B06EB /* LICENSE in Resources */,
+				18AD43601F8D086900428ABF /* YiPhotoCollectionViewCell.xib in Resources */,
 				83EC82151F5FD0C0000B06EB /* MIMAGE.xcassets in Resources */,
 				18C3BB4D1F85CA0B00C84D4E /* AddPhoneCollectionViewCell.xib in Resources */,
 			);
@@ -1698,6 +1712,7 @@
 				83EC81E31F5F8D63000B06EB /* SDImageCache.m in Sources */,
 				18C3BBA91F85EE5E00C84D4E /* RITLPhotoCacheManager.mm in Sources */,
 				83361E451F7BA4A500F05133 /* tabButton.m in Sources */,
+				18AD435B1F8CFEFF00428ABF /* YiPhotoView.m in Sources */,
 				83EC81901F5E3E82000B06EB /* MJPropertyKey.m in Sources */,
 				83EC81E91F5F8D63000B06EB /* SDWebImageManager.m in Sources */,
 				83EC81F01F5F8D63000B06EB /* UIImageView+WebCache.m in Sources */,
@@ -1730,6 +1745,7 @@
 				83D06E671F6BD9D9006374F3 /* IQPreviousNextView.m in Sources */,
 				83EC818D1F5E3E81000B06EB /* MJExtensionConst.m in Sources */,
 				83EC816D1F5E3D5C000B06EB /* AFHTTPSessionManager.m in Sources */,
+				18AD435F1F8D086900428ABF /* YiPhotoCollectionViewCell.m in Sources */,
 				18C3BBB91F85EE5E00C84D4E /* UIButton+RITLBlockButton.m in Sources */,
 				83D06E6A1F6BD9D9006374F3 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				18C3BBA41F85EE5E00C84D4E /* RITLPhotoGroupViewController.m in Sources */,
